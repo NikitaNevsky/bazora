@@ -1,0 +1,2 @@
+C:/Users/Aaron Praise/test/android/app/.cxx/RelWithDebInfo/672v4745/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/Aaron Praise/test/android/app/.cxx/RelWithDebInfo/672v4745/arm64-v8a/CMakeFiles/rebuild_cache.dir

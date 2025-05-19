@@ -1,0 +1,2 @@
+C:/Users/Aaron Praise/bazora/android/app/.cxx/RelWithDebInfo/5d2o2q1t/x86/CMakeFiles/edit_cache.dir
+C:/Users/Aaron Praise/bazora/android/app/.cxx/RelWithDebInfo/5d2o2q1t/x86/CMakeFiles/rebuild_cache.dir
