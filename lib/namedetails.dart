@@ -222,7 +222,7 @@ class _NameDetailsScreenState extends ConsumerState<NameDetailsScreen> {
                         child: ElevatedButton(
                           onPressed: _isButtonEnabled
                               ? () {
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => SwitchValueScreen(

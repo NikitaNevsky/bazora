@@ -11,7 +11,6 @@ import 'info2.dart' as info2;
 import 'Productdetails.dart';
 import 'verification_code_screen.dart';
 import 'sixthcomponent.dart';
-import 'splash.dart';
 import 'listofchats.dart';
 import 'storedetails.dart';
 import 'Reviewscreen.dart';
@@ -58,9 +57,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter App',
-      home: const SplashScreen(),
+      home: const CatalogPage(),
       routes: {
-        '/otp': (context) => const OtpScreen(),
         '/namedetails': (context) => const NameDetailsScreen(),
         '/catalog': (context) => const CatalogPage(),
         '/filters': (context) => const FilterPage(),
