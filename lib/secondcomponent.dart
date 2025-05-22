@@ -6,7 +6,7 @@ class SecondComponentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       body: Center(
         child: Container(
           width: 355,

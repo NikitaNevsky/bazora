@@ -9,7 +9,7 @@ class FirstComponent extends StatelessWidget {
       width: 355,
       height: 331,
       decoration: BoxDecoration(
-        color: const Color(0xFFF7F7F7),
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(24),
       ),
       child: Padding(

@@ -6,7 +6,7 @@ class CancelOrderDialogRight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFAEB0B4),
+      backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Center(

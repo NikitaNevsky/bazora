@@ -279,46 +279,103 @@ class NewEditProfilePage extends StatelessWidget {
                 child: Column(
                   children: [
                     // Group 1: first two tiles
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(23),
-                      ),
-                      child: Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => SwitchValueScreen2(hasShop: false),
-                                  fullscreenDialog: true,
-                                ),
-                              );
-                            },
-                            child: _ProfileListTile(
-                              icon: IconlyLight.location,
-                              label: 'Мои адреса',
-                            ),
-                          ),
-                          const Divider(height: 1, indent: 16, endIndent: 16),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => FourthComponentWidget(hasShop: false),
-                                ),
-                              );
-                            },
-                            child: _ProfileListTile(
-                              icon: IconlyLight.buy,
-                              label: 'Формат закупки',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                   // Replace the Group 1 section in your code with this:
+// Replace the Group 1 section in your code with this:
+Container(
+  decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(23),
+  ),
+  child: Column(
+    children: [
+      // Мои адреса tile - wrapped with GestureDetector
+      GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => SwitchValueScreen2(hasShop: false),
+              fullscreenDialog: true,
+            ),
+          );
+        },
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(23),
+          ),
+          child: SizedBox(
+            height: 32,
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+              leading: Icon(IconlyLight.location, 
+                  color: const Color(0xFF1D293A), size: 20),
+              title: Text(
+                'Мои адреса',
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              trailing: const Icon(Icons.chevron_right,
+                  color: Color(0xFFB0B0B0), size: 18),
+              minVerticalPadding: 0,
+              dense: true,
+            ),
+          ),
+        ),
+      ),
+      const Divider(height: 1, indent: 16, endIndent: 16),
+      // Формат закупки tile - wrapped with GestureDetector
+      GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          showDialog(
+            context: context,
+            barrierColor: Colors.black54,
+            builder: (context) => Center(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: Material(
+                  color: Colors.transparent,
+                  child: FourthComponentWidget(hasShop: false),
+                ),
+              ),
+            ),
+          );
+        },
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(23),
+          ),
+          child: SizedBox(
+            height: 32,
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+              leading: Icon(IconlyLight.buy, 
+                  color: const Color(0xFF1D293A), size: 20),
+              title: Text(
+                'Формат закупки',
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              trailing: const Icon(Icons.chevron_right,
+                  color: Color(0xFFB0B0B0), size: 18),
+              minVerticalPadding: 0,
+              dense: true,
+            ),
+          ),
+        ),
+      ),
+    ],
+  ),
+),
                     const SizedBox(height: 7),
                     // Group 2: next three tiles
                     Container(

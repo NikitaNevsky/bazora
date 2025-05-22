@@ -5,6 +5,7 @@ import '../catalogpage.dart';
 import '../listofchats.dart';
 import '../neweditprofilepage.dart';
 import 'orders_list_right.dart';
+import 'wholesale_page_right.dart';
 
 class OrderDetailsRight extends StatefulWidget {
   const OrderDetailsRight({Key? key}) : super(key: key);
@@ -15,6 +16,71 @@ class OrderDetailsRight extends StatefulWidget {
 
 class _OrderDetailsRightState extends State<OrderDetailsRight> {
   bool usePoints = false; // toggles using points
+  int _selectedIndex = 1; // Since this is the orders page
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      if (index == 0) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const CatalogPage()),
+        );
+      } else if (index == 2) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const WholesalePageRight()),
+        );
+      } else if (index == 3) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const ListOfChatsPage()),
+        );
+      } else if (index == 4) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const NewEditProfilePage()),
+        );
+      }
+    });
+  }
+
+  Widget _buildBottomNavBar() {
+    final isLargeScreen = MediaQuery.of(context).size.width > 600;
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      currentIndex: _selectedIndex,
+      backgroundColor: Colors.white,
+      selectedItemColor: const Color(0xFF1D293A),
+      unselectedItemColor: const Color(0xFFA4ACB6),
+      selectedFontSize: isLargeScreen ? 14 : 12,
+      unselectedFontSize: isLargeScreen ? 12 : 10,
+      iconSize: isLargeScreen ? 28 : 24,
+      onTap: _onItemTapped,
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(IconlyLight.category),
+          label: 'Каталог',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(IconlyBold.document),
+          label: 'Заказы',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(IconlyLight.buy),
+          label: 'Корзина',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(IconlyLight.chat),
+          label: 'Чаты',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(IconlyLight.profile),
+          label: 'Профиль',
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,23 +102,11 @@ class _OrderDetailsRightState extends State<OrderDetailsRight> {
           ),
           child: Row(
             children: [
-              Container(
-                margin: const EdgeInsets.only(left: 12),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: const Color(0xFFEFF2F6),
-                    size: 14,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ),
+              const SizedBox(width: 12), // Keep the same left spacing for alignment
               Expanded(
                 child: Center(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 50),
+                    padding: const EdgeInsets.only(right: 0), // Remove right padding since we don't need to account for the back button anymore
                     child: Text(
                       'Детали заказа',
                       style: GoogleFonts.inter(
@@ -70,102 +124,120 @@ class _OrderDetailsRightState extends State<OrderDetailsRight> {
       ),
       body: Column(
         children: [
-          Container(
-            margin: const EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 0),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(23),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      '№ 236706',
-                      style: TextStyle(
-                        color: const Color(0xFFA4ACB6),
-                        fontSize: isLargeScreen ? 14 : 12,
-                      ),
+          // Scrollable content
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+              child: Column(
+                children: [
+                  // Top container (now scrollable with the rest)
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: screenWidth * 0.03,
+                      right: screenWidth * 0.03,
+                      top: 12,
+                      bottom: 0,
                     ),
-                    const SizedBox(width: 8),
-                    Icon(
-                      Icons.copy,
-                      color: const Color(0xFFA4ACB6),
-                      size: 16,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(23),
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'AppStore',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: isLargeScreen ? 16 : 14,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              '№ 236706',
+                              style: TextStyle(
+                                color: const Color(0xFFA4ACB6),
+                                fontSize: isLargeScreen ? 14 : 12,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Icon(
+                              Icons.copy,
+                              color: const Color(0xFFA4ACB6),
+                              size: 16,
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'оформлен 16.08.2024 10:30',
-                          style: TextStyle(
-                            color: const Color(0xFFA4ACB6),
-                            fontSize: isLargeScreen ? 12 : 10,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'AppStore',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: isLargeScreen ? 16 : 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'оформлен 16.08.2024 10:30',
+                                  style: TextStyle(
+                                    color: const Color(0xFFA4ACB6),
+                                    fontSize: isLargeScreen ? 12 : 10,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black, width: 1),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text(
+                                'ожидание оплаты',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: isLargeScreen ? 12 : 10,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 1),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        'ожидание оплаты',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: isLargeScreen ? 12 : 10,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: screenHeight * 0.02), // Add spacing after AppBar
-          Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-              itemCount: 2, // Two separate items
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.only(bottom: screenHeight * 0.02),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                        vertical: screenHeight * 0.015,
-                        horizontal: screenWidth * 0.025),
-                    child: _cartItem(index),
                   ),
-                );
-              },
+                  SizedBox(height: screenHeight * 0.02),
+                  // Middle scrollable list
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: 2,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: screenHeight * 0.02),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              vertical: screenHeight * 0.015,
+                              horizontal: screenWidth * 0.025),
+                          child: _cartItem(index),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
+          // Bottom fixed summary section
           _summarySection(),
         ],
       ),
+      bottomNavigationBar: _buildBottomNavBar(),
     );
   }
 
@@ -223,7 +295,7 @@ class _OrderDetailsRightState extends State<OrderDetailsRight> {
                         ),
                         child: Center(
                           child: Text(
-                            '2x',
+                            'x2',
                             style: TextStyle(
                               fontSize: isLargeScreen ? 12 : 10,
                               fontWeight: FontWeight.bold,
@@ -240,7 +312,7 @@ class _OrderDetailsRightState extends State<OrderDetailsRight> {
                         horizontal: screenWidth * 0.02,
                         vertical: screenHeight * 0.002),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFE3F4FF),
+                      color: const Color(0xFF92D3F5),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
@@ -295,6 +367,7 @@ class _OrderDetailsRightState extends State<OrderDetailsRight> {
         ),
       ],
     );
+    
   }
 
   Widget _chip(String text) {
@@ -317,23 +390,31 @@ class _OrderDetailsRightState extends State<OrderDetailsRight> {
     final screenHeight = MediaQuery.of(context).size.height;
     final isLargeScreen = screenWidth > 600;
 
-    return Container(
-      height: 187,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.white,
-            Colors.white,
-            Color(0xFFF2F2F2),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+      child: Container(
+        height: 187,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(23),
+            topRight: Radius.circular(23),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, -5),
+            ),
           ],
-          stops: const [0.0, 0.95, 1.0],
         ),
-      ),
       child: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: screenWidth * 0.045, vertical: screenHeight * 0.015),
+        padding: EdgeInsets.fromLTRB(
+          screenWidth * 0.045,
+          screenHeight * 0.02,
+          screenWidth * 0.045,
+          screenHeight * 0.015,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -396,8 +477,8 @@ class _OrderDetailsRightState extends State<OrderDetailsRight> {
                   style: GoogleFonts.inter(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: const Color(0xFF1D293A), // Added closing parenthesis here
-                ),
+                    color: const Color(0xFF1D293A),
+                  ),
                 ),
                 Text(
                   '2 950 000 ₽',
@@ -455,6 +536,7 @@ class _OrderDetailsRightState extends State<OrderDetailsRight> {
             ),
           ],
         ),
+      ),
       ),
     );
   }

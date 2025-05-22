@@ -20,7 +20,7 @@ class FifthComponentPage extends StatelessWidget {
         leading: const BackButton(color: Colors.black),
         elevation: 0,
       ),
-      backgroundColor: const Color(0xFFF7F7F7),
+      backgroundColor: Colors.transparent,
       body: Center(
         child: Container(
           decoration: BoxDecoration(

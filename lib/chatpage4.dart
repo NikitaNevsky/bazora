@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart' show IconlyOutline, IconlyLight;
 import 'package:bazora/catalogpage.dart';
+import 'package:bazora/componentcamera.dart';
 
 class ChatPage4 extends StatelessWidget {
   const ChatPage4({super.key});
@@ -534,12 +535,42 @@ class ChatPage4 extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
+                      // Attach file button
+                      Padding(
+                        padding: EdgeInsets.only(left: isTablet ? 24 : 12, right: 8),
+                        child: Container(
+                          width: isTablet ? 40 : 30,
+                          height: isTablet ? 40 : 30,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF1D293A),
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.attach_file,
+                              size: isTablet ? 20 : 15,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const ComponentCamera()),
+                              );
+                            },
+                            padding: EdgeInsets.zero,
+                          ),
+                        ),
+                      ),
+                      // Message input field
                       Expanded(
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(isTablet ? 24 : 12, 0, isTablet ? 24 : 12, 15),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(24),
+                          ),
                           child: Row(
-                            mainAxisSize: MainAxisSize.max,
                             children: [
+                              const SizedBox(width: 16),
                               Text(
                                 '0:59,00',
                                 style: GoogleFonts.inter(
@@ -548,21 +579,18 @@ class ChatPage4 extends StatelessWidget {
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
-                              const SizedBox(width: 4),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 50),
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  color: const Color(0xFFA4ACB6),
-                                  size: isTablet ? 20 : 18,
-                                ),
+                              const SizedBox(width: 8),
+                              Icon(
+                                Icons.arrow_back_ios,
+                                color: const Color(0xFFA4ACB6),
+                                size: isTablet ? 20 : 18,
                               ),
-                              const SizedBox(width: 2),
+                              const SizedBox(width: 4),
                               Text(
                                 'Влево - отмена',
                                 style: GoogleFonts.inter(
                                   color: const Color(0xFFA4ACB6),
-                                  fontSize: isTablet ? 18 : 12,
+                                  fontSize: isTablet ? 16 : 12,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),

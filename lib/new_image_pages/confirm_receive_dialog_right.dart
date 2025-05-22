@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'review_modal2.dart';
 
 class ConfirmReceiveDialogRight extends StatelessWidget {
   const ConfirmReceiveDialogRight({Key? key}) : super(key: key);
@@ -6,7 +7,7 @@ class ConfirmReceiveDialogRight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFAEB0B4),
+      backgroundColor: Colors.transparent,
       body: Center(
         child: Container(
           width: 355,
@@ -46,7 +47,13 @@ class ConfirmReceiveDialogRight extends StatelessWidget {
                   const SizedBox(width: 16),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const ReviewModal2(),
+                          ),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF232A36),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),

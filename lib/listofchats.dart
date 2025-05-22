@@ -3,7 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'catalogpage.dart';
 import 'neweditprofilepage.dart';
+import 'profilepage.dart';
 import 'chatpage.dart';
+import 'chatpage2.dart';
+import 'chatpage3.dart';
 import 'new_image_pages/wholesale_page_right.dart';
 import 'new_image_pages/orders_list_right.dart';
 
@@ -138,7 +141,7 @@ class _ChatHeader extends StatelessWidget {
                       'Чаты',
                       style: GoogleFonts.inter(
                         color: Colors.white,
-                        fontSize: isLargeScreen ? 20 : 16,
+                        fontSize: isLargeScreen ? 24 : 24,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -213,10 +216,10 @@ class _ChatList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isLargeScreen = MediaQuery.of(context).size.width > 600;
-    final verticalSpacing = isLargeScreen ? 18.0 : 13.0;
+    // Removed unused variable
     return ListView.builder(
-      padding: EdgeInsets.zero,
-      itemCount: 10,
+      padding: const EdgeInsets.only(bottom: 200), // Add 200px space at the bottom
+      itemCount: 4,
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.only(bottom: 12),
         child: _ChatListItem(index: index),
@@ -236,10 +239,17 @@ class _ChatListItem extends StatelessWidget {
     final imageHeight = isLargeScreen ? 96.0 : 82.0;
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => ChatPage()),
-        );
+        if (index < 2) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const ChatPage3()),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const ChatPage2()),
+          );
+        }
       },
       child: Container(
         height: 120, // Set to 101px
@@ -258,14 +268,40 @@ class _ChatListItem extends StatelessWidget {
                 color: const Color(0xFFEFF2F6),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.asset(
-                  'assets/images/top.jpg',
-                  width: imageWidth,
-                  height: imageHeight,
-                  fit: BoxFit.cover,
-                ),
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.asset(
+                      'assets/images/top.jpg',
+                      width: imageWidth,
+                      height: imageHeight,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 4,
+                    right: 4,
+                    child: Container(
+                      width: 21,
+                      height: 18,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Center(
+                        child: Text(
+                          '+2',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(width: isLargeScreen ? 18 : 10),
@@ -304,59 +340,73 @@ class _ChatListItem extends StatelessWidget {
                         EdgeInsetsDirectional.only(top: isLargeScreen ? 10 : 6),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Align(
-                          alignment: const AlignmentDirectional(-1, -1),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Добрый день, по поводу…',
-                                style: GoogleFonts.inter(
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0xFFA4ACB6),
-                                  fontSize: 14,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Container(
-                                width: isLargeScreen ? 28 : 20,
-                                height: isLargeScreen ? 28 : 20,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFFBE364E),
-                                  shape: BoxShape.circle,
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  '2',
-                                  style: GoogleFonts.inter(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: isLargeScreen ? 16 : 12,
-                                  ),
-                                ),
-                              ),
-                            ],
+                        Text(
+                          'Добрый день, по поводу…',
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFFA4ACB6),
+                            fontSize: 14,
+                          ),
+                        ),
+                        Container(
+                          width: isLargeScreen ? 28 : 20,
+                          height: isLargeScreen ? 28 : 20,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFBE364E),
+                            shape: BoxShape.circle,
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            '2',
+                            style: GoogleFonts.inter(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: isLargeScreen ? 16 : 12,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8, left: 30),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: const Color(0xFF1D293A)),
-                      ),
-                      child: Text(
-                        'Есть действующие заказы',
-                        style: TextStyle(
-                          color: const Color(0xFF1D293A),
-                          fontSize: isLargeScreen ? 14 : 12,
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: const Color(0xFF1D293A)),
                         ),
+                        child: index < 2
+                            ? Text(
+                                'Есть действующие заказы',
+                                style: TextStyle(
+                                  color: const Color(0xFF1D293A),
+                                  fontSize: isLargeScreen ? 14 : 12,
+                                ),
+                              )
+                            : Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    IconlyLight.send,
+                                    size: isLargeScreen ? 16 : 14,
+                                    color: const Color(0xFF1D293A),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    'В чат',
+                                    style: TextStyle(
+                                      color: const Color(0xFF1D293A),
+                                      fontSize: isLargeScreen ? 14 : 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
                       ),
                     ),
                   ),

@@ -2,8 +2,8 @@ library bazora.otp_screen;
 
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
-import 'namedetails.dart';
-import 'selectnearestdelivery.dart';
+import 'switchvalue.dart';
+import 'namedetailsscreen.dart'; // Add this line
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
@@ -196,7 +196,12 @@ class _OtpScreenState extends State<OtpScreen> {
                   child: ElevatedButton(
                     onPressed: _isButtonEnabled
                         ? () {
-                            Navigator.pushNamed(context, '/namedetails');
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const NameDetailsScreen(),
+                              ),
+                            );
                           }
                         : null,
                     style: ElevatedButton.styleFrom(

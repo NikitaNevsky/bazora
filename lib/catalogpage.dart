@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:iconly/iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'new_image_pages/ProfileCreated.dart';
 import 'new_image_pages/add_file_modal_right.dart';
 import 'new_image_pages/bonus_payment_empty_right.dart';
 import 'new_image_pages/bonus_payment_filled_right.dart';
@@ -596,16 +597,18 @@ class _CatalogPageState extends State<CatalogPage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedIndex, 
-        backgroundColor: Colors.white,
-        selectedItemColor: const Color(0xFF1D293A),
-        unselectedItemColor: const Color(0xFFA4ACB6),
-        selectedFontSize: 12,
-        unselectedFontSize: 10,
-        iconSize: 24,
-        onTap: _onItemTapped,
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.only(bottom: 5), // Add 5px bottom padding
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _selectedIndex, 
+          backgroundColor: Colors.white,
+          selectedItemColor: const Color(0xFF1D293A),
+          unselectedItemColor: const Color(0xFFA4ACB6),
+          selectedFontSize: 12,
+          unselectedFontSize: 10,
+          iconSize: 24,
+          onTap: _onItemTapped,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(IconlyBold.category),
@@ -628,6 +631,7 @@ class _CatalogPageState extends State<CatalogPage> {
             label: 'Профиль',
           ),
         ],
+        ),
       ),
     );
   }

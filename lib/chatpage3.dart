@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart' show IconlyOutline, IconlyLight;
 import 'package:bazora/catalogpage.dart';
+import 'package:bazora/componentcamera.dart';
+import 'package:bazora/new_image_pages/cancel_order_dialog_right.dart';
+import 'package:bazora/new_image_pages/edit_order_modal_right.dart';
 
 class ChatPage3 extends StatelessWidget {
   const ChatPage3({super.key});
@@ -46,15 +49,44 @@ class ChatPage3 extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    IconButton(
+                    PopupMenuButton<String>(
                       icon: Icon(
                         IconlyLight.more_square,
                         color: const Color(0xFF1D293A),
                         size: isTablet ? 34 : 24,
                       ),
-                      onPressed: () {
-                        // Add menu functionality here
+                      onSelected: (value) {
+                        if (value == 'cancel') {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CancelOrderDialogRight();
+                            },
+                          );
+                        } else if (value == 'edit') {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (BuildContext context) {
+                              return const EditOrderModalRight();
+                            },
+                          );
+                        }
                       },
+                      itemBuilder: (BuildContext context) => [
+                        PopupMenuItem(
+                          value: 'cancel',
+                          child: Text('Отменить заказ'),
+                        ),
+                        PopupMenuItem(
+                          value: 'edit',
+                          child: Text('Изменить заказ'),
+                        ),
+                      ],
+                      offset: Offset(0, 50),
+                      color: Colors.white,
+                      elevation: 2,
                     ),
                   ],
                 ),
@@ -132,7 +164,7 @@ class ChatPage3 extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: isTablet ? 120 : 74),
+              const SizedBox(height: 16), // Fixed 16px spacing
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
@@ -553,12 +585,23 @@ class ChatPage3 extends StatelessWidget {
                                       color: const Color(0xFF1D293A),
                                       shape: BoxShape.circle,
                                     ),
-                                    child: Center(
-                                      child: Icon(
+                                    child: IconButton(
+                                      icon: Icon(
                                         Icons.attach_file,
                                         size: isTablet ? 20 : 15,
                                         color: Colors.white,
                                       ),
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.transparent,
+                                          builder: (BuildContext context) {
+                                            return const ComponentCamera();
+                                          },
+                                        );
+                                      },
+                                      padding: EdgeInsets.zero,
                                     ),
                                   ),
                                 ),

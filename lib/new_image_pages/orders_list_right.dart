@@ -4,6 +4,8 @@ import '../catalogpage.dart';
 import '../listofchats.dart';
 import '../neweditprofilepage.dart';
 import 'wholesale_page_right.dart';
+import 'order_details_right.dart';
+import 'confirm_receive_dialog_right.dart';
 
 class OrdersListRight extends StatefulWidget {
   const OrdersListRight({Key? key}) : super(key: key);
@@ -183,12 +185,21 @@ class OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.symmetric(horizontal: 7.5),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(23)),
-      color: Color(0xFFFFFFFF),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const OrderDetailsRight(),
+          ),
+        );
+      },
+      child: Card(
+        margin: EdgeInsets.symmetric(horizontal: 7.5),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(23)),
+        color: Color(0xFFFFFFFF),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -435,30 +446,42 @@ class OrderCard extends StatelessWidget {
                     color: Color(0xFFA4ACB6),
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    child: Row(
-                      children: [
-                        Icon(
-                          IconlyLight.tick_square,
-                          color: Color(0xFF1D293A),
-                          size: 20,
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          'Подтвердить',
-                          style: TextStyle(
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const ConfirmReceiveDialogRight();
+                        },
+                      );
+                    },
+                    behavior: HitTestBehavior.opaque,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      child: Row(
+                        children: [
+                          Icon(
+                            IconlyLight.tick_square,
                             color: Color(0xFF1D293A),
-                            fontSize: 15,
+                            size: 20,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 8),
+                          Text(
+                            'Подтвердить',
+                            style: TextStyle(
+                              color: Color(0xFF1D293A),
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ],
             ),
           ],
+          ),
         ),
       ),
     );

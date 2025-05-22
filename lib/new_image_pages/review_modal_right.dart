@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'orders_list_right.dart';
+import 'ProfileCreated.dart';
+import '../../componentcamera.dart';
 
 class ReviewModalRight extends StatelessWidget {
   const ReviewModalRight({Key? key}) : super(key: key);
@@ -11,7 +14,9 @@ class ReviewModalRight extends StatelessWidget {
       body: Align(
         alignment: Alignment.bottomCenter,
         child: Container(
+          margin: const EdgeInsets.only(top: 50),  // 50px space from top
           width: double.infinity,
+          height: 700,
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -60,46 +65,54 @@ class ReviewModalRight extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-                TextField(
-                  maxLines: 2,
-                  minLines: 1,
-                  decoration: InputDecoration(
-                    hintText: 'Здесь вы можете добавить комментарий',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(color: Color(0xFFAEB0B4)),
+                SizedBox(
+                  height: 128,
+                  child: TextField(
+                    maxLines: null, // Allow multiple lines
+                    expands: true, // Take up all available space
+                    textAlignVertical: TextAlignVertical.top, // Align text to top
+                    decoration: InputDecoration(
+                      hintText: 'Здесь вы можете добавить комментарий',
+                      hintStyle: const TextStyle(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Color(0xFFA4ACB6),
+                        height: 1.4,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: const BorderSide(color: Color(0xFFAEB0B4)),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                      alignLabelWithHint: true,
                     ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
                   ),
                 ),
                 const SizedBox(height: 16),
-                LayoutBuilder(
-  builder: (context, constraints) {
-    final double screenWidth = constraints.maxWidth;
-    final double firstTileWidth = screenWidth * 0.2134; // 0.22 - 3% = 0.2134
-    final double otherTileWidth = screenWidth * 0.16;
-    final double tileHeight = screenWidth * 0.18;
-
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          _photoTile(isAdd: true, width: firstTileWidth, height: tileHeight),
-          _photoTile(imagePath: 'assets/images/middle.png', width: otherTileWidth, height: tileHeight),
-          _photoTile(imagePath: 'assets/images/middle.png', width: otherTileWidth, height: tileHeight),
-          _photoTile(imagePath: 'assets/images/middle.png', width: otherTileWidth, height: tileHeight),
-          _photoTile(imagePath: 'assets/images/middle.png', width: otherTileWidth, height: tileHeight),
-        ],
-      ),
-    );
-  },
-),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      _photoTile(context: context, isAdd: true),
+                      _photoTile(context: context, isAdd: false, imagePath: 'assets/images/middle.png'),
+                      _photoTile(context: context, isAdd: false, imagePath: 'assets/images/middle.png'),
+                      _photoTile(context: context, isAdd: false, imagePath: 'assets/images/middle.png'),
+                      _photoTile(context: context, isAdd: false, imagePath: 'assets/images/middle.png'),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 24),
                 Row(
                   children: [
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => OrdersListRight()),
+                          );
+                        },
                         style: OutlinedButton.styleFrom(
                           side: const BorderSide(color: Color(0xFF232A36)),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -111,7 +124,14 @@ class ReviewModalRight extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const ReviewSentDialogRight();
+                            },
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF232A36),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -130,16 +150,12 @@ class ReviewModalRight extends StatelessWidget {
     );
   }
 
-  Widget _photoTile({bool isAdd = false, String? imagePath, double width = 63, double height = 77}) {
-  return Container(
-    width: width,
-    height: height,
-    margin: const EdgeInsets.only(right: 8),
-    decoration: BoxDecoration(
-      color: isAdd ? const Color(0xFFEFF2F6) : const Color(0xFFF5F5F5),
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: isAdd
+  Widget _photoTile({required BuildContext context, required bool isAdd, String? imagePath}) {
+    // Fixed dimensions for each tile type
+    final double containerWidth = isAdd ? 79.0 : 63.0;
+    final double containerHeight = 77.0;
+  
+    Widget content = isAdd
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
@@ -155,9 +171,44 @@ class ReviewModalRight extends StatelessWidget {
         : imagePath != null
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.asset(imagePath, fit: BoxFit.cover, width: width, height: height),
+                child: Image.asset(imagePath, fit: BoxFit.cover, width: containerWidth, height: containerHeight),
               )
-            : null,
-  );
-}
+            : const SizedBox();
+
+    if (isAdd) {
+      return GestureDetector(
+        onTap: () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (BuildContext context) {
+              return const ComponentCamera();
+            },
+          );
+        },
+        child: Container(
+          width: containerWidth,
+          height: containerHeight,
+          margin: const EdgeInsets.only(right: 8),
+          decoration: BoxDecoration(
+            color: const Color(0xFFEFF2F6),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: content,
+        ),
+      );
+    }
+    
+    return Container(
+      width: containerWidth,
+      height: containerHeight,
+      margin: const EdgeInsets.only(right: 8),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF5F5F5),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: content,
+    );
+  }
 }

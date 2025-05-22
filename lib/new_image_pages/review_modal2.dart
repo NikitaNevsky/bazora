@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'ProfileCreated.dart';
+import 'orders_list_right.dart';
+import '../../componentcamera.dart';
 
 class ReviewModal2 extends StatelessWidget {
   const ReviewModal2({Key? key}) : super(key: key);
@@ -12,6 +15,7 @@ class ReviewModal2 extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         child: Container(
           width: double.infinity,
+          height: 700, // Fixed height of 750px
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -82,38 +86,51 @@ class ReviewModal2 extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-                TextField(
-                  maxLines: 2,
-                  minLines: 1,
-                  decoration: InputDecoration(
-                    hintText: 'Здесь вы можете добавить комментарий',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(color: Color(0xFFAEB0B4)),
+                Container(
+                  height: 128, // Fixed height of 128px
+                  child: TextField(
+                    maxLines: null, // Allow multiple lines
+                    expands: true, // Expand to fill the container
+                    textAlignVertical: TextAlignVertical.top, // Align text to top
+                    decoration: InputDecoration(
+                      hintText: 'Здесь вы можете добавить комментарий',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: const BorderSide(color: Color(0xFFA4ACB6)),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                      alignLabelWithHint: true,
                     ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
                   ),
                 ),
                 const SizedBox(height: 24),
 
                 // New container added here
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFEFF2F6),
-                    borderRadius: BorderRadius.circular(9),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(IconlyLight.plus, color: Color(0xFF232A36), size: 20),
-                      SizedBox(width: 8),
-                      Text(
-                        'Добавить фото или видео',
-                        style: TextStyle(fontSize: 16, color: Color(0xFF232A36)),
-                      ),
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ComponentCamera()),
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEFF2F6),
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(IconlyLight.plus, color: Color(0xFF232A36), size: 20),
+                        SizedBox(width: 8),
+                        Text(
+                          'Добавить фото или видео',
+                          style: TextStyle(fontSize: 16, color: Color(0xFF232A36)),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
 
@@ -122,7 +139,12 @@ class ReviewModal2 extends StatelessWidget {
                   children: [
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => const OrdersListRight()),
+                          );
+                        },
                         style: OutlinedButton.styleFrom(
                           side: const BorderSide(color: Color(0xFFA4ACB6)),
                           shape: RoundedRectangleBorder(
@@ -143,7 +165,13 @@ class ReviewModal2 extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const ReviewSentDialogRight(),
+                            ),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFA4ACB6),
                           shape: RoundedRectangleBorder(

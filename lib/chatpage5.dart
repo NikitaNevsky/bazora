@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart' show IconlyOutline, IconlyLight;
 import 'package:bazora/catalogpage.dart';
+import 'package:bazora/componentcamera.dart';
 
 class ChatPage5 extends StatelessWidget {
   const ChatPage5({super.key});
@@ -234,11 +236,20 @@ class ChatPage5 extends StatelessWidget {
                                       ),
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Center(
-                                      child: Icon(
-                                        Icons.pause,
-                                        size: 18,
-                                        color: Color(0xFFA4ACB6),
+                                    child: Center(
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.attach_file,
+                                          size: isTablet ? 20 : 15,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => const ComponentCamera()),
+                                          );
+                                        },
+                                        padding: EdgeInsets.zero,
                                       ),
                                     ),
                                   ),
@@ -547,18 +558,26 @@ class ChatPage5 extends StatelessWidget {
                               children: [
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(isTablet ? 15 : 10, 0, isTablet ? 15 : 10, 0),
-                                  child: Container(
-                                    width: isTablet ? 40 : 30,
-                                    height: isTablet ? 40 : 30,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF1D293A),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Center(
-                                      child: Icon(
-                                        Icons.attach_file,
-                                        size: isTablet ? 20 : 15,
-                                        color: Colors.white,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => const ComponentCamera()),
+                                      );
+                                    },
+                                    child: Container(
+                                      width: isTablet ? 40 : 30,
+                                      height: isTablet ? 40 : 30,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xFF1D293A),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.attach_file,
+                                          color: Colors.white,
+                                          size: isTablet ? 20 : 15,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -569,7 +588,7 @@ class ChatPage5 extends StatelessWidget {
                                       hintText: 'Напишите сообщение...',
                                       hintStyle: GoogleFonts.inter(
                                         color: const Color(0xFFA4ACB6),
-                                        fontSize: isTablet ? 18 : 14,
+                                        fontSize: isTablet ? 16 : 14,
                                         fontWeight: FontWeight.normal,
                                       ),
                                       border: InputBorder.none,
@@ -580,7 +599,7 @@ class ChatPage5 extends StatelessWidget {
                                     ),
                                     style: GoogleFonts.inter(
                                       color: const Color(0xFF1D293A),
-                                      fontSize: isTablet ? 18 : 14,
+                                      fontSize: isTablet ? 16 : 14,
                                       fontWeight: FontWeight.normal,
                                     ),
                                   ),

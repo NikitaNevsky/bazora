@@ -112,11 +112,13 @@ class _NameDetailsScreenState extends ConsumerState<NameDetailsScreen> {
                             right: 0,
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ComponentCamera(),
-                                  ),
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (BuildContext context) {
+                                    return const ComponentCamera();
+                                  },
                                 );
                               },
                               child: Container(

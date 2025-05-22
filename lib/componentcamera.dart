@@ -6,7 +6,7 @@ class ComponentCamera extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF46464B),
+      backgroundColor: Colors.transparent,
       body: Stack(
         children: [
           // Bottom Sheet

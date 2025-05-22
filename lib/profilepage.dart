@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'neweditprofilepage.dart';
 import 'package:iconly/iconly.dart';
+import 'logout_confirmation_page.dart';
+import 'logout_confirmation2.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -9,6 +11,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final isTablet = size.width > 600;
+    final fullWidth = size.width;
     final horizontalPadding = isTablet ? 32.0 : 24.0;
     final verticalPadding = isTablet ? 32.0 : 24.0;
     final avatarRadius = isTablet ? 60.0 : 40.0;
@@ -17,6 +20,9 @@ class ProfilePage extends StatelessWidget {
     final buttonFontSize = isTablet ? 20.0 : 16.0;
     final actionFontSize = isTablet ? 18.0 : 15.0;
     final iconSize = isTablet ? 28.0 : 18.0;
+
+    final baseWidth = fullWidth * 0.80;
+    final extendedWidth = baseWidth * 1.10;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7F7),
@@ -40,7 +46,8 @@ class ProfilePage extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: iconSize),
+                    icon: Icon(Icons.arrow_back_ios_new_rounded,
+                        color: Colors.white, size: iconSize),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   const Spacer(),
@@ -61,92 +68,154 @@ class ProfilePage extends StatelessWidget {
                 builder: (context, constraints) {
                   return SingleChildScrollView(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                      constraints:
+                          BoxConstraints(minHeight: constraints.maxHeight),
                       child: IntrinsicHeight(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(height: verticalPadding),
                             // Profile Image
-                            Center(
-                              child: CircleAvatar(
-                                radius: avatarRadius,
-                                backgroundImage: const AssetImage('assets/images/profile picture.png'),
-                              ),
+                            CircleAvatar(
+                              radius: avatarRadius,
+                              backgroundImage: const AssetImage(
+                                  'assets/images/profile picture.png'),
                             ),
                             SizedBox(height: verticalPadding),
+
                             // Input fields
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-                              child: Column(
-                                children: [
-                                  TextFormField(
-                                    initialValue: 'Артем',
-                                    style: TextStyle(fontSize: inputFontSize),
-                                    decoration: _inputDecoration(inputFontSize),
-                                  ),
-                                  SizedBox(height: isTablet ? 24 : 16),
-                                  TextFormField(
-                                    initialValue: 'Филатов',
-                                    style: TextStyle(fontSize: inputFontSize),
-                                    decoration: _inputDecoration(inputFontSize),
-                                  ),
-                                  SizedBox(height: isTablet ? 24 : 16),
-                                  TextFormField(
-                                    initialValue: '11.12.2001',
-                                    style: TextStyle(fontSize: inputFontSize),
-                                    decoration: _inputDecoration(inputFontSize),
-                                  ),
-                                  SizedBox(height: isTablet ? 32 : 24),
-                                  // Actions
-                                  _ProfileAction(
-                                    icon: IconlyLight.logout,
-                                    label: 'Выйти из аккаунта',
-                                    fontSize: actionFontSize,
-                                    iconSize: iconSize,
-                                  ),
-                                  SizedBox(height: isTablet ? 20 : 12),
-                                  _ProfileAction(
-                                    icon: IconlyLight.add_user,
-                                    label: 'Удалить аккаунт',
-                                    fontSize: actionFontSize,
-                                    iconSize: iconSize,
-                                  ),
-                                ],
+                            Center(
+                              child: Container(
+                                width: baseWidth,
+                                child: TextFormField(
+                                  initialValue: 'Артем',
+                                  style: TextStyle(fontSize: inputFontSize),
+                                  decoration: _inputDecoration(inputFontSize),
+                                ),
                               ),
                             ),
-                            const Spacer(),
-                            // Save Button
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: horizontalPadding,
-                                right: horizontalPadding,
-                                top: verticalPadding,
-                                bottom: 30,
+                            SizedBox(height: isTablet ? 24 : 16),
+                            Center(
+                              child: Container(
+                                width: baseWidth,
+                                child: TextFormField(
+                                  initialValue: 'Филатов',
+                                  style: TextStyle(fontSize: inputFontSize),
+                                  decoration: _inputDecoration(inputFontSize),
+                                ),
                               ),
-                              child: Center(
-                                child: Center(
-                                  child: SizedBox(
-                                    width: 196,
-                                    height: isTablet ? 60 : 48,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        foregroundColor: Colors.white,
-                                        backgroundColor: const Color(0xFF1D293A),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(12),
+                            ),
+                            SizedBox(height: isTablet ? 24 : 16),
+                            Center(
+                              child: Container(
+                                width: baseWidth,
+                                child: TextFormField(
+                                  initialValue: '11.12.2001',
+                                  style: TextStyle(fontSize: inputFontSize),
+                                  decoration: _inputDecoration(inputFontSize),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: isTablet ? 32 : 24),
+
+                            // Logout Action (10% wider)
+                            Center(
+                              child: Container(
+                                width: extendedWidth,
+                                height: 44,
+                                child: _ProfileAction(
+                                  icon: IconlyLight.logout,
+                                  label: 'Выйти из аккаунта',
+                                  fontSize: actionFontSize,
+                                  iconSize: iconSize,
+                                  onTap: () async {
+                                    final shouldLogout = await showDialog<bool>(
+                                      context: context,
+                                      builder: (context) => Center(
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                                          child: const Material(
+                                            color: Colors.transparent,
+                                            child: LogoutConfirmationSheet(),
+                                          ),
                                         ),
                                       ),
-                                      onPressed: () => Navigator.push(
-                                        context, 
-                                        MaterialPageRoute(builder: (_) => NewEditProfilePage())
-                                      ),
+                                    );
+
+                                    if (shouldLogout == true) {
+                                      // Handle logout
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: isTablet ? 16 : 12),
+                            // Duplicate Logout Action (10% wider)
+                            Center(
+                              child: Container(
+  width: extendedWidth,
+  height: 44,
+  child: _ProfileAction(
+    icon: IconlyLight.add_user,
+    label: 'Удалить аккаунт',
+    fontSize: actionFontSize,
+    iconSize: iconSize,
+    iconColor: Colors.red,     
+    textColor: Colors.red,    
+    onTap: () async {
+      final shouldDelete = await showDialog<bool>(
+        context: context,
+        builder: (context) => Center(
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: const Material(
+              color: Colors.transparent,
+              child: LogoutConfirmation2(),
+            ),
+          ),
+        ),
+      );
+
+      if (shouldDelete == true) {
+        // Handle account deletion
+      }
+    },
+  ),
+),
+
+                            ),
+                            SizedBox(height: verticalPadding),
+
+                            // Save Button (10% wider)
+                            Center(
+                              child: Container(
+                                width: extendedWidth,
+                                height: 44, // Fixed height of 44px
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                child: Material(
+                                  color: const Color(0xFF1D293A),
+                                  borderRadius: BorderRadius.circular(18),
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(18),
+                                    highlightColor: Colors.transparent,
+                                    splashColor: Colors.transparent,
+                                    onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => NewEditProfilePage()),
+                                    ),
+                                    child: Container(
+                                      height: 44,
+                                      alignment: Alignment.center,
                                       child: Text(
                                         'Сохранить',
                                         style: TextStyle(
-                                          fontSize: buttonFontSize, 
-                                          fontWeight: FontWeight.w600, 
-                                          color: Colors.white
+                                          fontSize: buttonFontSize,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ),
@@ -154,6 +223,7 @@ class ProfilePage extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            SizedBox(height: 30),
                           ],
                         ),
                       ),
@@ -172,9 +242,10 @@ class ProfilePage extends StatelessWidget {
     return InputDecoration(
       filled: true,
       fillColor: Colors.white,
+      isDense: true,
       contentPadding: EdgeInsets.symmetric(
-        horizontal: fontSize, 
-        vertical: fontSize * 0.8
+        horizontal: fontSize,
+        vertical: fontSize * 0.8,
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(18),
@@ -199,38 +270,61 @@ class _ProfileAction extends StatelessWidget {
   final double iconSize;
   final Color? iconColor;
   final Color? textColor;
-  
+  final VoidCallback? onTap;
+
   const _ProfileAction({
-    required this.icon, 
-    required this.label, 
-    this.fontSize = 15, 
-    this.iconSize = 18, 
-    this.iconColor, 
-    this.textColor
+    this.onTap,
+    required this.icon,
+    required this.label,
+    this.fontSize = 15,
+    this.iconSize = 18,
+    this.iconColor,
+    this.textColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ListTile(
-        leading: Icon(
-          icon, 
-          color: iconColor ?? const Color(0xFF1D293A), 
-          size: iconSize
-        ),
-        title: Text(
-          label,
-          style: TextStyle(
-            fontSize: fontSize, 
-            fontWeight: FontWeight.w500, 
-            color: textColor
+    return Material(
+      color: Colors.transparent,
+      child: Ink(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Colors.transparent,
+            width: 1,
           ),
         ),
-        onTap: () {},
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          onTap: onTap,
+          child: SizedBox(
+            height: 44, // Fixed height of 44px
+            child: Center(
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                dense: true,
+                visualDensity: const VisualDensity(vertical: -2),
+                leading: Icon(
+                  icon,
+                  color: iconColor ?? const Color(0xFF1D293A),
+                  size: iconSize,
+                ),
+                title: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.w500,
+                    color: textColor ?? const Color(0xFF1D293A),
+                    height: 1.2,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -9,10 +9,11 @@ class ReviewSentDialogRight extends StatelessWidget {
       backgroundColor: const Color(0xFFAEB0B4),
       body: Center(
         child: Container(
-          width: 355,
+          margin: const EdgeInsets.symmetric(horizontal: 19, vertical: 19),
+          width: double.infinity,
           height: 185,
           decoration: BoxDecoration(
-            color: const Color(0xFFF7F7F7),
+            color: Colors.white,
             borderRadius: BorderRadius.circular(24),
           ),
           child: Padding(
@@ -36,21 +37,22 @@ class ReviewSentDialogRight extends StatelessWidget {
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: EdgeInsets.zero,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
-                          side: const BorderSide(color: Color(0xFF1D293A), width: 1),
                         ),
                         elevation: 0,
-                        minimumSize: const Size(315, 52),
-                      ).copyWith(
-                        backgroundColor: MaterialStateProperty.all(const Color(0xFF1D293A)),
+                        backgroundColor: const Color(0xFF1D293A),
                       ),
                       child: const Text(
                         'Ок',
@@ -61,7 +63,7 @@ class ReviewSentDialogRight extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),

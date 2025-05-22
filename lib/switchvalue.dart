@@ -181,19 +181,23 @@ class _SwitchValueScreenState extends ConsumerState<SwitchValueScreen> {
                 onPressed: isButtonEnabled
                     ? () {
                         if (isWholesaleSelected) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => FourthComponentWidget(
+                          showDialog(
+                            context: context,
+                            builder: (context) => Dialog(
+                              backgroundColor: Colors.transparent,
+                              insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+                              child: FourthComponentWidget(
                                 hasShop: widget.hasShop,
                               ),
                             ),
                           );
                         } else if (isRetailSelected) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ThirdComponent(
+                          showDialog(
+                            context: context,
+                            builder: (context) => Dialog(
+                              backgroundColor: Colors.transparent,
+                              insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+                              child: ThirdComponent(
                                 hasShop: widget.hasShop,
                               ),
                             ),

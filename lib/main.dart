@@ -17,8 +17,9 @@ import 'Reviewscreen.dart';
 import 'namedetails.dart';
 import 'new_image_pages/review_modal_right.dart';
 import 'new_image_pages/wholesale_page_right.dart';
-import 'new_image_pages/orders_list_right.dart';
-import 'new_image_pages/payment_method_right.dart';
+import 'package:bazora/new_image_pages/orders_list_right.dart';
+import 'package:bazora/new_image_pages/payment_method_right.dart';
+import 'package:bazora/chatpage3.dart';
 import 'new_image_pages/payment_method_disabled_right.dart';
 import 'new_image_pages/order_success_right.dart';
 import 'new_image_pages/order_details_right.dart';
@@ -45,6 +46,12 @@ import 'Productdetails.dart';
 import 'filters.dart';
 import 'chatpage.dart';
 import 'chatpage3.dart';
+import 'new_image_pages/empty_chats_right.dart';
+import 'logout_confirmation_page.dart';
+import 'logout_confirmation2.dart';
+import 'splash.dart';
+
+
 
 void main() {
   runApp(const MyApp());
@@ -57,8 +64,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter App',
+      debugShowCheckedModeBanner: false,
       home: const CatalogPage(),
       routes: {
+        '/home': (context) => const HomePageWidget(),
         '/namedetails': (context) => const NameDetailsScreen(),
         '/catalog': (context) => const CatalogPage(),
         '/filters': (context) => const FilterPage(),
