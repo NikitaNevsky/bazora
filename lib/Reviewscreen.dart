@@ -43,84 +43,90 @@ class ReviewsScreen extends StatelessWidget {
                               onPressed: () => Navigator.of(context).pop(),
                             ),
                             const Spacer(),
-                            Text(
-                              'Отзывы',
-                              style: GoogleFonts.inter(
-                                color: const Color(0xFFEFF2F6),
-                                fontSize: isTablet ? 22 : 16,
-                                fontWeight: FontWeight.bold,
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10.0), 
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Отзывы',
+                                    style: GoogleFonts.inter(
+                                      color: const Color(0xFFEFF2F6),
+                                      fontSize: isTablet ? 22 : 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    '250',
+                                    style: GoogleFonts.inter(
+                                      color: const Color(0xFFA4ACB6),
+                                      fontSize: isTablet ? 22 : 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Text(
-                              '250',
-                              style: GoogleFonts.inter(
-                                color: const Color(0xFFA4ACB6),
-                                fontSize: isTablet ? 22 : 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(width: isTablet ? 160 : 100),
-                            Icon(
-                              IconlyLight.swap,
-                              color: Colors.white,
-                              size: isTablet ? 32 : 24,
-                            ),
-                            SizedBox(width: isTablet ? 24 : 16),
+                            const Spacer(),
                             SizedBox(width: isTablet ? 32 : 24),
                           ],
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: isTablet ? 35 : 15, top: isTablet ? 40 : 25),
+                          padding: EdgeInsets.only(
+                            left: (isTablet ? 35 : 15) + 20, 
+                            top: isTablet ? 40 : 25,
+                          ),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(left: isTablet ? 23 : 13, bottom: isTablet ? 23 : 13),
+                                padding: EdgeInsets.only(
+                                  left: isTablet ? 0 : 0, 
+                                  bottom: isTablet ? 23 : 13, 
+                                  right: 8
+                                ),
                                 child: Text(
                                   '4.5',
                                   style: GoogleFonts.inter(
                                     color: const Color(0xFFEFF2F6),
-                                    fontSize: isTablet ? 28 : 20,
+                                    fontSize: isTablet ? 35 : 25,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(left: isTablet ? 15 : 5, bottom: isTablet ? 23 : 13),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: List.generate(5, (index) => 
-                                        Icon(Icons.star, color: Colors.amber, size: isTablet ? 28 : 18)
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 0,
+                                    bottom: isTablet ? 23 : 13,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          ...List.generate(5, (index) => 
+                                            Icon(Icons.star, color: Colors.amber, size: isTablet ? 28 : 18)
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    SizedBox(height: isTablet ? 8 : 4),
-                                    Row(
-                                      children: [
-                                        Text(
+                                      SizedBox(height: isTablet ? 0 : 0),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 0),
+                                        child: Text(
                                           'Мнение покупателей',
                                           style: GoogleFonts.inter(
                                             color: const Color(0xFFA4ACB6),
                                             fontSize: isTablet ? 16 : 10,
                                           ),
                                         ),
-                                        SizedBox(width: 8),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.pushNamed(context, '/reviews');
-                                          },
-                                          child: Icon(
-                                            Icons.arrow_forward_ios,
-                                            color: const Color(0xFF1D293A),
-                                            size: isTablet ? 16 : 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
+                            
                               const Spacer(),
                             ],
                           ),
@@ -168,9 +174,13 @@ class ReviewsScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
                                     borderRadius: BorderRadius.circular(10),
-                                    image: const DecorationImage(
-                                      image: NetworkImage(
-                                        'https://s3-alpha-sig.figma.com/img/ea03/12e5/abf0c1e2a0cddffdc702022b52f2f0f4?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=VQC6mgBHrmfKcXjlFj3yznl~~u~lUdC~lt~jBZeab6OWupIzRzggLFG6QcMVeq-lAWGWJfqeCYbiYcidZIvj8cXT~980ojSbdK8dEX7UDoPdVgaHbe0bWbzBDR-OcWce-CT~TzrGvQOagOJ0owktgJmA6xX9~Bgf-hhqnGUZpEzZf9TqqWwYRzgS-ow9YDALNWuSZwj6KuIpOdrfWvk-XRzox4RZpzLh4lDSc5FsuNmSYkSlpcqDsoa5g1x-xnHkrtEMzYcLYjK45sM481DdeYVBoHZPDdhE1GIYHN3Ozjj4yogEabcLPMqELQdlRGTUOs3gyO6dEc4vOGfxi8wiuw__'
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        index == 0 
+                                          ? 'assets/images/random1.png'
+                                          : index == 1 
+                                            ? 'assets/images/random2.png'
+                                            : 'assets/images/top.jpg',
                                       ),
                                       fit: BoxFit.cover,
                                     ),
@@ -200,12 +210,15 @@ class ReviewsScreen extends StatelessWidget {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
-                      children: List.generate(3, (index) => 
-                        Padding(
-                          padding: EdgeInsets.only(top: index == 0 ? 0 : (isTablet ? 16 : 8)),
-                          child: _buildReviewCard(isTablet, context),
+                      children: [
+                        ...List.generate(5, (index) => 
+                          Padding(
+                            padding: EdgeInsets.only(top: index == 0 ? 0 : (isTablet ? 16 : 8)),
+                            child: _buildReviewCard(isTablet, context),
+                          ),
                         ),
-                      ),
+                        SizedBox(height: 200), // Add 200px space at the bottom
+                      ],
                     ),
                   ),
                 ),

@@ -4,6 +4,7 @@ import 'package:iconly/iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'catalogpage.dart';
 import 'listofchats.dart';
+import 'reviewscreen.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails({Key? key}) : super(key: key);
@@ -234,7 +235,7 @@ Widget _buildProductInfo(bool isLargeScreen) {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: Image.network(
-                            'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&h=200&fit=crop',
+                            'https://images.unsplash.com/photo-1523275335684-37898baf30?w=200&h=200&fit=crop',
                             width: 45,
                             height: 45,
                             fit: BoxFit.cover,
@@ -757,9 +758,17 @@ Widget _buildMemoryOption(String text, bool selected, bool isLargeScreen) {
           ),
           _buildReviewCard('Антон Киривлянов', '3 дня назад', 5, 'Отличное качество товара, полностью доволен сервисом и скоростью доставки, рекомендую!', spacing: 5),
           _buildReviewCard('Ирина Куленкова', 'неделю назад', 4, 'В целом всё хорошо! Но были нюансы из-за которых 5 звезд ставить не хочется.', spacing: 5),
-          const Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
-            child: Text('Просмотреть все', style: TextStyle(color: Color(0xFF00526A), fontSize: 12)),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ReviewsScreen()),
+              );
+            },
+            child: const Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+              child: Text('Просмотреть все', style: TextStyle(color: Color(0xFF00526A), fontSize: 12)),
+            ),
           ),
         ],
       ),

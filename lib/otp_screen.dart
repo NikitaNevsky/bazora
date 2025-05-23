@@ -3,7 +3,7 @@ library bazora.otp_screen;
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'switchvalue.dart';
-import 'namedetailsscreen.dart'; // Add this line
+import 'namedetails.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
