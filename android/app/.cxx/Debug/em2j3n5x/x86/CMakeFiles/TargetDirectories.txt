@@ -1,0 +1,2 @@
+/Users/macplus/Downloads/bazora-main/android/app/.cxx/Debug/em2j3n5x/x86/CMakeFiles/edit_cache.dir
+/Users/macplus/Downloads/bazora-main/android/app/.cxx/Debug/em2j3n5x/x86/CMakeFiles/rebuild_cache.dir

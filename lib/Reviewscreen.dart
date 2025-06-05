@@ -177,10 +177,10 @@ class ReviewsScreen extends StatelessWidget {
                                     image: DecorationImage(
                                       image: AssetImage(
                                         index == 0 
-                                          ? 'assets/images/random1.png'
+                                          ? 'assets/imagess/random1.png'
                                           : index == 1 
-                                            ? 'assets/images/random2.png'
-                                            : 'assets/images/top.jpg',
+                                            ? 'assets/imagess/random2.png'
+                                            : 'assets/imagess/top.jpg',
                                       ),
                                       fit: BoxFit.cover,
                                     ),
@@ -305,7 +305,7 @@ class ReviewsScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: isTablet ? 24 : 15,
-                      backgroundImage: const AssetImage('assets/images/profile.jpg'),
+                      backgroundImage: const AssetImage('assets/imagess/profile.jpg'),
                     ),
                     SizedBox(width: isTablet ? 16 : 8),
                     Column(

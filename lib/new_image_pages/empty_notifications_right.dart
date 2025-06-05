@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import '../catalogpage.dart';
-import '../neweditprofilepage.dart';
-import 'wholesale_page_right.dart';
+import '../features/catalog/presentation/catalogpage.dart';
+import '../features/profile/presentation/my_profile_page.dart';
+import '../features/cart/presentation/wholesale_page_right.dart';
 
 class EmptyNotificationsRight extends StatefulWidget {
   const EmptyNotificationsRight({Key? key}) : super(key: key);
@@ -37,11 +37,6 @@ class _EmptyNotificationsRightState extends State<EmptyNotificationsRight> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (_) => const WholesalePageRight()),
-            );
-          } else if (index == 4) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const NewEditProfilePage()),
             );
           }
         });
@@ -91,7 +86,7 @@ class _EmptyNotificationsRightState extends State<EmptyNotificationsRight> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/bigboy.png', width: 220),
+            Image.asset('assets/imagess/bigboy.png', width: 220),
             const SizedBox(height: 20),
             const Text(
               'У вас еще нет активных заказов',

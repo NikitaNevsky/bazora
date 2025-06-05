@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'storedetails.dart'; // Store details screen
-import 'catalogpage.dart'; // Catalog screen
+import 'features/catalog/presentation/catalogpage.dart'; // Catalog screen
 
 class FourthComponentWidget extends ConsumerWidget {
   final bool hasShop;

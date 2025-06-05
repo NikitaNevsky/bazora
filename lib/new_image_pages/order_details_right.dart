@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../catalogpage.dart';
+import '../features/catalog/presentation/catalogpage.dart';
 import '../listofchats.dart';
-import '../neweditprofilepage.dart';
-import 'orders_list_right.dart';
-import 'wholesale_page_right.dart';
+import '../features/profile/presentation/my_profile_page.dart';
+import '../features/orders/presentation/orders_list_right.dart';
+import '../features/cart/presentation/wholesale_page_right.dart';
 
 class OrderDetailsRight extends StatefulWidget {
   const OrderDetailsRight({Key? key}) : super(key: key);
@@ -16,71 +16,6 @@ class OrderDetailsRight extends StatefulWidget {
 
 class _OrderDetailsRightState extends State<OrderDetailsRight> {
   bool usePoints = false; // toggles using points
-  int _selectedIndex = 1; // Since this is the orders page
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      if (index == 0) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const CatalogPage()),
-        );
-      } else if (index == 2) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const WholesalePageRight()),
-        );
-      } else if (index == 3) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const ListOfChatsPage()),
-        );
-      } else if (index == 4) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const NewEditProfilePage()),
-        );
-      }
-    });
-  }
-
-  Widget _buildBottomNavBar() {
-    final isLargeScreen = MediaQuery.of(context).size.width > 600;
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      currentIndex: _selectedIndex,
-      backgroundColor: Colors.white,
-      selectedItemColor: const Color(0xFF1D293A),
-      unselectedItemColor: const Color(0xFFA4ACB6),
-      selectedFontSize: isLargeScreen ? 14 : 12,
-      unselectedFontSize: isLargeScreen ? 12 : 10,
-      iconSize: isLargeScreen ? 28 : 24,
-      onTap: _onItemTapped,
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(IconlyLight.category),
-          label: 'Каталог',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(IconlyBold.document),
-          label: 'Заказы',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(IconlyLight.buy),
-          label: 'Корзина',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(IconlyLight.chat),
-          label: 'Чаты',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(IconlyLight.profile),
-          label: 'Профиль',
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -237,7 +172,6 @@ class _OrderDetailsRightState extends State<OrderDetailsRight> {
           _summarySection(),
         ],
       ),
-      bottomNavigationBar: _buildBottomNavBar(),
     );
   }
 
@@ -261,7 +195,7 @@ class _OrderDetailsRightState extends State<OrderDetailsRight> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.asset(
-                  'assets/images/random1.png',
+                  'assets/imagess/random1.png',
                   width: isLargeScreen ? 50 : 40,
                   height: isLargeScreen ? 50 : 40,
                 ),

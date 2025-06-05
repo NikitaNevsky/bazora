@@ -53,7 +53,7 @@ class _EmptyOneState extends State<EmptyOne> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/boy.png', width: 220),
+            Image.asset('assets/imagess/boy.png', width: 220),
             const SizedBox(height: 20),
             const Text(
               'Уведомлений нет',

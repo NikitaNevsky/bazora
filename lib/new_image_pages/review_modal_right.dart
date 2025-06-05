@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
-import 'orders_list_right.dart';
+import '../features/orders/presentation/orders_list_right.dart';
 import 'ProfileCreated.dart';
 import '../../componentcamera.dart';
 
@@ -47,7 +47,7 @@ class ReviewModalRight extends StatelessWidget {
                     color: const Color(0xFFF5F5F5),
                     borderRadius: BorderRadius.circular(18),
                   ),
-                  child: Image.asset('assets/images/random1.png', fit: BoxFit.contain),
+                  child: Image.asset('assets/imagess/random1.png', fit: BoxFit.contain),
                 ),
                 const SizedBox(height: 12),
                 const Text('Macbook Air M1', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
@@ -95,10 +95,10 @@ class ReviewModalRight extends StatelessWidget {
                   child: Row(
                     children: [
                       _photoTile(context: context, isAdd: true),
-                      _photoTile(context: context, isAdd: false, imagePath: 'assets/images/middle.png'),
-                      _photoTile(context: context, isAdd: false, imagePath: 'assets/images/middle.png'),
-                      _photoTile(context: context, isAdd: false, imagePath: 'assets/images/middle.png'),
-                      _photoTile(context: context, isAdd: false, imagePath: 'assets/images/middle.png'),
+                      _photoTile(context: context, isAdd: false, imagePath: 'assets/imagess/middle.png'),
+                      _photoTile(context: context, isAdd: false, imagePath: 'assets/imagess/middle.png'),
+                      _photoTile(context: context, isAdd: false, imagePath: 'assets/imagess/middle.png'),
+                      _photoTile(context: context, isAdd: false, imagePath: 'assets/imagess/middle.png'),
                     ],
                   ),
                 ),

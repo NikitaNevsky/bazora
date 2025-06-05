@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:iconly/iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'catalogpage.dart';
+import 'features/catalog/presentation/catalogpage.dart';
 import 'listofchats.dart';
 import 'reviewscreen.dart';
 
@@ -95,7 +95,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   // Image Slider
   Widget _buildImageSlider(bool isLargeScreen) {
-    final images = ['assets/images/random1.png', 'assets/images/random2.png', 'assets/images/top.jpg'];
+    final images = ['assets/imagess/random1.png', 'assets/imagess/random2.png', 'assets/imagess/top.jpg'];
     
     return Column(
       children: [
@@ -215,7 +215,7 @@ Widget _buildProductInfo(bool isLargeScreen) {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: Image.network(
-                            'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=200&h=200&fit=crop',
+                            'https://imagess.unsplash.com/photo-1546868871-7041f2a55e12?w=200&h=200&fit=crop',
                             width: 45,
                             height: 45,
                             fit: BoxFit.cover,
@@ -235,7 +235,7 @@ Widget _buildProductInfo(bool isLargeScreen) {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: Image.network(
-                            'https://images.unsplash.com/photo-1523275335684-37898baf30?w=200&h=200&fit=crop',
+                            'https://imagess.unsplash.com/photo-1523275335684-37898baf30?w=200&h=200&fit=crop',
                             width: 45,
                             height: 45,
                             fit: BoxFit.cover,
@@ -255,7 +255,7 @@ Widget _buildProductInfo(bool isLargeScreen) {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: Image.network(
-                            'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&h=200&fit=crop',
+                            'https://imagess.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&h=200&fit=crop',
                             width: 45,
                             height: 45,
                             fit: BoxFit.cover,
@@ -489,7 +489,7 @@ Widget _buildMemoryOption(String text, bool selected, bool isLargeScreen) {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CircleAvatar(radius: 22.5, backgroundImage: AssetImage('assets/images/random1.png')),
+            const CircleAvatar(radius: 22.5, backgroundImage: AssetImage('assets/imagess/random1.png')),
             const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -608,9 +608,9 @@ Widget _buildMemoryOption(String text, bool selected, bool isLargeScreen) {
           padding: const EdgeInsets.only(bottom: 12),
           child: Row(
             children: [
-              Expanded(child: _buildProductCard('Paint', '3 000 ₽', 'assets/images/Paint.png')),
+              Expanded(child: _buildProductCard('Paint', '3 000 ₽', 'assets/imagess/Paint.png')),
               const SizedBox(width: 12),
-              Expanded(child: _buildProductCard('Brush', '1 500 ₽', 'assets/images/Brush (1).png')),
+              Expanded(child: _buildProductCard('Brush', '1 500 ₽', 'assets/imagess/Brush (1).png')),
             ],
           ),
         )),
@@ -799,7 +799,7 @@ Widget _buildMemoryOption(String text, bool selected, bool isLargeScreen) {
                       width: 30, height: 30,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        image: const DecorationImage(image: AssetImage('assets/images/profile picture.png')),
+                        image: const DecorationImage(image: AssetImage('assets/imagess/profile picture.png')),
                         borderRadius: BorderRadius.circular(22),
                       ),
                     ),

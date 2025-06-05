@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
-import 'catalogpage.dart'; // Import CatalogPage
+import 'features/catalog/presentation/catalogpage.dart'; // Import CatalogPage
 import 'storedetails.dart'; // Import StoreDetailsPage
 
 class SeeYourStores extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart' show IconlyOutline, IconlyLight;
-import 'package:bazora/catalogpage.dart';
+import 'package:bazora/features/catalog/presentation/catalogpage.dart';
 import 'package:bazora/componentcamera.dart';
 import 'package:bazora/new_image_pages/cancel_order_dialog_right.dart';
 import 'package:bazora/new_image_pages/edit_order_modal_right.dart';
@@ -282,7 +282,7 @@ class ChatPage3 extends StatelessWidget {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Image.asset(
-                                        'assets/images/radio.jpg',
+                                        'assets/imagess/radio.jpg',
                                         width: 168,
                                         height: 30,
                                         fit: BoxFit.contain,
@@ -414,7 +414,7 @@ class ChatPage3 extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Image.asset(
-                                      'assets/images/documents.png',
+                                      'assets/imagess/documents.png',
                                       width: 116,
                                       height: 116,
                                       fit: BoxFit.cover,
@@ -478,7 +478,7 @@ class ChatPage3 extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Image.asset(
-                                    'assets/images/pdf.png',
+                                    'assets/imagess/pdf.png',
                                     width: 48,
                                     height: 48,
                                     fit: BoxFit.contain,

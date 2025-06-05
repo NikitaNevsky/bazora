@@ -18,13 +18,13 @@ class _FilterPageState extends State<FilterPage> {
   RangeValues _priceRangeValues = const RangeValues(0, 50000);
   final double _maxPrice = 200000;
   final List<String> _categoryImages = [
-    'assets/images/category1.jpeg.png',
-    'assets/images/category2.jpeg.png',
-    'assets/images/category3.jpeg.png',
+    'assets/imagess/category1.jpeg.png',
+    'assets/imagess/category2.jpeg.png',
+    'assets/imagess/category3.jpeg.png',
   ];
   final List<String> _randomImages = [
-    'assets/images/random1.png',
-    'assets/images/random2.png',
+    'assets/imagess/random1.png',
+    'assets/imagess/random2.png',
   ];
   
   final List<Map<String, String>> _categories = [];
@@ -45,7 +45,7 @@ class _FilterPageState extends State<FilterPage> {
       'Продукты', 'Авто', 'Книги',
       'Игрушки', 'Спорт', 'Зоотовары',
     ];
-    // Initialize categories with Russian names and random images
+    // Initialize categories with Russian names and random imagess
     _categories.clear();
     _categories.addAll(
       List.generate(

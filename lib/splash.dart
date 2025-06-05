@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void _navigateToMain() {
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
-        Navigator.of(context).pushReplacementNamed('/home');
+        Navigator.of(context).pushReplacementNamed('/catalog');
       }
     });
   }
@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
             borderRadius: BorderRadius.circular(20),
           ),
           child: Image.asset(
-            'assets/images/shopping cart.png',
+            'assets/imagess/shopping cart.png',
             fit: BoxFit.contain,
             width: 120,
             height: 120,

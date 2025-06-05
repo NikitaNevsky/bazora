@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
-import 'catalogpage.dart';
-import 'neweditprofilepage.dart';
+import 'features/catalog/presentation/catalogpage.dart';
+import 'features/profile/presentation/my_profile_page.dart';
 import 'profilepage.dart';
 import 'chatpage.dart';
 import 'chatpage2.dart';
 import 'chatpage3.dart';
-import 'new_image_pages/wholesale_page_right.dart';
-import 'new_image_pages/orders_list_right.dart';
+import 'features/cart/presentation/wholesale_page_right.dart';
+import 'features/orders/presentation/orders_list_right.dart';
 
 class ListOfChatsPage extends StatefulWidget {
   const ListOfChatsPage({super.key});
@@ -20,67 +20,6 @@ class ListOfChatsPage extends StatefulWidget {
 class _ListOfChatsPageState extends State<ListOfChatsPage> {
   int _currentIndex = 3; // Default to Chats tab
 
-  Widget _buildBottomNavBar() {
-    final isLargeScreen = MediaQuery.of(context).size.width > 600;
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      currentIndex: _currentIndex,
-      backgroundColor: Colors.white,
-      selectedItemColor: const Color(0xFF1D293A),
-      unselectedItemColor: const Color(0xFFA4ACB6),
-      selectedFontSize: isLargeScreen ? 14 : 12,
-      unselectedFontSize: isLargeScreen ? 12 : 10,
-      iconSize: isLargeScreen ? 28 : 24,
-      onTap: (index) {
-        setState(() {
-          _currentIndex = index;
-          if (index == 0) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => CatalogPage()),
-            );
-          } else if (index == 1) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const OrdersListRight()),
-            );
-          } else if (index == 2) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const WholesalePageRight()),
-            );
-          } else if (index == 4) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const NewEditProfilePage()),
-            );
-          }
-        });
-      },
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(IconlyLight.category),
-          label: 'Каталог',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(IconlyLight.document),
-          label: 'Заказы',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(IconlyLight.buy),
-          label: 'Корзина',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(IconlyBold.chat),
-          label: 'Чаты',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(IconlyLight.profile),
-          label: 'Профиль',
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +42,6 @@ class _ListOfChatsPageState extends State<ListOfChatsPage> {
           ),
         ],
       ),
-      bottomNavigationBar: _buildBottomNavBar(),
     );
   }
 }
@@ -252,7 +190,7 @@ class _ChatListItem extends StatelessWidget {
         }
       },
       child: Container(
-        height: 120, // Set to 101px
+        height: 148, // Set to 101px
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -273,7 +211,7 @@ class _ChatListItem extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Image.asset(
-                      'assets/images/top.jpg',
+                      'assets/imagess/top.jpg',
                       width: imageWidth,
                       height: imageHeight,
                       fit: BoxFit.cover,
@@ -336,8 +274,7 @@ class _ChatListItem extends StatelessWidget {
                     ],
                   ),
                   Padding(
-                    padding:
-                        EdgeInsetsDirectional.only(top: isLargeScreen ? 10 : 6),
+                    padding: EdgeInsetsDirectional.only(top: isLargeScreen ? 10 : 6),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

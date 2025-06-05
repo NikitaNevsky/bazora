@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import '../catalogpage.dart';
-import '../neweditprofilepage.dart';
-import 'wholesale_page_right.dart';
-import 'orders_list_right.dart';
+import '../features/catalog/presentation/catalogpage.dart';
+import '../features/profile/presentation/my_profile_page.dart';
+import '../features/cart/presentation/wholesale_page_right.dart';
+import '../features/orders/presentation/orders_list_right.dart';
 
 class EmptyChatsRight extends StatefulWidget {
   const EmptyChatsRight({Key? key}) : super(key: key);
@@ -55,7 +55,7 @@ class _EmptyChatsRightState extends State<EmptyChatsRight> {
           Center(
             child: Column(
               children: [
-                Image.asset('assets/images/emptychat.png', width: 220),
+                Image.asset('assets/imagess/emptychat.png', width: 220),
                 const SizedBox(height: 32),
                 const Text(
                   'Чат с сотрудником сервиса появится после\nоформления заказа',
@@ -93,11 +93,6 @@ class _EmptyChatsRightState extends State<EmptyChatsRight> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (_) => const WholesalePageRight()),
-              );
-            } else if (index == 4) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => const NewEditProfilePage()),
               );
             }
           });

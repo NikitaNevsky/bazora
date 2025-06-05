@@ -105,7 +105,7 @@ class _NameDetailsScreenState extends ConsumerState<NameDetailsScreen> {
                             radius: 50,
                             backgroundColor: Colors.grey,
                             backgroundImage:
-                                AssetImage('assets/images/profile picture.png'),
+                                AssetImage('assets/imagess/profile picture.png'),
                           ),
                           Positioned(
                             bottom: 0,

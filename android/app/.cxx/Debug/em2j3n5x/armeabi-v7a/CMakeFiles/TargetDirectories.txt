@@ -1,0 +1,2 @@
+/Users/macplus/Downloads/bazora-main/android/app/.cxx/Debug/em2j3n5x/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/macplus/Downloads/bazora-main/android/app/.cxx/Debug/em2j3n5x/armeabi-v7a/CMakeFiles/rebuild_cache.dir

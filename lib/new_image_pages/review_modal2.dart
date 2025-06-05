@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'ProfileCreated.dart';
-import 'orders_list_right.dart';
+import '../features/orders/presentation/orders_list_right.dart';
 import '../../componentcamera.dart';
 
 class ReviewModal2 extends StatelessWidget {
@@ -54,7 +54,7 @@ class ReviewModal2 extends StatelessWidget {
                     borderRadius: BorderRadius.circular(18),
                   ),
                   child: Image.asset(
-                    'assets/images/random1.png',
+                    'assets/imagess/random1.png',
                     fit: BoxFit.contain,
                   ),
                 ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'storedetails.dart';
-import 'catalogpage.dart';
+import 'features/catalog/presentation/catalogpage.dart';
 
 class ThirdComponent extends StatelessWidget {
   final bool hasShop;
