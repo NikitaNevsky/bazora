@@ -26,7 +26,6 @@ class MainPage extends StatelessWidget {
         icon: SvgPicture.asset(SvgIcons.icFillCategory, color: AppColors.baseColor),
         inactiveIcon: SvgPicture.asset(SvgIcons.icCategory, color: AppColors.grey2),
         activeForegroundColor: AppColors.baseColor,
-        title: "Каталог"
       ),
     ),
     PersistentTabConfig(
@@ -35,7 +34,6 @@ class MainPage extends StatelessWidget {
         icon: SvgPicture.asset(SvgIcons.icFillDocumentList, color: AppColors.baseColor),
         inactiveIcon: SvgPicture.asset(SvgIcons.icDocumentList, color: AppColors.grey2),
         activeForegroundColor: AppColors.baseColor,
-        title: "Заказы"
       ),
     ),
     PersistentTabConfig(
@@ -44,16 +42,14 @@ class MainPage extends StatelessWidget {
         icon: SvgPicture.asset(SvgIcons.icFillBuy, color: AppColors.baseColor),
         inactiveIcon: SvgPicture.asset(SvgIcons.icBuy, color: AppColors.grey2),
         activeForegroundColor: AppColors.baseColor,
-        title: "Корзина"
       ),
     ),
     PersistentTabConfig(
       screen: const ListOfChatsPage(),
       item: ItemConfig(
-        icon: SvgPicture.asset(SvgIcons.icFillChat, color: AppColors.baseColor),
+        icon: SvgPicture.asset(SvgIcons.icFillChat, color: AppColors.baseColor, width: 24, height: 24,),
         inactiveIcon: SvgPicture.asset(SvgIcons.icChat, color: AppColors.grey2),
         activeForegroundColor: AppColors.baseColor,
-        title: "Чаты"
       ),
     ),
     PersistentTabConfig(
@@ -62,7 +58,6 @@ class MainPage extends StatelessWidget {
         icon: SvgPicture.asset(SvgIcons.icFillProfile, color: AppColors.baseColor),
         inactiveIcon: SvgPicture.asset(SvgIcons.icProfile, color: AppColors.grey2),
         activeForegroundColor: AppColors.baseColor,
-        title: "Профиль"
       ),
     ),
   ];

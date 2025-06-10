@@ -1,3 +1,6 @@
+import 'package:bazora/core/utils/app_colors.dart';
+import 'package:bazora/core/utils/utils.dart';
+import 'package:bazora/core/widgets/buttons/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'namedetails.dart'; // Import the NameDetailsScreen
@@ -51,40 +54,29 @@ class _SwitchValueScreenState2 extends ConsumerState<SwitchValueScreen2> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),
+      appBar: AppBar(
+        title: Text(
+          'Формат закупки',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        backgroundColor: AppColors.baseColor,
+        leading: BackButton(color: AppColors.white,),
+      ),
       body: SafeArea(
         child: Column(
           children: [
             // Header
             Container(
-              height: 145,
+              height: 30,
               decoration: const BoxDecoration(
                 color: Color(0xFF1D293A),
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(23),
                 ),
-              ),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 12.2),
-                    onPressed: () => Navigator.pop(context),
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                  ),
-                  const SizedBox(width: 1),
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        'Формат закупки',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
               ),
             ),
 
@@ -118,7 +110,7 @@ class _SwitchValueScreenState2 extends ConsumerState<SwitchValueScreen2> {
                   const SizedBox(width: 8),
                   Container(
                     height: 30,
-                    width:110,
+                    width: 125,
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
                       color: const Color(0xFF1D293A),
@@ -150,7 +142,7 @@ class _SwitchValueScreenState2 extends ConsumerState<SwitchValueScreen2> {
                           _handleRetailSwitch(true);
                         }
                       },
-                      icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
+                      icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white),
                       style: const TextStyle(color: Colors.white),
                       underline: Container(),
                     ),
@@ -238,60 +230,52 @@ class _SwitchValueScreenState2 extends ConsumerState<SwitchValueScreen2> {
             const Spacer(),
 
             // Continue Button
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.08),
-              child: ElevatedButton(
-                onPressed: isButtonEnabled
-                    ? () {
-                        if (isWholesaleSelected) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => FourthComponentWidget(
-                                hasShop: widget.hasShop,
-                              ),
-                            ),
-                          );
-                        } else if (isRetailSelected) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ThirdComponent(
-                                hasShop: widget.hasShop,
-                              ),
-                            ),
-                          );
-                        } else {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const NameDetailsScreen(),
-                            ),
-                          );
-                        }
-                      }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: isButtonEnabled
-                      ? const Color(0xFF1D293A)
-                      : const Color(0xFFA4ACB6),
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(195, 52),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                ),
-                child: const Text(
-                  'Продолжить',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
+            CustomButton(
+              width: 200,
+              onPressed: isButtonEnabled
+                  ? () {
+                    // if (isWholesaleSelected) {
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => FourthComponentWidget(
+                    //         hasShop: widget.hasShop,
+                    //       ),
+                    //     ),
+                    //   );
+                    // } else if (isRetailSelected) {
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => ThirdComponent(
+                    //         hasShop: widget.hasShop,
+                    //       ),
+                    //     ),
+                    //   );
+                    // } else {
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => const NameDetailsScreen(),
+                    //     ),
+                    //   );
+                    // }
+                  }
+                  : null,
+              shadowEnabled: false,
+              borderRadius: AppUtils.kBorderRadius18,
+              backgroundColor:isButtonEnabled
+                  ? const Color(0xFF1D293A)
+                  : const Color(0xFFA4ACB6),
+              label: const Text(
+                'Сохранить',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
               ),
             ),
-
             SizedBox(height: height * 0.03),
           ],
         ),

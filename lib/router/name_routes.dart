@@ -10,6 +10,11 @@ sealed class Routes { Routes._();
   static const String explore = "/explore";
   static const String otp = "/otp";
   static const String profilePage = "/profilePage";
+  static const String filterPage = "/filterPage";
+  static const String chatPage3 = "/chatPage3";
+  static const String buyFormat = "/buyFormat";
+
+
 
 
 

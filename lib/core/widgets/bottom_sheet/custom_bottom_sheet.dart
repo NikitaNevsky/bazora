@@ -43,12 +43,12 @@ Future<T?> customModalBottomSheet<T>({
   bool isScrollControlled = false,
   bool enableDrag = true,
   Color? backgroundColor
-}) async =>
-    showModalBottomSheet(
+}) async => showModalBottomSheet(
       backgroundColor: backgroundColor,
       context: context,
       isScrollControlled: isScrollControlled,
       enableDrag: enableDrag,
+      useRootNavigator: true,
       // constraints: BoxConstraints(
       //   maxHeight: context.kSize.height * 1,
       //   minHeight: context.kSize.height * 0.1,

@@ -1,9 +1,12 @@
 // import "package:chuck_interceptor/chuck_interceptor.dart";
+import "package:bazora/chatpage3.dart";
 import "package:bazora/features/auth/presentation/auth_page.dart";
 import "package:bazora/features/catalog/blocs/catalog_page_bloc.dart";
 import "package:bazora/features/catalog/presentation/catalogpage.dart";
 import "package:bazora/features/auth/presentation/otp/otp_screen.dart";
+import "package:bazora/filters.dart";
 import "package:bazora/profilepage.dart";
+import "package:bazora/switchvalue2.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
@@ -87,6 +90,27 @@ final GoRouter router = GoRouter(
       name: Routes.profilePage,
       parentNavigatorKey: rootNavigatorKey,
       builder: (_, __) => const ProfilePage(),
+    ),
+
+    GoRoute(
+      path: Routes.chatPage3,
+      name: Routes.chatPage3,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const ChatPage3(),
+    ),
+
+    GoRoute(
+      path: Routes.buyFormat,
+      name: Routes.buyFormat,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const SwitchValueScreen2(hasShop: true,),
+    ),
+
+    GoRoute(
+      path: Routes.filterPage,
+      name: Routes.filterPage,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const FilterPage(),
     ),
 
     GoRoute(

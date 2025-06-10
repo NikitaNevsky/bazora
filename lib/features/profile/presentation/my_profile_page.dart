@@ -1,3 +1,5 @@
+import 'package:bazora/core/utils/app_colors.dart';
+import 'package:bazora/features/profile/presentation/widgets/profile_item_widget.dart';
 import 'package:bazora/router/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -118,8 +120,7 @@ class MyProfilePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(23),
               ),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                 child: Row(
                   children: [
                     // Cashback container with navigation to Info2
@@ -274,140 +275,77 @@ class MyProfilePage extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(23),
+                      borderRadius: BorderRadius.circular(16),
                     ),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                     child: Column(
                       children: [
-                        // Мои адреса tile - wrapped with GestureDetector
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => SwitchValueScreen2(hasShop: false),
-                                fullscreenDialog: true,
-                              ),
-                            );
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(bottom: 8),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(23),
-                            ),
-                            child: SizedBox(
-                              height: 32,
-                              child: ListTile(
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                                leading: Icon(IconlyLight.location,
-                                    color: const Color(0xFF1D293A), size: 20),
-                                title: Text(
-                                  'Мои адреса',
-                                  style: GoogleFonts.inter(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                trailing: const Icon(Icons.chevron_right,
-                                    color: Color(0xFFB0B0B0), size: 18),
-                                minVerticalPadding: 0,
-                                dense: true,
-                              ),
-                            ),
-                          ),
+                        ProfileItemWidget(
+                          title: "Мои адреса",
+                          iconData: IconlyLight.location,
+                          onTap: () { },
                         ),
-                        const Divider(height: 1, indent: 16, endIndent: 16),
-                        // Формат закупки tile - wrapped with GestureDetector
-                        GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      barrierColor: Colors.black54,
-                      builder: (context) => Center(
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: FourthComponentWidget(hasShop: false),
-                          ),
+                        Divider(height: 1, color: AppColors.grey2.withOpacity(0.4)),
+                        ProfileItemWidget(
+                          title: "Формат закупки",
+                          iconData: IconlyLight.buy,
+                          onTap: () => context.pushNamed(Routes.buyFormat),
                         ),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 8),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 7),
+                  Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(23),
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                    child: SizedBox(
-                      height: 32,
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                        leading: Icon(IconlyLight.buy,
-                            color: const Color(0xFF1D293A), size: 20),
-                        title: Text(
-                          'Формат закупки',
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                    child: Column(
+                      children: [
+                        ProfileItemWidget(
+                          title: "Избранные (24)",
+                          iconData: IconlyLight.heart,
+                          onTap: () {},
                         ),
-                        trailing: const Icon(Icons.chevron_right,
-                            color: Color(0xFFB0B0B0), size: 18),
-                        minVerticalPadding: 0,
-                        dense: true,
-                      ),
-                    ),
-                  ),
+                        Divider(height: 1, color: AppColors.grey2.withOpacity(0.4)),
+                        ProfileItemWidget(
+                          title: "Заказы (8)",
+                          iconData: IconlyLight.time_circle,
+                          onTap: () {  },
+                        ),
+                        Divider(height: 1, color: AppColors.grey2.withOpacity(0.4)),
+                        ProfileItemWidget(
+                          title: "Отзывы (8)",
+                          iconData: IconlyLight.star,
+                          onTap: () {  },
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 7),
-                  // Group 2: next three tiles
                   Container(
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(23)),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                     child: Column(
                       children: [
-                        _ProfileListTile(
-                            icon: IconlyLight.heart, label: 'Избранные (24)'),
-                        const Divider(height: 1, indent: 16, endIndent: 16),
-                        _ProfileListTile(
-                          icon: IconlyBold.star,
-                          label: 'Отзывы (8)',
-                          iconColor: Color(0xFFE9D32C),
+                        ProfileItemWidget(
+                          title: "Служба поддержки",
+                          iconData: IconlyLight.calling,
+                          onTap: () {},
                         ),
-                        const Divider(height: 1, indent: 16, endIndent: 16),
-                        _ProfileListTile(
-                            icon: IconlyLight.time_circle,
-                            label: 'Заказы (8)'),
+                        Divider(height: 1, color: AppColors.grey2.withOpacity(0.4)),
+                        ProfileItemWidget(
+                          title: "Справочная информация",
+                          iconData: IconlyLight.info_square,
+                          onTap: () {  },
+                        ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 7),
-                  // Group 3: last two tiles
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(23)),
-                    padding: const EdgeInsets.only(bottom: 5),
-                    child: Column(
-                      children: [
-                        _ProfileListTile(
-                            icon: IconlyLight.calling,
-                            label: 'Служба поддержки'),
-                        const Divider(height: 1, indent: 16, endIndent: 16),
-                        _ProfileListTile(
-                            icon: IconlyLight.info_square,
-                            label: 'Справочная информация'),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 100),
                 ],
               ),
             ),

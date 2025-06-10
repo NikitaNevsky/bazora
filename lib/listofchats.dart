@@ -1,4 +1,10 @@
+import 'package:bazora/constants/image_constants.dart';
+import 'package:bazora/core/utils/app_colors.dart';
+import 'package:bazora/core/widgets/inputs/custom_text_field.dart';
+import 'package:bazora/router/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'features/catalog/presentation/catalogpage.dart';
@@ -58,74 +64,57 @@ class _ChatHeader extends StatelessWidget {
       decoration: const BoxDecoration(
         color: Color(0xFF1D293A),
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(12),
-          bottomRight: Radius.circular(12),
+          bottomLeft: Radius.circular(23),
+          bottomRight: Radius.circular(23),
         ),
       ),
-      padding: EdgeInsetsDirectional.fromSTEB(
-          0, isLargeScreen ? 80 : 60, 0, isLargeScreen ? 24 : 16),
+      padding: EdgeInsetsDirectional.fromSTEB(0, isLargeScreen ? 80 : 60, 0, isLargeScreen ? 24 : 16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 15),
-                  child: Center(
-                    child: Text(
-                      'Чаты',
-                      style: GoogleFonts.inter(
-                        color: Colors.white,
-                        fontSize: isLargeScreen ? 24 : 24,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          const Text(
+            'Чаты',
+            style: TextStyle(
+              color: Color(0xFFFFFFFF),
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          SizedBox(height: isLargeScreen ? 24 : 18),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            padding: const EdgeInsets.only(top: 25, left: 24, right: 24, bottom: 24),
             child: Row(
               children: [
                 Expanded(
                   child: Container(
-                    height: searchBarHeight,
+                    height: 44,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFEFF2F6),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Row(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 14.0),
-                          child: Icon(Icons.search, color: Color(0xFFA4ACB6)),
-                        ),
-                        Expanded(
-                          child: TextField(
-                            style: GoogleFonts.inter(
-                                color: const Color(0xFF1D293A),
-                                fontSize: isLargeScreen ? 18 : 14),
-                            decoration: const InputDecoration(
-                              hintText: 'Поиск по чатам',
-                              hintStyle: TextStyle(color: Color(0xFFA4ACB6)),
-                              border: InputBorder.none,
-                              isDense: true,
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 12),
-                            ),
-                          ),
-                        ),
-                      ],
+                    child: CustomTextField(
+                      autofillHints: const <String>[AutofillHints.newUsername],
+                      textInputAction: TextInputAction.next,
+                      textInputType: TextInputType.emailAddress,
+                      hintText: "Поиск по чатам",
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                        const BorderSide(color: Colors.transparent),
+                      ),
+                      cursorColor: AppColors.black,
+                      cursorHeight: 17,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: SvgPicture.asset(SvgIcons.icSearch),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                        const BorderSide(color: Colors.transparent),
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 14),
                 Container(
                   height: searchBarHeight,
                   width: searchBarHeight,
@@ -134,8 +123,7 @@ class _ChatHeader extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: IconButton(
-                    icon: const Icon(IconlyLight.filter,
-                        color: Color(0xFFA4ACB6)),
+                    icon: const Icon(IconlyLight.filter, color: Color(0xFFA4ACB6), size: 20,),
                     onPressed: () {},
                   ),
                 ),
@@ -178,15 +166,7 @@ class _ChatListItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (index < 2) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const ChatPage3()),
-          );
-        } else {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const ChatPage2()),
-          );
+          context.pushNamed(Routes.chatPage3);
         }
       },
       child: Container(

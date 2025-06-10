@@ -14,6 +14,9 @@ class ChatPage2 extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth > 600;
     return Scaffold(
+      appBar: AppBar(
+        title: Text("ASD"),
+      ),
       backgroundColor: const Color(0xFFF7F7F7),
       body: SafeArea(
         child: SingleChildScrollView(

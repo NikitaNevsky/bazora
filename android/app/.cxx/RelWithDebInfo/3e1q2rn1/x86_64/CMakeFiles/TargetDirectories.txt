@@ -1,0 +1,2 @@
+/Users/macplus/Downloads/Archive Zip Files/Nikita Nevskiy/bazora/android/app/.cxx/RelWithDebInfo/3e1q2rn1/x86_64/CMakeFiles/edit_cache.dir
+/Users/macplus/Downloads/Archive Zip Files/Nikita Nevskiy/bazora/android/app/.cxx/RelWithDebInfo/3e1q2rn1/x86_64/CMakeFiles/rebuild_cache.dir

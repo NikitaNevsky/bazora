@@ -13,7 +13,7 @@ sealed class SvgIcons {
   static const String icLogo = "assets/images/svg/logo.svg";
   static const String icFillCategory = "assets/images/svg/fill_category.svg";
   static const String icCategory = "assets/images/svg/category.svg";
-  static const String icSearch = "assets/images/svg/search.svg";
+  static const String icSearchInfo = "assets/images/svg/search.svg";
   static const String icProfile = "assets/images/svg/profile.svg";
   static const String icChat = "assets/images/svg/chat.svg";
   static const String icFillChat = "assets/images/svg/fill_chat.svg";
@@ -22,5 +22,7 @@ sealed class SvgIcons {
   static const String icFillProfile = "assets/images/svg/fill_profile.svg";
   static const String icDocumentList = "assets/images/svg/document_list.svg";
   static const String icFillDocumentList = "assets/images/svg/fill_document_list.svg";
+  static const String icSearch = "assets/images/svg/ic_search.svg";
+  static const String icUnHeart = "assets/images/svg/un_heart.svg";
 
 }

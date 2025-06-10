@@ -1,16 +1,19 @@
+import 'package:bazora/constants/image_constants.dart';
+import 'package:bazora/core/utils/app_colors.dart';
+import 'package:bazora/core/widgets/bottom_sheet/custom_bottom_sheet.dart';
+import 'package:bazora/core/widgets/inputs/custom_text_field.dart';
+import 'package:bazora/features/catalog/presentation/widgets/filter_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:math' as math;
 import 'package:iconly/iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../orders/presentation/orders_list_right.dart';
 import '../../cart/presentation/wholesale_page_right.dart';
-import '../../../chatpage.dart';
-import '../../profile/presentation/my_profile_page.dart';
 import '../../../Productdetails.dart';
 import '../../../listofchats.dart';
-import '../../../filters.dart';
 
-// Constants
+
 const _primaryColor = Color(0xFF1D293A);
 const _secondaryColor = Color(0xFFEFF2F6);
 const _textColor = Color(0xFFA4ACB6);
@@ -167,7 +170,7 @@ class _CatalogPageState extends State<CatalogPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 25, left: 14, right: 14),
+            padding: const EdgeInsets.only(top: 25, left: 24, right: 24, bottom: 24),
             child: Row(
               children: [
                 Expanded(
@@ -177,13 +180,26 @@ class _CatalogPageState extends State<CatalogPage> {
                       color: _secondaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const TextField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: Icon(Icons.search, color: _textColor),
-                        hintText: 'Хочу купить…',
-                        hintStyle: TextStyle(color: _textColor),
-                        contentPadding: EdgeInsets.symmetric(vertical: 11),
+                    child: CustomTextField(
+                      autofillHints: const <String>[AutofillHints.newUsername],
+                      textInputAction: TextInputAction.next,
+                      textInputType: TextInputType.emailAddress,
+                      hintText: "Хочу купить…",
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                        const BorderSide(color: Colors.transparent),
+                      ),
+                      cursorColor: AppColors.black,
+                      cursorHeight: 17,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: SvgPicture.asset(SvgIcons.icSearch),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                        const BorderSide(color: Colors.transparent),
                       ),
                     ),
                   ),
@@ -197,8 +213,16 @@ class _CatalogPageState extends State<CatalogPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: IconButton(
-                    icon: const Icon(IconlyLight.filter, color: _textColor),
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const FilterPage())),
+                    icon: const Icon(IconlyLight.filter, color: _textColor, size: 20),
+                    onPressed: () async {
+                      await customModalBottomSheet<void>(
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        enableDrag: true,
+                        isScrollControlled: true,
+                        builder: (BuildContext ctx, _) => FilterBottomSheet()
+                      );
+                    },
                   ),
                 ),
               ],
@@ -252,13 +276,13 @@ class _CatalogPageState extends State<CatalogPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Категории', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                Text('Категории', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12)),
                 _ViewAllButton(),
               ],
             ),
           ),
           SizedBox(
-            height: 120,
+            height: 108,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.only(left: 4, right: 4),
@@ -276,7 +300,7 @@ class _CatalogPageState extends State<CatalogPage> {
 
   Widget _buildProductsGrid(bool isMobile) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 5),
       child: Column(
         children: List.generate(3, (row) => Column(
           children: [
@@ -399,9 +423,9 @@ class _ViewAllButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 45,
-      height: 17,
-      padding: const EdgeInsets.only(right: 4),
+      width: 50,
+      height: 18,
+      padding: const EdgeInsets.only(right: 4, left: 4),
       decoration: BoxDecoration(
         color: const Color(0xFFD6E6FC),
         borderRadius: BorderRadius.circular(8),
@@ -453,12 +477,11 @@ class _CategoryCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.asset(item['image']!, width: 70, height: 70),
+              child: Image.asset(item['image']!, width: 65, height: 65),
             ),
-            const SizedBox(height: 8),
             Text(
               item['name']!,
-              style: const TextStyle(color: _primaryColor, fontSize: 14, fontWeight: FontWeight.w500),
+              style: const TextStyle(color: _primaryColor, fontSize: 12, fontWeight: FontWeight.w400),
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -481,7 +504,7 @@ class _ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: GestureDetector(
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProductDetails())),
+        // onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProductDetails())),
         child: Container(
           constraints: BoxConstraints(minHeight: isMobile ? 205 : 235),
           margin: EdgeInsets.symmetric(vertical: 2, horizontal: isMobile ? 2.5 : 0),
@@ -496,11 +519,11 @@ class _ProductCard extends StatelessWidget {
               Stack(
                 children: [
                   Container(
-                    height: isMobile ? 170 : 200,
+                    height: isMobile ? 230 : 200,
                     width: double.infinity,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: _white,
-                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(top: 4, left: 4, right: 4),
@@ -516,8 +539,8 @@ class _ProductCard extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 10,
-                    right: 5,
+                    top: 3,
+                    right: 1,
                     child: IconButton(
                       onPressed: () => (context.findAncestorStateOfType<_CatalogPageState>()?._toggleFavorite(index)),
                       icon: Container(
@@ -570,7 +593,7 @@ class _ProductCard extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: isMobile ? 2 : 4),
-                    Text(product['name'], style: TextStyle(fontSize: isMobile ? 10 : 12), maxLines: 2),
+                    Text(product['name'], style: TextStyle(fontSize: isMobile ? 14 : 12, fontWeight: FontWeight.w400), maxLines: 2),
                   ],
                 ),
               ),
@@ -591,7 +614,7 @@ class _ProductCard extends StatelessWidget {
                       children: [
                         const Icon(IconlyLight.buy, color: _white, size: 16),
                         SizedBox(width: isMobile ? 4 : 8),
-                        const Flexible(child: Text('В корзину', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12))),
+                        const Flexible(child: Text('В корзину', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14))),
                       ],
                     ),
                   ),

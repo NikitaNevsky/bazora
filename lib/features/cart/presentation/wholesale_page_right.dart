@@ -27,7 +27,7 @@ class _WholesalePageRightState extends State<WholesalePageRight> {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9F9),
       appBar: AppBar(
-        toolbarHeight: 145,
+        toolbarHeight: 100,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(23),
