@@ -74,6 +74,7 @@ sealed class AppUtils {
   static const BorderRadius kBorderRadius2     = BorderRadius.all(Radius.circular(2));
   static const BorderRadius kBorderRadius4     = BorderRadius.all(Radius.circular(4));
   static const BorderRadius kBorderRadius6     = BorderRadius.all(Radius.circular(6));
+  static const BorderRadius kBorderRadius10     = BorderRadius.all(Radius.circular(10));
   static const BorderRadius kBorderRadius8     = BorderRadius.all(Radius.circular(8));
   static const BorderRadius kBorderRadius12    = BorderRadius.all(Radius.circular(12));
   static const BorderRadius kBorderRadius16    = BorderRadius.all(Radius.circular(16));

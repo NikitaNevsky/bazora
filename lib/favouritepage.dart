@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
-import 'Productdetails.dart';
+import 'features/catalog/presentation/product_detail/Productdetails.dart';
 import 'package:iconly/iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'filters.dart';

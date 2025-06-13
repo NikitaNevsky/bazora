@@ -26,7 +26,7 @@ mixin SplashMixin on State<SplashPage> {
   Future<void> nextToNavigation() async {
     print("TOKEN: ${localSource.accessToken}");
     if (localSource.accessToken.isEmpty)  {
-      context.goNamed(Routes.auth);
+      context.goNamed(Routes.explore);
     } else {
       context.goNamed(Routes.explore);
     }

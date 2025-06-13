@@ -3,7 +3,6 @@ import "package:bazora/features/profile/presentation/my_profile_page.dart";
 import "package:bazora/listofchats.dart";
 import "package:bazora/features/orders/presentation/orders_list_right.dart";
 import "package:bazora/features/cart/presentation/wholesale_page_right.dart";
-import "package:bazora/profilepage.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:go_router/go_router.dart";
@@ -64,18 +63,15 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => PopScope(
-        canPop: navigationShell.currentIndex != 0,
-        onPopInvoked: (bool v) => navigationShell.goBranch(0),
-        child: PersistentTabView(
-          tabs: _tabs(),
-          navBarBuilder: (navBarConfig) => Style1BottomNavBar(navBarConfig: navBarConfig,),
-        ),
-      );
+    canPop: navigationShell.currentIndex != 0,
+    onPopInvoked: (bool v) => navigationShell.goBranch(0),
+    child: PersistentTabView(
+      tabs: _tabs(),
+      navBarBuilder: (navBarConfig) => Style1BottomNavBar(navBarConfig: navBarConfig,),
+    ),
+  );
 
-  void changeTap(
-    int index,
-    BuildContext context,
-  ) {
+  void changeTap(int index, BuildContext context) {
     navigationShell.goBranch(
       index,
       initialLocation: index == navigationShell.currentIndex,

@@ -1,10 +1,17 @@
+import 'dart:ui';
+
+import 'package:bazora/constants/image_constants.dart';
+import 'package:bazora/core/utils/app_colors.dart';
+import 'package:bazora/core/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:iconly/iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'features/catalog/presentation/catalogpage.dart';
-import 'listofchats.dart';
-import 'reviewscreen.dart';
+import '../catalogpage.dart';
+import '../../../../listofchats.dart';
+import '../../../../reviewscreen.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails({Key? key}) : super(key: key);
@@ -14,6 +21,7 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+
   final _pageController = PageController();
   bool isFavorite = false, isSubscribed = false;
   int _counter = 1;
@@ -25,70 +33,70 @@ class _ProductDetailsState extends State<ProductDetails> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7F7),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.zero,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF7F7F7), 
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
-                ),
-              ),
-              child: Column(
-                children: [
-                  _buildAppBar(context, isLargeScreen),
-                  const SizedBox(height: 16),
-                  _buildImageSlider(isLargeScreen),
-                  _buildPromoTags(isLargeScreen),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 7),
-                    child: _buildProductInfo(isLargeScreen),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: _buildMiniBigOptRow(isLargeScreen),
-                  ),
-                  _buildPriceOptions(isLargeScreen),
-                  _buildSectionTitle('Похожие товары'),
-                  _buildSimilarProductsGrid(),
-                  _buildReviews(isLargeScreen),
-                  const SizedBox(height: 16),
-                  _buildComplaintWidget(),
-                  const SizedBox(height: 39),
-                  _buildBottomBar(context, isLargeScreen),
-                ],
-              ),
-            ),
-          ],
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, size: isLargeScreen ? 32 : 24),
+          onPressed: () => Navigator.pop(context),
         ),
-      ),
-    );
-  }
-
-  // App Bar
-  Widget _buildAppBar(BuildContext context, bool isLargeScreen) {
-    return Padding(
-      padding: EdgeInsets.all(isLargeScreen ? 32 : 16),
-      child: Row(
-        children: [
-          IconButton(
-            icon: Icon(Icons.arrow_back, size: isLargeScreen ? 32 : 24),
-            onPressed: () => Navigator.pop(context),
+        title: Center(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(icon: const Icon(Icons.copy, color: Colors.transparent, size: 20), onPressed: () {}),
+              Text('Арт.: USX1223u3', style: GoogleFonts.inter(fontWeight: FontWeight.w500, fontSize: isLargeScreen ? 18 : 12)),
+              IconButton(icon: Icon(Icons.copy, color: Colors.grey[600], size: 20), onPressed: () {}),
+            ],
           ),
-          const Spacer(),
-          Text('Арт.: USX1223u3', style: GoogleFonts.inter(fontWeight: FontWeight.w500, fontSize: isLargeScreen ? 18 : 12)),
-          IconButton(icon: Icon(Icons.copy, color: Colors.grey[600], size: 20), onPressed: () {}),
-          const Spacer(),
+        ),
+        actions: [
           IconButton(
             icon: Icon(isFavorite ? IconlyBold.heart : IconlyLight.heart, size: 24, color: isFavorite ? Colors.red : Colors.black),
             onPressed: () => setState(() => isFavorite = !isFavorite),
           ),
           IconButton(icon: const Icon(IconlyLight.upload, size: 24), onPressed: () {}),
         ],
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                margin: EdgeInsets.zero,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFF7F7F7),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    _buildImageSlider(isLargeScreen),
+                    _buildPromoTags(isLargeScreen),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+                      child: _buildProductInfo(isLargeScreen),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: _buildMiniBigOptRow(isLargeScreen),
+                    ),
+                    _buildPriceOptions(isLargeScreen),
+                    _buildSectionTitle('Похожие товары'),
+                    _buildSimilarProductsGrid(),
+                    _buildReviews(isLargeScreen),
+                    const SizedBox(height: 16),
+                    _buildComplaintWidget(),
+                    const SizedBox(height: 39),
+                    _buildBottomBar(context, isLargeScreen),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -102,15 +110,15 @@ class _ProductDetailsState extends State<ProductDetails> {
         Container(
           width: double.infinity,
           color: const Color(0xFFEFF2F6),
-          height: isLargeScreen ? 400 : 273,
+          height: isLargeScreen ? 400 : 240,
           child: PageView.builder(
             controller: _pageController,
             itemCount: images.length,
-            itemBuilder: (_, i) => Image.asset(images[i], fit: BoxFit.cover, errorBuilder: (_, __, ___) => 
+            itemBuilder: (_, i) => Image.asset(images[i], fit: BoxFit.cover, errorBuilder: (_, __, ___) =>
               Center(child: Icon(Icons.error_outline, size: isLargeScreen ? 60 : 40))),
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 15),
         Padding(
           padding: const EdgeInsets.only(bottom: 5),
           child: SmoothPageIndicator(
@@ -124,6 +132,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
           ),
         ),
+        const SizedBox(height: 8),
       ],
     );
   }
@@ -139,9 +148,9 @@ class _ProductDetailsState extends State<ProductDetails> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _buildTag('Кэшбэк', IconlyLight.discount, isLargeScreen),
-            SizedBox(width: isLargeScreen ? 32 : 16),
+            SizedBox(width: isLargeScreen ? 32 : 8),
             _buildTag('Баллы за отзывы', IconlyLight.star, isLargeScreen),
-            SizedBox(width: isLargeScreen ? 32 : 16),
+            SizedBox(width: isLargeScreen ? 32 : 8),
             _buildTag('Бесплатная', IconlyLight.paper_upload, isLargeScreen),
           ],
         ),
@@ -172,7 +181,7 @@ class _ProductDetailsState extends State<ProductDetails> {
  // Product Info
 Widget _buildProductInfo(bool isLargeScreen) {
   return Padding(
-    padding: const EdgeInsets.only(top: 15),
+    padding: const EdgeInsets.only(top: 6),
     child: Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -209,17 +218,12 @@ Widget _buildProductInfo(bool isLargeScreen) {
                         width: 45,
                         height: 45,
                         decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: AppColors.white),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.network(
-                            'https://imagess.unsplash.com/photo-1546868871-7041f2a55e12?w=200&h=200&fit=crop',
-                            width: 45,
-                            height: 45,
-                            fit: BoxFit.cover,
-                          ),
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(ImagesUrl.icTestImage),
                         ),
                       ),
                     ),
@@ -229,17 +233,12 @@ Widget _buildProductInfo(bool isLargeScreen) {
                         width: 45,
                         height: 45,
                         decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: AppColors.white),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.network(
-                            'https://imagess.unsplash.com/photo-1523275335684-37898baf30?w=200&h=200&fit=crop',
-                            width: 45,
-                            height: 45,
-                            fit: BoxFit.cover,
-                          ),
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(ImagesUrl.icTestImage),
                         ),
                       ),
                     ),
@@ -249,18 +248,26 @@ Widget _buildProductInfo(bool isLargeScreen) {
                         width: 45,
                         height: 45,
                         decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: AppColors.white),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.network(
-                            'https://imagess.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&h=200&fit=crop',
-                            width: 45,
-                            height: 45,
-                            fit: BoxFit.cover,
+                          borderRadius: BorderRadius.circular(10),
+                          child: Stack(
+                            children: [
+                              Image.asset(ImagesUrl.icTestImage),
+                              Center(
+                                child: BackdropFilter(
+                                  filter: ImageFilter.blur(sigmaX: 1, sigmaY: 5.0),
+                                  child: Text(
+                                    '+450',
+                                    style: TextStyle(fontSize: 10, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
+                                                  ),
                       ),
                     ),
                   ],
@@ -450,7 +457,6 @@ Widget _buildMemoryOption(String text, bool selected, bool isLargeScreen) {
   Widget _buildPriceOptions(bool isLargeScreen) {
     return Container(
       width: double.infinity,
-      height: 108,
       margin: EdgeInsets.symmetric(horizontal: isLargeScreen ? 0 : 8),
       padding: EdgeInsets.all(isLargeScreen ? 24 : 16),
       decoration: BoxDecoration(
@@ -558,7 +564,7 @@ Widget _buildMemoryOption(String text, bool selected, bool isLargeScreen) {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, color: icon == IconlyBold.star ? const Color(0xFFE9D32C) : const Color(0xFF1D293A), size: 12),
-          Text(text, style: TextStyle(fontWeight: FontWeight.w600, fontSize: text == 'Чат' ? 12 : 14)),
+          Text(text, style: TextStyle(fontWeight: FontWeight.w400, fontSize: text == 'Чат' ? 10 : 10)),
         ],
       ),
     );
@@ -627,7 +633,7 @@ Widget _buildMemoryOption(String text, bool selected, bool isLargeScreen) {
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(10),
             boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 8, offset: const Offset(0, 2))],
           ),
           child: Stack(
@@ -636,17 +642,15 @@ Widget _buildMemoryOption(String text, bool selected, bool isLargeScreen) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 170,
+                    height: 200,
+                    padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFEFF2F6),
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
+                      // color: const Color(0xFFEFF2F6),
+                      borderRadius: AppUtils.kBorderRadius8,
                     ),
                     child: ClipRRect(
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6),
-                        child: Image.asset(image, fit: BoxFit.cover, width: double.infinity, height: double.infinity),
-                      ),
+                      borderRadius: AppUtils.kBorderRadius8,
+                      child: Image.asset(image, fit: BoxFit.cover, width: double.infinity, height: double.infinity),
                     ),
                   ),
                   Padding(
@@ -738,20 +742,20 @@ Widget _buildMemoryOption(String text, bool selected, bool isLargeScreen) {
       padding: const EdgeInsets.symmetric(vertical: 23),
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(19, 10, 0, 0),
+          const Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(19, 10, 0, 0),
             child: Row(
               children: [
-                const Text('Отзывы', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                const Spacer(),
-                const Text('4.5', style: TextStyle(color: Color(0xFF1A8357))),
-                const Padding(
+                Text('Отзывы', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                Spacer(),
+                Text('4.5', style: TextStyle(color: Color(0xFF1A8357))),
+                Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(4, 0, 4, 0),
                   child: Icon(Icons.star, color: Colors.amber, size: 18),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 16),
-                  child: const Text('(13 отзывов)', style: TextStyle(color: Color(0xFF1A8357))),
+                  padding: EdgeInsets.only(right: 16),
+                  child: Text('(13 отзывов)', style: TextStyle(color: Color(0xFF1A8357))),
                 ),
               ],
             ),

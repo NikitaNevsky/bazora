@@ -1,3 +1,5 @@
+import 'package:bazora/core/extension/custom_snackbar/custom_snack_bar.dart';
+import 'package:bazora/core/extension/custom_snackbar/top_snack_bar.dart';
 import 'package:bazora/core/utils/app_colors.dart';
 import 'package:bazora/features/profile/presentation/widgets/profile_item_widget.dart';
 import 'package:bazora/router/app_routes.dart';
@@ -5,10 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
-import '../../../info1.dart' as info1;
-import '../../../info2.dart' as info2;
-import '../../../switchvalue2.dart';
-import '../../../fourthcomponent.dart';
 
 class MyProfilePage extends StatelessWidget {
   const MyProfilePage({super.key});
@@ -60,14 +58,13 @@ class MyProfilePage extends StatelessWidget {
             ),
             // Top Card Row
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(23),
               ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Row(
                   children: [
                     Expanded(
@@ -114,7 +111,7 @@ class MyProfilePage extends StatelessWidget {
             ),
             // Cashback & Referral Row
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(23),
@@ -127,13 +124,22 @@ class MyProfilePage extends StatelessWidget {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => info2.Info2()),
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (_) => info2.Info2()),
+                          // );
+                          showTopSnackBar(
+                            Overlay.of(context),
+                            const CustomSnackBar.info(
+                              leftIcon: true,
+                              title: "Кэшбэк баллы",
+                              backgroundColor: AppColors.white,
+                              message: "Вы можете использовать баллы для оплаты заказов из расчета 1 балл = 1 рубль. Оплата оптового заказа возможна до 10% от итоговой суммы, розничного заказа - до 5%",
+                            ),
                           );
                         },
                         child: SizedBox(
-                          height: 92,
+                          height: 80,
                           child: Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
@@ -149,17 +155,16 @@ class MyProfilePage extends StatelessWidget {
                                   children: [
                                     Transform.rotate(
                                       angle: 0.0,
-                                      child: Icon(IconlyLight.discount,
-                                          size: 16, color: Color(0xFFEFF2F6)),
+                                      child: const Icon(IconlyLight.discount, size: 16, color: Color(0xFFEFF2F6)),
                                     ),
                                     const SizedBox(width: 4),
-                                    Text('Кэшбэк баллы, ₽',
-                                        style: GoogleFonts.inter(
-                                            fontSize: 12,
-                                            color: Color(0xFFEFF2F6))),
+                                    Text(
+                                      'Кэшбэк баллы, ₽',
+                                      style: GoogleFonts.inter(fontSize: 12, color: Color(0xFFEFF2F6)),
+                                    ),
                                   ],
                                 ),
-                                const SizedBox(height: 6),
+                                const SizedBox(height: 12),
                                 Text('680',
                                     style: GoogleFonts.inter(
                                         fontSize: 18,
@@ -176,13 +181,22 @@ class MyProfilePage extends StatelessWidget {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => info1.Info1()),
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (_) => info1.Info1()),
+                          // );
+                          showTopSnackBar(
+                            Overlay.of(context),
+                            const CustomSnackBar.info(
+                              leftIcon: true,
+                              title: "Реферальный код скопирован",
+                              backgroundColor: AppColors.white,
+                              message: "Делитесь реферальным кодом с знакомыми и получайте вознаграждение по реферальной программе",
+                            ),
                           );
                         },
                         child: SizedBox(
-                          height: 92,
+                          height: 80,
                           child: Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
@@ -231,7 +245,7 @@ class MyProfilePage extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 6),
+                                          const SizedBox(height: 12),
                                           Row(
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment:
@@ -269,7 +283,7 @@ class MyProfilePage extends StatelessWidget {
             const SizedBox(height: 7),
             // Profile Options List
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 children: [
                   Container(
@@ -306,7 +320,7 @@ class MyProfilePage extends StatelessWidget {
                         ProfileItemWidget(
                           title: "Избранные (24)",
                           iconData: IconlyLight.heart,
-                          onTap: () {},
+                          onTap: () => context.pushNamed(Routes.favoritePage),
                         ),
                         Divider(height: 1, color: AppColors.grey2.withOpacity(0.4)),
                         ProfileItemWidget(
@@ -335,13 +349,13 @@ class MyProfilePage extends StatelessWidget {
                         ProfileItemWidget(
                           title: "Служба поддержки",
                           iconData: IconlyLight.calling,
-                          onTap: () {},
+                          onTap: () => context.pushNamed(Routes.supportPage),
                         ),
                         Divider(height: 1, color: AppColors.grey2.withOpacity(0.4)),
                         ProfileItemWidget(
                           title: "Справочная информация",
                           iconData: IconlyLight.info_square,
-                          onTap: () {  },
+                          onTap: () => context.pushNamed(Routes.referenceInfoPage),
                         ),
                       ],
                     ),
@@ -415,45 +429,6 @@ class _TopStatCard extends StatelessWidget {
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _ProfileListTile extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final Color? iconColor;
-  const _ProfileListTile(
-      {required this.icon, required this.label, this.iconColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(23),
-      ),
-      child: SizedBox(
-        height: 32,
-        child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-          leading:
-              Icon(icon, color: iconColor ?? const Color(0xFF1D293A), size: 20),
-          title: Text(
-            label,
-            style: GoogleFonts.inter(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          trailing: const Icon(Icons.chevron_right,
-              color: Color(0xFFB0B0B0), size: 18),
-          onTap: () {},
-          minVerticalPadding: 0,
-          dense: true,
-        ),
       ),
     );
   }

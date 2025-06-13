@@ -3,6 +3,8 @@ sealed class ImagesUrl {
 
   static const String icBoxEmpty = "assets/imagess/webp/ic_box_empty.webp";
   static const String icCategory = "assets/imagess/category.png";
+  static const String icEmptyNotification = "assets/images/png/empty_notification.png";
+  static const String icTestImage = "assets/images/png/test_image.png";
 
 
 }
@@ -24,5 +26,8 @@ sealed class SvgIcons {
   static const String icFillDocumentList = "assets/images/svg/fill_document_list.svg";
   static const String icSearch = "assets/images/svg/ic_search.svg";
   static const String icUnHeart = "assets/images/svg/un_heart.svg";
+  static const String icLogout = "assets/images/svg/logout.svg";
+  static const String icDeleteUser = "assets/images/svg/delete_user.svg";
+  static const String icCamera = "assets/images/svg/camera.svg";
 
 }

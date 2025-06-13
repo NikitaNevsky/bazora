@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart'; // Add this import
 import 'package:google_fonts/google_fonts.dart';
 import '../../catalog/presentation/catalogpage.dart';
-import '../../../profilepage.dart';
+import '../../profile/presentation/edit_profile/profilepage.dart';
 import '../../../chatpage.dart';
 import '../../../listofchats.dart';
 import '../../profile/presentation/my_profile_page.dart';
@@ -17,11 +17,9 @@ class WholesalePageRight extends StatefulWidget {
 
 class _WholesalePageRightState extends State<WholesalePageRight> {
   bool selectAll = true;
-  List<bool> selectedItems = [true, true, true]; // Example: 3 items
-  bool usePoints = false; // toggles using points
-  int quantity =
-      2; // Add this at the top of the class with other state variables
-
+  List<bool> selectedItems = [true, true, true];
+  bool usePoints = false;
+  int quantity = 2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,7 +153,7 @@ class _WholesalePageRightState extends State<WholesalePageRight> {
             ),
           ),
           _summarySection(),
-          const SizedBox(height: 90)
+          SizedBox(height: 90)
         ],
       ),
     );
@@ -171,8 +169,7 @@ class _WholesalePageRightState extends State<WholesalePageRight> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Магазин: App Store',
-              style: const TextStyle(fontWeight: FontWeight.bold)),
+          const Text('Магазин: App Store', style: TextStyle(fontWeight: FontWeight.bold)),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 16),
             width: double.infinity,
@@ -231,15 +228,12 @@ class _WholesalePageRightState extends State<WholesalePageRight> {
                             selectAll = selectedItems.every((e) => e);
                           });
                         },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(3),
-                        ),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
                         side: const BorderSide(color: Colors.white, width: 2),
                         checkColor: Colors.white,
                         activeColor: const Color(0xFF232A36),
                         splashRadius: 0,
-                        overlayColor:
-                            MaterialStateProperty.all(Colors.transparent),
+                        overlayColor: MaterialStateProperty.all(Colors.transparent),
                       ),
                     ),
                   ),
@@ -261,8 +255,7 @@ class _WholesalePageRightState extends State<WholesalePageRight> {
                             color: const Color(0xFFA4ACB6),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: Icon(IconlyLight.heart,
-                              size: 16, color: const Color(0xFFDFE5ED)),
+                          child: const Icon(IconlyLight.heart, size: 16, color: Color(0xFFDFE5ED)),
                         ),
                         const SizedBox(width: 4),
                         Container(
@@ -273,8 +266,7 @@ class _WholesalePageRightState extends State<WholesalePageRight> {
                             color: const Color(0xFFA4ACB6),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: Icon(IconlyLight.delete,
-                              size: 16, color: const Color(0xFFDFE5ED)),
+                          child: const Icon(IconlyLight.delete, size: 16, color: Color(0xFFDFE5ED)),
                         ),
                       ],
                     ),
@@ -291,18 +283,15 @@ class _WholesalePageRightState extends State<WholesalePageRight> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('1 650 000 ₽',
-                        style:
-                            TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                    const Text('1 650 000 ₽', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                     const SizedBox(height: 4),
                     Container(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE3F4FF),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -312,8 +301,8 @@ class _WholesalePageRightState extends State<WholesalePageRight> {
                             size: 14,
                             color: Colors.black,
                           ),
-                          const SizedBox(width: 4),
-                          const Text(
+                          SizedBox(width: 4),
+                          Text(
                             '3 550 ₽ кешбэк',
                             style: TextStyle(
                               color: Colors.black,
@@ -327,8 +316,7 @@ class _WholesalePageRightState extends State<WholesalePageRight> {
                   ],
                 ),
                 const SizedBox(height: 6),
-                const Text('Macbook Air M1 (A2337)',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                const Text('Macbook Air M1 (A2337)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                 const SizedBox(height: 4),
                 Row(
                   children: [

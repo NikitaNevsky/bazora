@@ -45,5 +45,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>Rasmlarni yuklash va saqlash uchun ruxsat talab qilinadi</string>
+   	<key>NSDocumentsUsageDescription</key>
+   	<string>Bu ilova fayllarni yuklash uchun foydalaniladi.</string>
+   	<key>NSPhotoLibraryAddUsageDescription</key>
+   	<string>Bu ilova fayllarni yuklash uchun foydalaniladi.</string>
 </dict>
 </plist>

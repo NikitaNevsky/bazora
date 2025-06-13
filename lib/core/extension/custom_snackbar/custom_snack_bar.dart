@@ -31,6 +31,8 @@ class CustomSnackBar extends StatefulWidget {
     this.borderRadius = kDefaultBorderRadius,
     this.textScaleFactor = 1.0,
     this.textAlign = TextAlign.center,
+    this.leftIcon,
+    this.title,
   }) : super(key: key);
 
   const CustomSnackBar.info({
@@ -57,6 +59,8 @@ class CustomSnackBar extends StatefulWidget {
     this.borderRadius = kDefaultBorderRadius,
     this.textScaleFactor = 1.0,
     this.textAlign = TextAlign.center,
+    this.leftIcon,
+    this.title,
   }) : super(key: key);
 
   const CustomSnackBar.error({
@@ -83,6 +87,8 @@ class CustomSnackBar extends StatefulWidget {
     this.borderRadius = kDefaultBorderRadius,
     this.textScaleFactor = 1.0,
     this.textAlign = TextAlign.center,
+    this.leftIcon = false,
+    this.title
   }) : super(key: key);
 
   final String message;
@@ -99,6 +105,8 @@ class CustomSnackBar extends StatefulWidget {
   final EdgeInsetsGeometry messagePadding;
   final double textScaleFactor;
   final TextAlign textAlign;
+  final bool? leftIcon;
+  final String? title;
 
   @override
   CustomSnackBarState createState() => CustomSnackBarState();
@@ -109,8 +117,9 @@ class CustomSnackBarState extends State<CustomSnackBar> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      clipBehavior: Clip.hardEdge,
-      height: 60,
+      // clipBehavior: Clip.hardEdge,
+      // height: 60,
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
       decoration: BoxDecoration(
         color: widget.backgroundColor,
         borderRadius: widget.borderRadius,
@@ -118,33 +127,48 @@ class CustomSnackBarState extends State<CustomSnackBar> {
       ),
       width: double.infinity,
       child: Row(
+        mainAxisAlignment: (widget.leftIcon ?? false) ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: [
           // SizedBox(
           //   height: 40,
           //   width: 40,
           //   child: widget.icon,
           // ),
-          Container(
+          if (widget.leftIcon ?? false)
+            const SizedBox()
+          else
+            Container(
             height: 40,
             width: 40,
             margin: const EdgeInsets.symmetric(horizontal: 10),
             padding: AppUtils.kPaddingAll8,
             decoration: BoxDecoration(
-                color: widget.type ? const Color(0xff26BD6C).withOpacity(0.15) : const Color(0xffE6483D).withOpacity(0.15),
-                borderRadius: AppUtils.kBorderRadius12
+              color: widget.type ? const Color(0xff26BD6C).withOpacity(0.15) : const Color(0xffE6483D).withOpacity(0.15),
+              borderRadius: AppUtils.kBorderRadius12
             ),
             child: widget.icon,
           ),
-          Center(
-            child: SizedBox(
-                width: 250,
-                child: Text(
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (widget.title?.isNotEmpty ?? false) Text(
+                    widget.title ?? "",
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: const TextStyle(decoration: TextDecoration.none, color: AppColors.black, fontWeight: FontWeight.w600, fontSize: 15),
+                  )
+                else
+                  const SizedBox(),
+                AppUtils.kGap4,
+                Text(
                   widget.message,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: const TextStyle(decoration: TextDecoration.none, color: AppColors.black, fontWeight: FontWeight.w500, fontSize: 15),
+                  maxLines: 10,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(decoration: TextDecoration.none, color: AppColors.black, fontWeight: FontWeight.w400, fontSize: 12),
                 ),
-              ),
+              ],
+            ),
           ),
         ],
       ),

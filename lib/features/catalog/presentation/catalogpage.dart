@@ -3,14 +3,16 @@ import 'package:bazora/core/utils/app_colors.dart';
 import 'package:bazora/core/widgets/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:bazora/core/widgets/inputs/custom_text_field.dart';
 import 'package:bazora/features/catalog/presentation/widgets/filter_bottom_sheet.dart';
+import 'package:bazora/router/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:math' as math;
 import 'package:iconly/iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../orders/presentation/orders_list_right.dart';
 import '../../cart/presentation/wholesale_page_right.dart';
-import '../../../Productdetails.dart';
+import 'product_detail/Productdetails.dart';
 import '../../../listofchats.dart';
 
 
@@ -100,7 +102,7 @@ class _CatalogPageState extends State<CatalogPage> {
               ),
             ),
           ),
-          const SizedBox(height: 90)
+          SizedBox(height: MediaQuery.of(context).padding.bottom)
         ],
       ),
     );
@@ -110,9 +112,9 @@ class _CatalogPageState extends State<CatalogPage> {
     return Container(
       height: 197,
       constraints: const BoxConstraints(minWidth: 360, maxWidth: 500),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: _primaryColor,
-        borderRadius: const BorderRadius.only(
+        borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(23), 
           bottomRight: Radius.circular(23),
         ),
@@ -164,7 +166,7 @@ class _CatalogPageState extends State<CatalogPage> {
                 const Spacer(),
                 IconButton(
                   icon: const Icon(IconlyLight.notification, color: _white),
-                  onPressed: () {},
+                  onPressed: () => context.pushNamed(Routes.notificationPage),
                 ),
               ],
             ),
@@ -236,7 +238,6 @@ class _CatalogPageState extends State<CatalogPage> {
   Widget _buildPromoBanner(bool isMobile) {
     return Container(
       height: 190,
-      margin: const EdgeInsets.only(bottom: 0),
       decoration: BoxDecoration(
         color: _white,
         borderRadius: const BorderRadius.only(
@@ -249,6 +250,7 @@ class _CatalogPageState extends State<CatalogPage> {
         padding: const EdgeInsets.symmetric(vertical: 9),
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.symmetric(horizontal: 3),
           itemCount: 4,
           itemBuilder: (_, index) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 0),
@@ -335,7 +337,7 @@ class _PromoCard extends StatelessWidget {
     return Container(
       width: isMobile ? MediaQuery.of(context).size.width * 0.85 : MediaQuery.of(context).size.width * 0.7,
       height: isMobile ? 150 : 200,
-      margin: EdgeInsets.symmetric(horizontal: isMobile ? 8 : 16, vertical: isMobile ? 4 : 8),
+      margin: EdgeInsets.symmetric(horizontal: isMobile ? 4 : 16, vertical: isMobile ? 4 : 8),
       decoration: BoxDecoration(
         color: _white,
         borderRadius: BorderRadius.circular(23),
@@ -504,7 +506,7 @@ class _ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: GestureDetector(
-        // onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProductDetails())),
+        onTap: () => context.pushNamed(Routes.productDetails),
         child: Container(
           constraints: BoxConstraints(minHeight: isMobile ? 205 : 235),
           margin: EdgeInsets.symmetric(vertical: 2, horizontal: isMobile ? 2.5 : 0),

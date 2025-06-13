@@ -23,7 +23,7 @@ class AppColors {
   static const red = Color(0xffFF3B30);
   static const assets50 = Color(0xff7B4D9C);
   static const green = Color(0xff4CD964);
-  static const lightGrey = Color(0xffE7E9E8);
+  static const lightGrey = Color(0xffEFF2F6);
   static const baseText = Color(0xff818C99);
   static const grey = Color(0xffABABAB);
   static const baseButton = Color(0xffF2F3F5);

@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'features/catalog/presentation/catalogpage.dart';
 import 'features/profile/presentation/my_profile_page.dart';
-import 'profilepage.dart';
+import 'features/profile/presentation/edit_profile/profilepage.dart';
 import 'chatpage.dart';
 import 'chatpage2.dart';
 import 'chatpage3.dart';

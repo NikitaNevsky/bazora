@@ -1,11 +1,17 @@
 // import "package:chuck_interceptor/chuck_interceptor.dart";
+import "package:bazora/features/catalog/presentation/product_detail/Productdetails.dart";
 import "package:bazora/chatpage3.dart";
 import "package:bazora/features/auth/presentation/auth_page.dart";
 import "package:bazora/features/catalog/blocs/catalog_page_bloc.dart";
 import "package:bazora/features/catalog/presentation/catalogpage.dart";
 import "package:bazora/features/auth/presentation/otp/otp_screen.dart";
+import "package:bazora/features/catalog/presentation/notification/notification_page.dart";
+import "package:bazora/features/profile/presentation/favorite/favorite_page.dart";
+import "package:bazora/features/profile/presentation/reference_information/reference_info_page.dart";
+import "package:bazora/features/profile/presentation/support/support_page.dart";
 import "package:bazora/filters.dart";
-import "package:bazora/profilepage.dart";
+import "package:bazora/features/profile/presentation/edit_profile/profilepage.dart";
+import "package:bazora/reference_information.dart";
 import "package:bazora/switchvalue2.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -107,6 +113,41 @@ final GoRouter router = GoRouter(
     ),
 
     GoRoute(
+      path: Routes.notificationPage,
+      name: Routes.notificationPage,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const NotificationPage(),
+    ),
+
+    GoRoute(
+      path: Routes.productDetails,
+      name: Routes.productDetails,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const ProductDetails(),
+    ),
+
+    GoRoute(
+      path: Routes.supportPage,
+      name: Routes.supportPage,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const SupportPage(),
+    ),
+
+    GoRoute(
+      path: Routes.favoritePage,
+      name: Routes.favoritePage,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const FavoritePage(),
+    ),
+
+    GoRoute(
+      path: Routes.referenceInfoPage,
+      name: Routes.referenceInfoPage,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const ReferenceInfoPage(),
+    ),
+
+    GoRoute(
       path: Routes.filterPage,
       name: Routes.filterPage,
       parentNavigatorKey: rootNavigatorKey,
@@ -123,8 +164,6 @@ final GoRouter router = GoRouter(
         child: OtpScreen(dataModel: state.extra! as OtpModel),
       ),
     ),
-
-
 
 
 

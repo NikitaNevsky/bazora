@@ -1,5 +1,6 @@
 library bazora.otp_screen;
 import 'dart:async';
+import 'package:bazora/core/widgets/buttons/custom_button.dart';
 import 'package:bazora/features/auth/presentation/widgets/sms_service.dart';
 import 'package:bazora/router/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -234,8 +235,10 @@ class _OtpScreenState extends State<OtpScreen> {
               ),
               const Spacer(),
               Padding(
-                padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                child: ElevatedButton(
+                padding: const EdgeInsets.fromLTRB(24, 0, 24, 33),
+                child: CustomButton(
+                  width: 200,
+                  shadowEnabled: false,
                   onPressed: _isButtonEnabled ? () {
                     // Navigator.pushReplacement(
                     //   context,
@@ -254,19 +257,16 @@ class _OtpScreenState extends State<OtpScreen> {
                     setState(() {});
                     print(otpCode);
                   } : null,
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(195, 52),
-                    backgroundColor: _isButtonEnabled
-                        ? const Color(0xFF1D293A)
-                        : const Color(0xFF101828).withOpacity(0.2),
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                  ),
-                  child: const Text(
+                  borderRadius: BorderRadius.circular(18),
+                  backgroundColor: _isButtonEnabled
+                      ? const Color(0xFF1D293A)
+                      : const Color(0xFF101828).withOpacity(0.2),
+                  label: const Text(
                     'Подтвердить',
-                    style: TextStyle(fontSize: 18, color: Colors.white),
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

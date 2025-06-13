@@ -13,8 +13,11 @@ sealed class Routes { Routes._();
   static const String filterPage = "/filterPage";
   static const String chatPage3 = "/chatPage3";
   static const String buyFormat = "/buyFormat";
-
-
+  static const String notificationPage = "/notificationPage";
+  static const String productDetails = "/productDetails";
+  static const String referenceInfoPage = "/referenceInfoPage";
+  static const String supportPage = "/supportPage";
+  static const String favoritePage = "/favoritePage";
 
 
 
