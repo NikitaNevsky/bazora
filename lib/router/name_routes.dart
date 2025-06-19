@@ -18,7 +18,7 @@ sealed class Routes { Routes._();
   static const String referenceInfoPage = "/referenceInfoPage";
   static const String supportPage = "/supportPage";
   static const String favoritePage = "/favoritePage";
-
+  static const String referalCodePage = "/referalCodePage";
 
 
   /// internet connection

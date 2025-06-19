@@ -249,7 +249,8 @@ class _OtpScreenState extends State<OtpScreen> {
                     if (int.parse(controller.text) == otpCode) {
                       lineColor = Colors.green;
                       localSource.setAccessToken("Test token");
-                      context.goNamed(Routes.explore);
+                      // context.goNamed(Routes.explore);
+                      context.pushNamed(Routes.referalCodePage);
                     } else {
                       lineColor = Colors.red;
                       errorMessage = "Неверный код";

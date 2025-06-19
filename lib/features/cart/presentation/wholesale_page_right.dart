@@ -152,9 +152,11 @@ class _WholesalePageRightState extends State<WholesalePageRight> {
               },
             ),
           ),
-          _summarySection(),
-          SizedBox(height: 90)
         ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom - 20),
+        child: _summarySection(),
       ),
     );
   }

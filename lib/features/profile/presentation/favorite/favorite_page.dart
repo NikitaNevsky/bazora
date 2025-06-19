@@ -11,6 +11,13 @@ class FavoritePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final double screenWidth = MediaQuery.of(context).size.width;
+    const int crossAxisCount = 2;
+    const double spacing = 5;
+    final double itemWidth = (screenWidth - ((crossAxisCount - 1) * spacing)) / crossAxisCount;
+    const double itemHeight = 350; // bu siz belgilagan itemning umumiy height
+    final double aspectRatio = itemWidth / itemHeight;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7F7),
       appBar: AppBar(
@@ -36,12 +43,12 @@ class FavoritePage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 6),
         child: GridView.builder(
-          padding: EdgeInsets.only(top: 30),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // Har bir qatorga nechta element
-            crossAxisSpacing: 5, // Gorizontal bo‘shliq
-            mainAxisSpacing: 5, // Vertikal bo‘shliq
-            childAspectRatio: 0.624,
+          padding: const EdgeInsets.only(top: 30),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            crossAxisSpacing: spacing,
+            mainAxisSpacing: spacing,
+            childAspectRatio: aspectRatio,
           ),
           itemCount: 4,
           itemBuilder: (context, index) {

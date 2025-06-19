@@ -53,6 +53,8 @@ dependencies:
   widget_lifecycle: 1.0.0+1
   #  flutter_local_notifications: ^19.0.0
   plugin_platform_interface: ^2.1.8
+  supabase: 2.3.0
+  supabase_flutter: 2.6.0
 
 dev_dependencies:
   bloc_test: ^9.1.7

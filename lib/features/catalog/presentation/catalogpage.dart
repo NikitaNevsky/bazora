@@ -1,7 +1,17 @@
 import 'package:bazora/constants/image_constants.dart';
+import 'package:bazora/core/extension/extension.dart';
 import 'package:bazora/core/utils/app_colors.dart';
+import 'package:bazora/core/utils/utils.dart';
 import 'package:bazora/core/widgets/bottom_sheet/custom_bottom_sheet.dart';
+import 'package:bazora/core/widgets/custom_cached_network_image.dart';
 import 'package:bazora/core/widgets/inputs/custom_text_field.dart';
+import 'package:bazora/features/api/supabase/database/database.dart';
+import 'package:bazora/features/api/supabase/database/tables/product_price_stock_view.dart';
+import 'package:bazora/features/catalog/model/banners_response.dart';
+import 'package:bazora/features/catalog/model/category_response.dart';
+import 'package:bazora/features/catalog/model/city_response.dart';
+import 'package:bazora/features/catalog/model/product_with_images_response.dart';
+import 'package:bazora/features/catalog/presentation/mixin/home_mixin.dart';
 import 'package:bazora/features/catalog/presentation/widgets/filter_bottom_sheet.dart';
 import 'package:bazora/router/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +20,7 @@ import 'package:go_router/go_router.dart';
 import 'dart:math' as math;
 import 'package:iconly/iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../orders/presentation/orders_list_right.dart';
-import '../../cart/presentation/wholesale_page_right.dart';
-import 'product_detail/Productdetails.dart';
-import '../../../listofchats.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 
 const _primaryColor = Color(0xFF1D293A);
@@ -30,79 +37,39 @@ class CatalogPage extends StatefulWidget {
   State<CatalogPage> createState() => _CatalogPageState();
 }
 
-class _CatalogPageState extends State<CatalogPage> {
-  final List<Map<String, dynamic>> _products = List.generate(6, (index) => {
-    'name': _productNames[index],
-    'price': '\$${_productPrices[index]}.99',
-    'brand': _productBrands[index],
-    'image': 'assets/imagess/top.jpg',
-    'isFavorite': false,
-  });
-
-  static const _productNames = [
-    'Macbook Air M1 (A2337)',
-    'iPhone 14 Pro',
-    'Samsung Galaxy S23',
-    'Sony WH-1000XM5',
-    'GoPro Hero 11',
-    'Xiaomi Mi Band 7',
-  ];
-
-  static const _productPrices = [999, 1199, 899, 399, 499, 49];
-  static const _productBrands = ['Apple', 'Apple', 'Samsung', 'Sony', 'GoPro', 'Xiaomi'];
-
-  static const _citiesList = [
-    'Москва', 'Санкт-Петербург', 'Новосибирск', 'Екатеринбург', 'Казань',
-    'Нижний Новгород', 'Челябинск', 'Самара', 'Омск', 'Ростов-на-Дону',
-    'Уфа', 'Красноярск', 'Воронеж', 'Пермь', 'Волгоград',
-    'Сан-Паулу', 'Лима', 'Богота', 'Рио-де-Жанейро', 'Сантьяго',
-    'Каракас', 'Буэнос-Айрес', 'Салвадор', 'Бразилиа', 'Форталеза',
-    'Белу-Оризонти', 'Медельин', 'Гуаякиль', 'Санто-Доминго',
-  ];
+class _CatalogPageState extends State<CatalogPage> with HomeMixin {
 
   String _selectedCity = 'Москва';
-  int _selectedIndex = 0;
+  String _selectedCityId = 'Москва';
 
-  void _toggleFavorite(int index) {
-    setState(() => _products[index]['isFavorite'] = !_products[index]['isFavorite']);
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      final routes = [
-        null, // Catalog (stay on same page)
-        const OrdersListRight(),
-        const WholesalePageRight(),
-        const ListOfChatsPage(),
-      ];
-      if (index > 0 && routes[index] != null) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => routes[index]!));
-      }
-    });
-  }
+  void _toggleFavorite(int index) { }
 
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 600;
-
     return Scaffold(
       backgroundColor: _backgroundColor,
-      body: Column(
+      body: Stack(
         children: [
-          _buildHeader(isMobile),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildPromoBanner(isMobile),
-                  _buildCategoriesSection(),
-                  _buildProductsGrid(isMobile),
-                ],
+          Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(height: 197),
+                      _buildPromoBanner(isMobile),
+                      _buildCategoriesSection(),
+                      _buildProductsGrid(isMobile),
+                    ],
+                  ),
+                ),
               ),
-            ),
+              SizedBox(height: MediaQuery.of(context).padding.bottom)
+            ],
           ),
-          SizedBox(height: MediaQuery.of(context).padding.bottom)
+          _buildHeader(isMobile),
         ],
       ),
     );
@@ -128,12 +95,12 @@ class _CatalogPageState extends State<CatalogPage> {
                 Row(
                   children: [
                     const Padding(
-                      padding: EdgeInsets.only(left: 3),
+                      padding: EdgeInsets.only(left: 10),
                       child: Icon(IconlyLight.location, color: _white, size: 22),
                     ),
                     const SizedBox(width: 8),
                     SizedBox(
-                      width: 90,
+                      width: 120,
                       child: StatefulBuilder(
                         builder: (context, setState) {
                           return DropdownButtonHideUnderline(
@@ -143,10 +110,15 @@ class _CatalogPageState extends State<CatalogPage> {
                               icon: const Icon(IconlyLight.arrow_down_2, color: _white, size: 20),
                               style: GoogleFonts.inter(color: _white, fontSize: 16, fontWeight: FontWeight.w300),
                               isExpanded: true,
-                              items: _citiesList.map<DropdownMenuItem<String>>((String city) {
+                              items: cityResponse.map<DropdownMenuItem<String>>((CityResponse city) {
                                 return DropdownMenuItem<String>(
-                                  value: city,
-                                  child: Text(city, overflow: TextOverflow.ellipsis),
+                                  value: city.nameRu,
+                                  child: Text(city.nameRu ?? "", overflow: TextOverflow.ellipsis),
+                                  onTap: () {
+                                    print(city.id);
+                                    localSource.setCityID(city.id ?? "");
+                                    updateCityId();
+                                  },
                                 );
                               }).toList(),
                               onChanged: (String? value) {
@@ -240,10 +212,7 @@ class _CatalogPageState extends State<CatalogPage> {
       height: 190,
       decoration: BoxDecoration(
         color: _white,
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(28),
-          bottomRight: Radius.circular(28),
-        ),
+        borderRadius: const BorderRadius.all(Radius.circular(23)),
         boxShadow: [_buildShadow(0.03, 6, const Offset(0, 2))],
       ),
       child: Padding(
@@ -251,10 +220,10 @@ class _CatalogPageState extends State<CatalogPage> {
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 3),
-          itemCount: 4,
+          itemCount: banners.length,
           itemBuilder: (_, index) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 0),
-            child: _PromoCard(isMobile: isMobile),
+            child: _PromoCard(isMobile: isMobile, bannersResponse: banners[index]),
           ),
         ),
       ),
@@ -288,10 +257,10 @@ class _CatalogPageState extends State<CatalogPage> {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.only(left: 4, right: 4),
-              itemCount: 6,
+              itemCount: categories.length,
               itemBuilder: (_, index) => Padding(
                 padding: const EdgeInsets.only(right: 6),
-                child: _CategoryCard(index: index),
+                child: _CategoryCard(categoryResponse: categories[index]),
               ),
             ),
           ),
@@ -301,21 +270,48 @@ class _CatalogPageState extends State<CatalogPage> {
   }
 
   Widget _buildProductsGrid(bool isMobile) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    const int crossAxisCount = 2;
+    const double spacing = 5;
+    final double itemWidth = (screenWidth - ((crossAxisCount - 1) * spacing)) / crossAxisCount;
+    const double itemHeight = 343; // bu siz belgilagan itemning umumiy height
+    final double aspectRatio = itemWidth / itemHeight;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 5),
-      child: Column(
-        children: List.generate(3, (row) => Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _ProductCard(product: _products[0], index: 0, isMobile: isMobile),
-                _ProductCard(product: _products[1], index: 1, isMobile: isMobile),
-              ],
-            ),
-            if (row < 2) const SizedBox(height: 5),
-          ],
-        )),
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child:  FutureBuilder<List<ProductPriceStockViewRow>>(
+          future: futureProducts,
+          builder: (context, snapshot) {
+            // Customize what your widget looks like when it's loading.
+            if (!snapshot.hasData) {
+              return const Padding(
+                padding: EdgeInsets.only(top: 100),
+                child: SizedBox(
+                  width: 30.0,
+                  height: 30.0,
+                  child: CircularProgressIndicator(color: AppColors.baseColor, backgroundColor: AppColors.opacity),
+                ),
+              );
+            }
+
+            List<ProductPriceStockViewRow> gridViewProductPriceStockViewRowList = snapshot.data!;
+            print("DATA: ${gridViewProductPriceStockViewRowList.length}");
+
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.only(top: 5),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                crossAxisSpacing: spacing,
+                mainAxisSpacing: spacing,
+                childAspectRatio: aspectRatio,
+              ),
+              itemCount: gridViewProductPriceStockViewRowList.length,
+              itemBuilder: (context, index) {
+                return _ProductCard(product: gridViewProductPriceStockViewRowList[index], index: index, isMobile: isMobile);
+              },
+            );
+          }
       ),
     );
   }
@@ -329,92 +325,22 @@ class _CatalogPageState extends State<CatalogPage> {
 // Extracted Widgets
 class _PromoCard extends StatelessWidget {
   final bool isMobile;
+  final BannersResponse bannersResponse;
   
-  const _PromoCard({required this.isMobile});
+  const _PromoCard({required this.isMobile, required this.bannersResponse});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: isMobile ? MediaQuery.of(context).size.width * 0.85 : MediaQuery.of(context).size.width * 0.7,
       height: isMobile ? 150 : 200,
-      margin: EdgeInsets.symmetric(horizontal: isMobile ? 4 : 16, vertical: isMobile ? 4 : 8),
+      clipBehavior: Clip.hardEdge,
+      margin: EdgeInsets.symmetric(horizontal: isMobile ? 4 : 16, vertical: isMobile ? 6 : 8),
       decoration: BoxDecoration(
         color: _white,
         borderRadius: BorderRadius.circular(23),
       ),
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(23),
-              child: Transform(
-                alignment: Alignment.centerLeft,
-                transform: Matrix4.diagonal3Values(1.4, 1.0, 1.0),
-                child: Image.asset('assets/imagess/banner1.jpeg', fit: BoxFit.fill, alignment: Alignment.centerLeft),
-              ),
-            ),
-          ),
-          Positioned.fill(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(23),
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [Color(0x331D1DB5), Color(0x0C1D1DB5)],
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Акция месяца', style: TextStyle(color: _primaryColor, fontWeight: FontWeight.w400, fontSize: 12)),
-                SizedBox(height: 8),
-                Text('Товары для рисования', style: TextStyle(color: _primaryColor, fontWeight: FontWeight.bold, fontSize: 20)),
-                Spacer(),
-              ],
-            ),
-          ),
-          const Positioned(bottom: -4, left: -5.6, child: _DiscountCircle(text: '-15%', size: 80, bgColor: _primaryColor)),
-          const Positioned(bottom: 23, left: 90, child: _DiscountCircle(text: '-10%', size: 52, bgColor: _white)),
-        ],
-      ),
-    );
-  }
-}
-
-class _DiscountCircle extends StatelessWidget {
-  final String text;
-  final double size;
-  final Color bgColor;
-  
-  const _DiscountCircle({required this.text, required this.size, required this.bgColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      margin: const EdgeInsets.only(right: 7),
-      decoration: BoxDecoration(color: bgColor, shape: BoxShape.circle),
-      child: Center(
-        child: Transform.rotate(
-          angle: text == '-15%' ? 350 * (math.pi / 180) : 15 * (math.pi / 180),
-          child: Text(
-            text,
-            style: TextStyle(
-              color: bgColor == _white ? _primaryColor : _white,
-              fontSize: text == '-15%' ? 24 : 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
+      child: CustomCachedNetworkImage(imageUrl: bannersResponse.image ?? "", fit: BoxFit.cover),
     );
   }
 }
@@ -449,22 +375,12 @@ class _ViewAllButton extends StatelessWidget {
 }
 
 class _CategoryCard extends StatelessWidget {
-  final int index;
+  final CategoryResponse categoryResponse;
   
-  const _CategoryCard({required this.index});
-
-  static const _categories = [
-    {'name': 'Гаджеты', 'image': 'assets/imagess/category1.jpeg.png'},
-    {'name': 'Экшн-камеры', 'image': 'assets/imagess/category2.jpeg.png'},
-    {'name': 'Гейминг', 'image': 'assets/imagess/category3.jpeg.png'},
-    {'name': 'Гаджеты', 'image': 'assets/imagess/category1.jpeg.png'},
-    {'name': 'Экшн-камеры', 'image': 'assets/imagess/category2.jpeg.png'},
-    {'name': 'Гейминг', 'image': 'assets/imagess/category3.jpeg.png'}
-  ];
+  const _CategoryCard({required this.categoryResponse});
 
   @override
   Widget build(BuildContext context) {
-    final item = _categories[index % 6];
     return SizedBox(
       width: 108,
       height: 108,
@@ -476,17 +392,31 @@ class _CategoryCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.asset(item['image']!, width: 65, height: 65),
-            ),
-            Text(
-              item['name']!,
-              style: const TextStyle(color: _primaryColor, fontSize: 12, fontWeight: FontWeight.w400),
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+            categoryResponse.image != null
+                ? ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: CustomCachedNetworkImage(
+                width: 60,
+                height: 60,
+                imageUrl: categoryResponse.image ?? "", fit: BoxFit.cover,
+              ),
+            )
+                : const SizedBox(
+                    width: 60,
+                    height: 60,
+                    child: Icon(Icons.image_not_supported_outlined, size: 40, color: AppColors.grey,),
+                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: Text(
+                categoryResponse.name ?? "",
+                style: const TextStyle(color: _primaryColor, fontSize: 12, fontWeight: FontWeight.w400),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),
@@ -496,7 +426,7 @@ class _CategoryCard extends StatelessWidget {
 }
 
 class _ProductCard extends StatelessWidget {
-  final Map<String, dynamic> product;
+  final ProductPriceStockViewRow product;
   final int index;
   final bool isMobile;
   
@@ -504,126 +434,161 @@ class _ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => context.pushNamed(Routes.productDetails),
-        child: Container(
-          constraints: BoxConstraints(minHeight: isMobile ? 205 : 235),
-          margin: EdgeInsets.symmetric(vertical: 2, horizontal: isMobile ? 2.5 : 0),
-          decoration: BoxDecoration(
-            color: _white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  Container(
-                    height: isMobile ? 230 : 200,
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: _white,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+    final _pageController = PageController();
+    return GestureDetector(
+      onTap: () => context.pushNamed(Routes.productDetails),
+      child: Container(
+        constraints: BoxConstraints(minHeight: isMobile ? 205 : 235),
+        margin: EdgeInsets.symmetric(vertical: 2, horizontal: isMobile ? 2.5 : 0),
+        decoration: BoxDecoration(
+          color: _white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 200,
+                      margin: const EdgeInsets.all(6),
+                      clipBehavior: Clip.hardEdge,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFEFF2F6),
+                        borderRadius: AppUtils.kBorderRadius8
+                      ),
+                      child: (product.productImages?.isNotEmpty ?? false)
+                          ? PageView.builder(
+                              controller: _pageController,
+                              itemCount: product.productImages?.length,
+                              itemBuilder: (_, i) => CustomCachedNetworkImage(
+                                fit: BoxFit.cover,
+                                imageUrl: product.productImages?[i]['image_url'] ?? "",
+                              ),
+                            )
+                          : const Icon(Icons.image_not_supported_outlined, size: 40, color: AppColors.grey,),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 4, left: 4, right: 4),
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-                        child: Image.asset(
-                          'assets/imagess/Paint.png',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: SmoothPageIndicator(
+                        controller: _pageController,
+                        count: product.productImages?.length ?? 0,
+                        effect: WormEffect(
+                          dotHeight: 5,
+                          spacing: 3,
+                          dotWidth: 5,
+                          activeDotColor: (product.productImages?.isNotEmpty ?? false) ? const Color(0xFF1D293A) : AppColors.opacity,
+                          dotColor: const Color(0xFFA4ACB6),
                         ),
+                      ),
+                    ),
+                  ],
+                ),
+                Positioned(
+                  top: 3,
+                  right: 1,
+                  child: IconButton(
+                    onPressed: () => (context.findAncestorStateOfType<_CatalogPageState>()?._toggleFavorite(index)),
+                    icon: Container(
+                      width: 30,
+                      height: 30,
+                      decoration: const BoxDecoration(color: _white, shape: BoxShape.circle),
+                      child: Icon(
+                        product.productName == "" ? IconlyBold.heart : IconlyLight.heart,
+                        color: product.productName == "" ? Colors.red : Colors.grey,
+                        size: 18,
                       ),
                     ),
                   ),
-                  Positioned(
-                    top: 3,
-                    right: 1,
-                    child: IconButton(
-                      onPressed: () => (context.findAncestorStateOfType<_CatalogPageState>()?._toggleFavorite(index)),
-                      icon: Container(
-                        width: 30,
-                        height: 30,
-                        decoration: const BoxDecoration(color: _white, shape: BoxShape.circle),
-                        child: Icon(
-                          product['isFavorite'] ? IconlyBold.heart : IconlyLight.heart,
-                          color: product['isFavorite'] ? Colors.red : Colors.grey,
-                          size: 18,
+                ),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.all(isMobile ? 6.0 : 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          "${product.retailPrice ?? 0} ₽",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: isMobile ? 14 : 15),
                         ),
                       ),
-                    ),
+                      Row(
+                        children: [
+                          const Icon(IconlyLight.star, color: Colors.amber, size: 13),
+                          SizedBox(width: isMobile ? 2 : 4),
+                          const Text('4.5', style: TextStyle(fontSize: 10)),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: isMobile ? 2 : 4),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(isMobile ? 2 : 4),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFB1F0F7),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(IconlyLight.bag_2, size: 13, color: _primaryColor),
+                      ),
+                      SizedBox(width: isMobile ? 4 : 8),
+                      Expanded(
+                        child: Text(
+                            (product.productCategories?.isNotEmpty ?? false) ? (product.productCategories?[0]['name'] ?? "") : "",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: isMobile ? 10 : 12)
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: isMobile ? 2 : 4),
+                  Text(
+                    product.productName ?? "",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: isMobile ? 14 : 12, fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
-              Padding(
-                padding: EdgeInsets.all(isMobile ? 6.0 : 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(product['price'], style: TextStyle(fontWeight: FontWeight.bold, fontSize: isMobile ? 13 : 15)),
-                        Row(
-                          children: [
-                            const Icon(IconlyLight.star, color: Colors.amber, size: 13),
-                            SizedBox(width: isMobile ? 2 : 4),
-                            const Text('4.5', style: TextStyle(fontSize: 10)),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: isMobile ? 2 : 4),
-                    Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(isMobile ? 2 : 4),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFB1F0F7),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(IconlyLight.bag_2, size: 13, color: _primaryColor),
-                        ),
-                        SizedBox(width: isMobile ? 4 : 8),
-                        Expanded(
-                          child: Text(product['brand'], style: TextStyle(fontSize: isMobile ? 10 : 12), maxLines: 1),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: isMobile ? 2 : 4),
-                    Text(product['name'], style: TextStyle(fontSize: isMobile ? 14 : 12, fontWeight: FontWeight.w400), maxLines: 2),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: isMobile ? 6.0 : 8.0, vertical: isMobile ? 2.0 : 4.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(_primaryColor),
-                      foregroundColor: MaterialStateProperty.all(_white),
-                      padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: isMobile ? 10 : 12)),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(18))),
-                    ),
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProductDetails())),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(IconlyLight.buy, color: _white, size: 16),
-                        SizedBox(width: isMobile ? 4 : 8),
-                        const Flexible(child: Text('В корзину', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14))),
-                      ],
-                    ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: isMobile ? 6.0 : 8.0, vertical: isMobile ? 2.0 : 4.0),
+              child: SizedBox(
+                height: 30,
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(_primaryColor),
+                    foregroundColor: MaterialStateProperty.all(_white),
+                    padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: isMobile ? 4 : 12)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(18))),
+                  ),
+                  onPressed: () {},
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(IconlyLight.buy, color: _white, size: 16),
+                      SizedBox(width: isMobile ? 4 : 8),
+                      const Flexible(child: Text('В корзину', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14))),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

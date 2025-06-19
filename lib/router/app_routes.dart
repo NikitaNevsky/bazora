@@ -1,4 +1,4 @@
-// import "package:chuck_interceptor/chuck_interceptor.dart";
+import "package:bazora/features/auth/presentation/referal_code/referal_code_page.dart";
 import "package:bazora/features/catalog/presentation/product_detail/Productdetails.dart";
 import "package:bazora/chatpage3.dart";
 import "package:bazora/features/auth/presentation/auth_page.dart";
@@ -11,7 +11,6 @@ import "package:bazora/features/profile/presentation/reference_information/refer
 import "package:bazora/features/profile/presentation/support/support_page.dart";
 import "package:bazora/filters.dart";
 import "package:bazora/features/profile/presentation/edit_profile/profilepage.dart";
-import "package:bazora/reference_information.dart";
 import "package:bazora/switchvalue2.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -82,7 +81,6 @@ final GoRouter router = GoRouter(
       ],
     ),
 
-
     /// Auth
     GoRoute(
       path: Routes.auth,
@@ -141,6 +139,13 @@ final GoRouter router = GoRouter(
     ),
 
     GoRoute(
+      path: Routes.referalCodePage,
+      name: Routes.referalCodePage,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const ReferalCodePage(),
+    ),
+
+    GoRoute(
       path: Routes.referenceInfoPage,
       name: Routes.referenceInfoPage,
       parentNavigatorKey: rootNavigatorKey,
@@ -164,8 +169,6 @@ final GoRouter router = GoRouter(
         child: OtpScreen(dataModel: state.extra! as OtpModel),
       ),
     ),
-
-
 
   ],
 );

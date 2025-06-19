@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:bazora/otp_screen.dart';
+// import 'package:bazora/referal_code_page.dart';
 // import 'package:bazora/selectnearestdelivery.dart';
 // import 'my_profile_page.dart';
 // import 'catalogpage.dart';
@@ -41,7 +41,7 @@
 // import 'namedetails.dart';
 // import 'new_image_pages/review_modal2.dart';
 // import 'new_image_pages/notifications_list_right.dart';
-// import 'otp_screen.dart';
+// import 'referal_code_page.dart';
 // import 'Productdetails.dart';
 // import 'filters.dart';
 // import 'chatpage.dart';
@@ -95,6 +95,12 @@ import "package:bazora/core/widgets/native_splash/flutter_native_splash.dart";
 import "package:bazora/injector_container.dart" as di;
 import "package:bazora/router/app_routes.dart";
 
+import "features/api/supabase/supabase.dart";
+
+String _kSupabaseUrl = 'https://supabase.optovikstore.ru/';
+String _kSupabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICJyb2xlIjogImFub24iLAogICJpc3MiOiAic3VwYWJhc2UiLAogICJpYXQiOiAxNzI1MjE3MjAwLAogICJleHAiOiAxODgyOTgzNjAwCn0.LThnr4ct4_jmfpM5t5StXzPEjmsrj3NXLwmZPbeDL2I';
+// Get a reference to the Supabase client
+final supabase = Supabase.instance.client;
 
 void main() async {
   /// flutter_native_splash
@@ -109,6 +115,13 @@ void main() async {
     Bloc.observer = LogBlocObserver();
   }
   await di.init();
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: _kSupabaseUrl,
+    anonKey: _kSupabaseAnonKey,
+  );
 
   /// global CERTIFICATE_VERIFY_FAILEd_KEY
   HttpOverrides.global = _HttpOverrides();
@@ -130,6 +143,8 @@ class _HttpOverrides extends HttpOverrides {
       super.createHttpClient(context)
         ..badCertificateCallback = (_, __, ___) => true;
 }
+
+
 
 /// flutter pub run flutter_launcher_icons:main
 /// flutter run -d windows

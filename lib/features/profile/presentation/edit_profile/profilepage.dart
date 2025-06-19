@@ -31,7 +31,7 @@ class _PageState extends State<ProfilePage> {
     final verticalPadding = isTablet ? 32.0 : 24.0;
     final inputFontSize = isTablet ? 20.0 : 15.0;
     late ImagePicker picker = ImagePicker();
-    late File? image = File("/Users/macplus/Library/Developer/CoreSimulator/Devices/59562BC1-23A5-473B-B488-FF2F2A633573/data/Containers/Data/Application/CF1A6856-4689-4B12-89AC-3E637BACD956/tmp/image_picker_D51F2D1A-97FD-415F-ADC7-4469BADD751C-4911-00000B8830C00B07.jpg");
+    late File? image = File("");
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7F7),
@@ -84,11 +84,10 @@ class _PageState extends State<ProfilePage> {
                           alignment: Alignment.bottomCenter,
                           children: [
                             // image != null ? Image.file(image!, height: 72, width: 72, fit: BoxFit.cover) : SizedBox(),
-                            CircleAvatar(
+                            const CircleAvatar(
                               radius: 100,
-                              backgroundImage: const AssetImage('assets/imagess/profile picture.png'),
+                              backgroundImage: AssetImage('assets/imagess/profile picture.png'),
                             ),
-
                             // Overlay button (Camera)
                             Positioned(
                               bottom: 0.5,

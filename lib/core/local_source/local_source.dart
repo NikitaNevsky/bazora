@@ -78,8 +78,12 @@ final class LocalSource {
   Future<void> setLanguage(String language) async {
     await box.put(AppKeys.language, language);
   }
-
   String? get language => box.get(AppKeys.language);
+
+  Future<void> setCityID(String cityID) async {
+    await box.put(AppKeys.cityID, cityID);
+  }
+  String? get cityID => box.get(AppKeys.cityID);
 
   Future<void> clear() async {
     await box.clear();

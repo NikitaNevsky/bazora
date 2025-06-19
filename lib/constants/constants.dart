@@ -44,6 +44,7 @@ sealed class AppKeys {
   static const String hasOnboarding = "has_onboarding";
   static const String languageImage = "language";
   static const String language = "languages";
+  static const String cityID = "cityID";
 }
 
 sealed class Urls {
