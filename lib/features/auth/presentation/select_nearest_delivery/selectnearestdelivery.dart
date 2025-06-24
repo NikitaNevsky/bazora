@@ -1,8 +1,7 @@
 library bazora.selectnearestdelivery;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'seeyourstores.dart';
+import '../../../../seeyourstores.dart';
 
 class SelectNearestDelivery extends StatefulWidget {
   const SelectNearestDelivery({super.key});

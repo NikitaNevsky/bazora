@@ -1,6 +1,10 @@
+import 'package:bazora/core/utils/app_colors.dart';
+import 'package:bazora/core/widgets/buttons/custom_button.dart';
+import 'package:bazora/router/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'selectnearestdelivery.dart'; // Make sure this import path is correct
+import 'package:go_router/go_router.dart';
+import '../select_nearest_delivery/selectnearestdelivery.dart'; // Make sure this import path is correct
 
 class ChooseCountryScreen extends StatefulWidget {
   const ChooseCountryScreen({super.key});
@@ -31,45 +35,32 @@ class _ChooseCountryScreenState extends State<ChooseCountryScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),
+      appBar: AppBar(
+        leading: const BackButton(color: AppColors.white),
+        backgroundColor: const Color(0xFF1D293A),
+      ),
       body: SafeArea(
         child: Column(
           children: [
             Container(
-              height: 197,
-              width: screenWidth,
+              padding: const EdgeInsets.only(bottom: 38),
+              width: double.infinity,
               decoration: const BoxDecoration(
-                color: Color(0xFF1D293A),
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(23),
+                color: AppColors.baseColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(23),
+                  bottomRight: Radius.circular(23),
                 ),
               ),
-              child: Stack(
-                children: [
-                  const Center(
-                    child: Text(
-                      'BAZORA',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+              child: const Center(
+                child: Text(
+                  'BAZORA',
+                  style: TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 35,
+                    fontWeight: FontWeight.w700,
                   ),
-                  Positioned(
-                    top: screenHeight * 0.03,
-                    left: 10,
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: 24,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
             SizedBox(height: screenHeight * 0.03),
@@ -105,7 +96,7 @@ class _ChooseCountryScreenState extends State<ChooseCountryScreen> {
                         icon: const Icon(IconlyLight.arrowDown2, color: Color(0xFF1D293A)),
                         isExpanded: true,
                         value: selectedCountry,
-                        hint: const Text('страну'),
+                        hint: const Text('Страна'),
                         dropdownColor: Colors.white,
                         items: countries.map((String country) {
                           return DropdownMenuItem<String>(
@@ -129,40 +120,60 @@ class _ChooseCountryScreenState extends State<ChooseCountryScreen> {
                 ],
               ),
             ),
-            const Spacer(),
-            Padding(
-              padding: EdgeInsets.only(bottom: screenHeight * 0.04),
-              child: ElevatedButton(
-                onPressed: selectedCountry != null
-                    ? () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SelectNearestDelivery(),
-                          ),
-                        );
-                      }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(195, 52),
-                  backgroundColor: selectedCountry != null
-                      ? const Color(0xFF1D293A)
-                      : const Color(0xFFA4ACB6),
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                ),
-                child: const Text(
-                  'Продолжить',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            )
+            // Padding(
+            //   padding: EdgeInsets.only(bottom: screenHeight * 0.04),
+            //   child: ElevatedButton(
+            //     onPressed: selectedCountry != null
+            //         ? () {
+            //             Navigator.push(
+            //               context,
+            //               MaterialPageRoute(
+            //                 builder: (context) => const SelectNearestDelivery(),
+            //               ),
+            //             );
+            //           }
+            //         : null,
+            //     style: ElevatedButton.styleFrom(
+            //       minimumSize: const Size(195, 52),
+            //       backgroundColor: selectedCountry != null
+            //           ? const Color(0xFF1D293A)
+            //           : const Color(0xFFA4ACB6),
+            //       foregroundColor: Colors.white,
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(18),
+            //       ),
+            //     ),
+            //     child: const Text(
+            //       'Продолжить',
+            //       style: TextStyle(
+            //         fontSize: 18,
+            //         fontWeight: FontWeight.bold,
+            //       ),
+            //     ),
+            //   ),
+            // )
           ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(left: 100, right: 100, bottom: 40),
+        child: CustomButton(
+          width: 200,
+          shadowEnabled: false,
+          onPressed: () async {
+            // context.pushNamed(Routes.selectNearestDelivery);
+          },
+          borderRadius: BorderRadius.circular(18),
+          backgroundColor: selectedCountry != null
+              ? const Color(0xFF1D293A)
+              : const Color(0xFF101828).withOpacity(0.2),
+          label: const Text(
+            'Продолжить',
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );

@@ -1,4 +1,10 @@
+import "package:bazora/features/api/supabase/database/tables/favorite_products_view_catalog.dart";
+import "package:bazora/features/auth/presentation/choose_country/choosecountry.dart";
+import "package:bazora/features/auth/presentation/create_profile/create_profile_page.dart";
 import "package:bazora/features/auth/presentation/referal_code/referal_code_page.dart";
+import "package:bazora/features/auth/presentation/select_nearest_delivery/selectnearestdelivery.dart";
+import "package:bazora/features/auth/presentation/store_create/storedetails.dart";
+import "package:bazora/features/auth/presentation/switch%20value%20screen/switchvalue.dart";
 import "package:bazora/features/catalog/presentation/product_detail/Productdetails.dart";
 import "package:bazora/chatpage3.dart";
 import "package:bazora/features/auth/presentation/auth_page.dart";
@@ -11,7 +17,7 @@ import "package:bazora/features/profile/presentation/reference_information/refer
 import "package:bazora/features/profile/presentation/support/support_page.dart";
 import "package:bazora/filters.dart";
 import "package:bazora/features/profile/presentation/edit_profile/profilepage.dart";
-import "package:bazora/switchvalue2.dart";
+import "package:bazora/features/auth/presentation/switch%20value%20screen/switchvalue2.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
@@ -135,7 +141,11 @@ final GoRouter router = GoRouter(
       path: Routes.favoritePage,
       name: Routes.favoritePage,
       parentNavigatorKey: rootNavigatorKey,
-      builder: (_, __) => const FavoritePage(),
+      pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+        context: context,
+        state: state,
+        child: FavoritePage(favoriteData: state.extra! as List<FavoriteProductsViewCatalogRow>),
+      ),
     ),
 
     GoRoute(
@@ -160,6 +170,41 @@ final GoRouter router = GoRouter(
     ),
 
     GoRoute(
+      path: Routes.switchValueScreen,
+      name: Routes.switchValueScreen,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const SwitchValueScreen(),
+    ),
+
+    GoRoute(
+      path: Routes.createProfilePage,
+      name: Routes.createProfilePage,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const CreateProfilePage(),
+    ),
+
+    GoRoute(
+      path: Routes.storeDetailsScreen,
+      name: Routes.storeDetailsScreen,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const StoreDetailsScreen(),
+    ),
+
+    GoRoute(
+      path: Routes.chooseCountryScreen,
+      name: Routes.chooseCountryScreen,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const ChooseCountryScreen(),
+    ),
+
+    GoRoute(
+      path: Routes.selectNearestDelivery,
+      name: Routes.selectNearestDelivery,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const SelectNearestDelivery(),
+    ),
+
+    GoRoute(
       path: Routes.otp,
       name: Routes.otp,
       parentNavigatorKey: rootNavigatorKey,
@@ -177,17 +222,16 @@ CustomTransitionPage buildPageWithDefaultTransition<T>({
   required BuildContext context,
   required GoRouterState state,
   required Widget child,
-}) =>
-    CustomTransitionPage<T>(
-      key: state.pageKey,
-      child: child,
-      transitionDuration: const Duration(milliseconds: 350),
-      reverseTransitionDuration: const Duration(milliseconds: 350),
-      transitionsBuilder: (_, a1, a2, child) => SlideTransition(
-        position: t1.animate(a1),
-        child: child,
-      ),
-    );
+}) => CustomTransitionPage<T>(
+  key: state.pageKey,
+  child: child,
+  transitionDuration: const Duration(milliseconds: 350),
+  reverseTransitionDuration: const Duration(milliseconds: 350),
+  transitionsBuilder: (_, a1, a2, child) => SlideTransition(
+    position: t1.animate(a1),
+    child: child,
+  ),
+);
 Tween<Offset> t1 = Tween<Offset>(
   begin: const Offset(1, 0),
   end: Offset.zero,

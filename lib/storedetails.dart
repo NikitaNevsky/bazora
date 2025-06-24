@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'choosecountry.dart';
+import 'features/auth/presentation/choose_country/choosecountry.dart';
 
 class StoreDetailsScreen extends StatefulWidget {
   const StoreDetailsScreen({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
-import 'switchvalue.dart';
+import 'features/auth/presentation/switch value screen/switchvalue.dart';
 import 'componentcamera.dart';
 
 class NameDetailsScreen extends ConsumerStatefulWidget {
@@ -224,14 +224,14 @@ class _NameDetailsScreenState extends ConsumerState<NameDetailsScreen> {
                         child: ElevatedButton(
                           onPressed: _isButtonEnabled
                               ? () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SwitchValueScreen(
-                                        hasShop: _hasShop,
-                                      ),
-                                    ),
-                                  );
+                            // Navigator.pushReplacement(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //           builder: (context) => SwitchValueScreen(
+                            //             hasShop: _hasShop,
+                            //           ),
+                            //         ),
+                            //       );
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(

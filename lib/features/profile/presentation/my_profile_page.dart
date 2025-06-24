@@ -1,22 +1,37 @@
 import 'package:bazora/core/extension/custom_snackbar/custom_snack_bar.dart';
 import 'package:bazora/core/extension/custom_snackbar/top_snack_bar.dart';
 import 'package:bazora/core/utils/app_colors.dart';
+import 'package:bazora/core/utils/utils.dart';
+import 'package:bazora/core/widgets/custom_cached_network_image.dart';
+import 'package:bazora/features/api/supabase/database/tables/favorite_products_view_catalog.dart';
+import 'package:bazora/features/profile/presentation/mixin/profile_mixin.dart';
 import 'package:bazora/features/profile/presentation/widgets/profile_item_widget.dart';
 import 'package:bazora/router/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
+import 'package:widget_lifecycle/widget_lifecycle.dart';
 
-class MyProfilePage extends StatelessWidget {
+class MyProfilePage extends StatefulWidget {
   const MyProfilePage({super.key});
+  @override
+  State<MyProfilePage> createState() => _PageState();
+}
+
+class _PageState extends State<MyProfilePage> with ProfileMixin {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F7F7),
-      body: SingleChildScrollView(
-        child: Column(
+        backgroundColor: const Color(0xFFF7F7F7),
+        body: LifecycleAware(
+        observer: LifecycleObserver(
+          onVisible: (a) {
+            getFavorites();
+            getUser();
+        }),
+        builder: (BuildContext context, Lifecycle lifecycle) => Column(
           children: [
             // Header - now 145px height
             Container(
@@ -32,14 +47,29 @@ class MyProfilePage extends StatelessWidget {
               padding: const EdgeInsets.only(top: 55, left: 16, right: 16, bottom: 16),
               child: Row(
                 children: [
-                  const CircleAvatar(
-                    radius: 24,
-                    backgroundImage: AssetImage('assets/imagess/profile picture.png'),
-                  ),
+                  (localSource.getMyImageURL?.isNotEmpty ?? false)
+                      ? ClipRRect(
+                          borderRadius: const BorderRadius.all(Radius.circular(50)) ,
+                          child: CustomCachedNetworkImage(
+                            width: 48,
+                            height: 48,
+                            fit: BoxFit.cover,
+                            imageUrl: localSource.getMyImageURL ?? "",
+                          ),
+                        )
+                      : Container(
+                          width: 48,
+                          height: 48,
+                          decoration: const BoxDecoration(
+                            borderRadius: AppUtils.kBorderRadius64,
+                            color: Color(0xffDFE5ED),
+                          ),
+                          child: const Center(child: Icon(Icons.person, color: Color(0xffA4ACB6))),
+                        ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Артем Филатов',
+                      '${localSource.getLastName()} ${localSource.getFirstName()}',
                       style: GoogleFonts.inter(
                         color: const Color(0xFFDFE5ED),
                         fontWeight: FontWeight.bold,
@@ -57,57 +87,62 @@ class MyProfilePage extends StatelessWidget {
               ),
             ),
             // Top Card Row
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(23),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 6,
-                      child: AspectRatio(
-                        aspectRatio: 1.5,
-                        child: _TopStatCard(
-                          icon: IconlyBold.heart,
-                          label: 'Избранное',
-                          value: '231 товар',
-                          iconColor: Color(0xFFA4ACB6),
+            FutureBuilder<List<FavoriteProductsViewCatalogRow>>(
+              future: futureFavorite,
+              builder: (context, snapshot) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(23),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 6,
+                          child: AspectRatio(
+                            aspectRatio: 1.5,
+                            child: _TopStatCard(
+                              icon: IconlyBold.heart,
+                              label: 'Избранное',
+                              value: '${snapshot.data?.length} товар',
+                              iconColor: const Color(0xFFA4ACB6),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    Expanded(
-                      flex: 6,
-                      child: AspectRatio(
-                        aspectRatio: 1.5,
-                        child: _TopStatCard(
-                          icon: IconlyBold.buy,
-                          label: 'Заказы',
-                          value: '8 заказов',
-                          iconColor: Color(0xFFA4ACB6),
+                        const SizedBox(width: 8),
+                        const Expanded(
+                          flex: 6,
+                          child: AspectRatio(
+                            aspectRatio: 1.5,
+                            child: _TopStatCard(
+                              icon: IconlyBold.buy,
+                              label: 'Заказы',
+                              value: '8 заказов',
+                              iconColor: Color(0xFFA4ACB6),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    Expanded(
-                      flex: 6,
-                      child: AspectRatio(
-                        aspectRatio: 1.5,
-                        child: _TopStatCard(
-                          icon: IconlyBold.star,
-                          label: 'Отзывы',
-                          value: '60 отзывов',
-                          iconColor: Color(0xFFE9D32C),
+                        const SizedBox(width: 8),
+                        const Expanded(
+                          flex: 6,
+                          child: AspectRatio(
+                            aspectRatio: 1.5,
+                            child: _TopStatCard(
+                              icon: IconlyBold.star,
+                              label: 'Отзывы',
+                              value: '60 отзывов',
+                              iconColor: Color(0xFFE9D32C),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              }
             ),
             // Cashback & Referral Row
             Container(
@@ -165,11 +200,13 @@ class MyProfilePage extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 12),
-                                Text('680',
+                                Text(
+                                    localSource.getMyCashBack.toString(),
                                     style: GoogleFonts.inter(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
-                                        color: Color(0xFFEFF2F6))),
+                                        color: Color(0xFFEFF2F6)),
+                                ),
                               ],
                             ),
                           ),
@@ -229,7 +266,7 @@ class MyProfilePage extends StatelessWidget {
                                             children: [
                                               Transform.rotate(
                                                 angle: -0.785398,
-                                                child: Icon(Icons.link,
+                                                child: const Icon(Icons.link,
                                                     size: 16.8,
                                                     color: Color(0xFF1D293A)),
                                               ),
@@ -252,7 +289,7 @@ class MyProfilePage extends StatelessWidget {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                '37493659',
+                                                localSource.getMyReferralCode.toString(),
                                                 style: GoogleFonts.inter(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w400,
@@ -260,7 +297,7 @@ class MyProfilePage extends StatelessWidget {
                                                 ),
                                               ),
                                               const SizedBox(width: 4),
-                                              Icon(Icons.copy,
+                                              const Icon(Icons.copy,
                                                   size: 14,
                                                   color: Color(0xFF7B7B7B)),
                                             ],
@@ -317,10 +354,15 @@ class MyProfilePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                     child: Column(
                       children: [
-                        ProfileItemWidget(
-                          title: "Избранные (24)",
-                          iconData: IconlyLight.heart,
-                          onTap: () => context.pushNamed(Routes.favoritePage),
+                        FutureBuilder<List<FavoriteProductsViewCatalogRow>>(
+                            future: futureFavorite,
+                            builder: (context, snapshot) {
+                              return ProfileItemWidget(
+                                title: "Избранные ${(snapshot.data?.isNotEmpty ?? false) ? "(${snapshot.data?.length})" : ""}",
+                                iconData: IconlyLight.heart,
+                                onTap: () => context.pushNamed(Routes.favoritePage, extra: snapshot.data),
+                              );
+                            }
                         ),
                         Divider(height: 1, color: AppColors.grey2.withOpacity(0.4)),
                         ProfileItemWidget(
@@ -363,6 +405,7 @@ class MyProfilePage extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(height: 400,)
           ],
         ),
       ),

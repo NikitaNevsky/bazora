@@ -1,15 +1,9 @@
+import 'package:bazora/router/app_routes.dart';
 import 'package:flutter/material.dart';
-import 'storedetails.dart';
-import 'features/catalog/presentation/catalogpage.dart';
+import 'package:go_router/go_router.dart';
 
 class ThirdComponent extends StatelessWidget {
-  final bool hasShop;
-
-  const ThirdComponent({
-    super.key,
-    required this.hasShop,
-  });
-
+  const ThirdComponent({super.key});
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -19,6 +13,7 @@ class ThirdComponent extends StatelessWidget {
       insetPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 24), // Padding from screen edges
       child: Container(
         width: screenWidth, // Take full width minus padding
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32), // Inner padding
         decoration: BoxDecoration(
           color: Colors.white,
@@ -53,20 +48,7 @@ class ThirdComponent extends StatelessWidget {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      if (hasShop) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const StoreDetailsScreen()),
-                        );
-                      } else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const CatalogPage()),
-                        );
-                      }
-                    },
+                    onPressed: () => context.goNamed(Routes.explore),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF1D293A),
                       padding: const EdgeInsets.symmetric(vertical: 16),

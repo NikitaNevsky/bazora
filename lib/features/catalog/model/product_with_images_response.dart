@@ -1,3 +1,49 @@
+class ImagesResponse {
+  String? imageId;
+  String? imageUrl;
+  String? blurhash;
+  bool? isPhoto;
+  bool? isVideo;
+  String? videoUrl;
+  bool? isMain;
+  bool? isVariantSpecific;
+
+  ImagesResponse(
+      {this.imageId,
+        this.imageUrl,
+        this.blurhash,
+        this.isPhoto,
+        this.isVideo,
+        this.videoUrl,
+        this.isMain,
+        this.isVariantSpecific});
+
+  ImagesResponse.fromJson(Map<String, dynamic> json) {
+    imageId = json['image_id'];
+    imageUrl = json['image_url'];
+    blurhash = json['blurhash'];
+    isPhoto = json['is_photo'];
+    isVideo = json['is_video'];
+    videoUrl = json['video_url'];
+    isMain = json['is_main'];
+    isVariantSpecific = json['is_variant_specific'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['image_id'] = this.imageId;
+    data['image_url'] = this.imageUrl;
+    data['blurhash'] = this.blurhash;
+    data['is_photo'] = this.isPhoto;
+    data['is_video'] = this.isVideo;
+    data['video_url'] = this.videoUrl;
+    data['is_main'] = this.isMain;
+    data['is_variant_specific'] = this.isVariantSpecific;
+    return data;
+  }
+}
+
+
 class ProductWithImagesResponse {
   String? productId;
   String? name;

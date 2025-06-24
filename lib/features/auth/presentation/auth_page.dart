@@ -2,8 +2,10 @@ import 'package:bazora/core/extension/build_context_extension.dart';
 import 'package:bazora/core/utils/app_colors.dart';
 import 'package:bazora/core/widgets/buttons/custom_button.dart';
 import 'package:bazora/core/widgets/inputs/custom_phone_text_field.dart';
+import 'package:bazora/features/api/auth/supabase_auth/auth_util.dart';
 import 'package:bazora/features/auth/presentation/otp/otp_screen.dart';
 import 'package:bazora/features/auth/presentation/widgets/sms_service.dart';
+import 'package:bazora/main.dart';
 import 'package:bazora/router/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -223,9 +225,10 @@ class _AuthPageState extends State<AuthPage> {
                 CustomButton(
                   width: 200,
                   shadowEnabled: false,
-                  onPressed: () {
+                  onPressed: () async {
                     if (_isValid) _sendVerificationCode();
-                    print('pressed');
+                    localSource.setMyPhoneNumber("7${_phoneController.text.replaceAll(" ", "")}");
+                    // context.goNamed(Routes.otp, extra: OtpModel(int.parse('000000'), "+7 ${_phoneController.text.trim()}"));
                   },
                   borderRadius: BorderRadius.circular(18),
                   backgroundColor: _isValid

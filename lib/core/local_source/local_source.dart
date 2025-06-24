@@ -1,3 +1,4 @@
+import "package:bazora/features/profile/model/users_response.dart";
 import "package:flutter/material.dart";
 import "package:hive/hive.dart";
 import "package:bazora/constants/constants.dart";
@@ -84,6 +85,42 @@ final class LocalSource {
     await box.put(AppKeys.cityID, cityID);
   }
   String? get cityID => box.get(AppKeys.cityID);
+
+  Future<void> setMyUserId(String myUserId) async {
+    await box.put(AppKeys.myUserId, myUserId);
+  }
+  String? get myUserId => box.get(AppKeys.myUserId);
+
+  Future<void> setReferralCode(String referralCode) async {
+    await box.put(AppKeys.referralCode, referralCode);
+  }
+  String? get getReferralCode => box.get(AppKeys.referralCode);
+
+  Future<void> setMyReferralCode(String myReferralCode) async {
+    await box.put(AppKeys.myReferralCode, myReferralCode);
+  }
+  String? get getMyReferralCode => box.get(AppKeys.myReferralCode);
+
+  Future<void> setMyPhoneNumber(String myPhone) async {
+    await box.put(AppKeys.myPhone, myPhone);
+  }
+  String? get getMyPhoneNumber => box.get(AppKeys.myPhone);
+
+  Future<void> setMyImageURL(String myImageURL) async {
+    await box.put(AppKeys.myImageURL, myImageURL);
+  }
+  String? get getMyImageURL => box.get(AppKeys.myImageURL);
+
+  Future<void> setMyCashBack(num cashBack) async {
+    await box.put(AppKeys.myCashBack, cashBack);
+  }
+  num? get getMyCashBack => box.get(AppKeys.myCashBack);
+
+  Future<void> setBirhtDay(String birhtDay) async {
+    await box.put(AppKeys.birhtDay, birhtDay);
+  }
+  String? get getBirhtDay => box.get(AppKeys.birhtDay);
+
 
   Future<void> clear() async {
     await box.clear();

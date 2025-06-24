@@ -396,13 +396,13 @@ class _CategoryCard extends StatelessWidget {
           children: [
             categoryResponse.image != null
                 ? ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: CustomCachedNetworkImage(
-                width: 60,
-                height: 60,
-                imageUrl: categoryResponse.image ?? "", fit: BoxFit.cover,
-              ),
-            )
+                    borderRadius: BorderRadius.circular(10),
+                    child: CustomCachedNetworkImage(
+                      width: 60,
+                      height: 60,
+                      imageUrl: categoryResponse.image ?? "", fit: BoxFit.cover,
+                    ),
+                  )
                 : const SizedBox(
                     width: 60,
                     height: 60,
@@ -492,13 +492,13 @@ class _ProductCard extends StatelessWidget {
                   top: 3,
                   right: 1,
                   child: IconButton(
-                    onPressed: () => (context.findAncestorStateOfType<_CatalogPageState>()?._toggleFavorite(index)),
+                    onPressed: () => { },
                     icon: Container(
                       width: 30,
                       height: 30,
                       decoration: const BoxDecoration(color: _white, shape: BoxShape.circle),
                       child: Icon(
-                        product.productName == "" ? IconlyBold.heart : IconlyLight.heart,
+                        IconlyLight.heart,
                         color: product.productName == "" ? Colors.red : Colors.grey,
                         size: 18,
                       ),

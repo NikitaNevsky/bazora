@@ -19,6 +19,14 @@ sealed class Routes { Routes._();
   static const String supportPage = "/supportPage";
   static const String favoritePage = "/favoritePage";
   static const String referalCodePage = "/referalCodePage";
+  static const String createProfilePage = "/createProfilePage";
+  static const String switchValueScreen = "/switchValueScreen";
+  static const String storeDetailsScreen = "/storeDetailsScreen";
+  static const String chooseCountryScreen = "/chooseCountryScreen";
+  static const String selectNearestDelivery = "/selectNearestDelivery";
+
+
+
 
 
   /// internet connection

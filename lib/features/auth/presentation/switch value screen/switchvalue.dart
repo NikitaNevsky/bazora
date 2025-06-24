@@ -1,18 +1,12 @@
+import 'package:bazora/core/utils/app_colors.dart';
+import 'package:bazora/core/widgets/buttons/custom_button.dart';
+import 'package:bazora/features/others/dialogs/thirdcomponent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'namedetails.dart'; // Import the NameDetailsScreen
-import 'thirdcomponent.dart'; // Import the ThirdComponent screen
-import 'fourthcomponent.dart'; // Import the FourthComponent screen
-import 'package:iconly/iconly.dart'; // Import the Iconly package
-// Import the hasShopProvider
 
 class SwitchValueScreen extends ConsumerStatefulWidget {
-  final bool hasShop;
 
-  const SwitchValueScreen({
-    super.key,
-    required this.hasShop,
-  });
+  const SwitchValueScreen({super.key});
 
   @override
   ConsumerState<SwitchValueScreen> createState() => _SwitchValueScreenState();
@@ -48,43 +42,37 @@ class _SwitchValueScreenState extends ConsumerState<SwitchValueScreen> {
     double height = MediaQuery.of(context).size.height;
 
     // Use the passed hasShop value
-    print('SwitchValueScreen - hasShop value: ${widget.hasShop}');
+    print('SwitchValueScreen - hasShop value:');
 
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),
+      appBar: AppBar(
+        leading: const BackButton(color: AppColors.white),
+        backgroundColor: const Color(0xFF1D293A),
+      ),
       body: SafeArea(
         child: Column(
           children: [
             // Header
             Container(
-              height: 197,
+              padding: const EdgeInsets.only(bottom: 38),
+              width: double.infinity,
               decoration: const BoxDecoration(
-                color: Color(0xFF1D293A),
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(23),
+                color: AppColors.baseColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(23),
+                  bottomRight: Radius.circular(23),
                 ),
               ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 20,
-                    left: 20,
-                    child: IconButton(
-                      icon: const Icon(IconlyLight.arrow_left, color: Colors.white),
-                      onPressed: () => Navigator.pop(context),
-                    ),
+              child: const Center(
+                child: Text(
+                  'BAZORA',
+                  style: TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 35,
+                    fontWeight: FontWeight.w700,
                   ),
-                  Center(
-                    child: Text(
-                      'BAZORA',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
 
@@ -175,68 +163,88 @@ class _SwitchValueScreenState extends ConsumerState<SwitchValueScreen> {
             const Spacer(),
 
             // Continue Button
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.08),
-              child: ElevatedButton(
-                onPressed: isButtonEnabled
-                    ? () {
-                        if (isWholesaleSelected) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => Dialog(
-                              backgroundColor: Colors.transparent,
-                              insetPadding: const EdgeInsets.symmetric(horizontal: 24),
-                              child: FourthComponentWidget(
-                                hasShop: widget.hasShop,
-                              ),
-                            ),
-                          );
-                        } else if (isRetailSelected) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => Dialog(
-                              backgroundColor: Colors.transparent,
-                              insetPadding: const EdgeInsets.symmetric(horizontal: 24),
-                              child: ThirdComponent(
-                                hasShop: widget.hasShop,
-                              ),
-                            ),
-                          );
-                        } else {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const NameDetailsScreen(),
-                            ),
-                          );
-                        }
-                      }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: isButtonEnabled
-                      ? const Color(0xFF1D293A)
-                      : const Color(0xFFA4ACB6),
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(195, 52),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                ),
-                child: const Text(
-                  'Продолжить',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: width * 0.08),
+            //   child: ElevatedButton(
+            //     onPressed: isButtonEnabled
+            //         ? () {
+            //             if (isWholesaleSelected) {
+            //               showDialog(
+            //                 context: context,
+            //                 builder: (context) => Dialog(
+            //                   backgroundColor: Colors.transparent,
+            //                   insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+            //                   child: FourthComponentWidget(
+            //                     hasShop: widget.hasShop,
+            //                   ),
+            //                 ),
+            //               );
+            //             } else if (isRetailSelected) {
+            //               showDialog(
+            //                 context: context,
+            //                 builder: (context) => Dialog(
+            //                   backgroundColor: Colors.transparent,
+            //                   insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+            //                   child: ThirdComponent(
+            //                     hasShop: widget.hasShop,
+            //                   ),
+            //                 ),
+            //               );
+            //             } else {
+            //               Navigator.push(
+            //                 context,
+            //                 MaterialPageRoute(
+            //                   builder: (context) => const NameDetailsScreen(),
+            //                 ),
+            //               );
+            //             }
+            //           }
+            //         : null,
+            //     style: ElevatedButton.styleFrom(
+            //       backgroundColor: isButtonEnabled
+            //           ? const Color(0xFF1D293A)
+            //           : const Color(0xFFA4ACB6),
+            //       foregroundColor: Colors.white,
+            //       minimumSize: const Size(195, 52),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(18),
+            //       ),
+            //     ),
+            //     child: const Text(
+            //       'Продолжить',
+            //       style: TextStyle(
+            //         fontSize: 18,
+            //         fontWeight: FontWeight.w600,
+            //         color: Colors.white,
+            //       ),
+            //     ),
+            //   ),
+            // ),
 
-            SizedBox(height: height * 0.03),
           ],
         ),
       ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(left: 100, right: 100, bottom: 40),
+          child: CustomButton(
+            width: 200,
+            shadowEnabled: false,
+            onPressed: () async {
+              await showDialog<void>(barrierDismissible: false, context: context, builder: (_) => const ThirdComponent());
+            },
+            borderRadius: BorderRadius.circular(18),
+            backgroundColor: isButtonEnabled
+                ? const Color(0xFF1D293A)
+                : const Color(0xFF101828).withOpacity(0.2),
+            label: const Text(
+              'Продолжить',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
     );
   }
 }

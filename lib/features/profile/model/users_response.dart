@@ -6,7 +6,8 @@ class UsersResponse {
   String? name;
   String? surname;
   String? displayName;
-  int? referralCode;
+  String? referralCode;
+  num? totalCashback;
 
   UsersResponse(
       {this.id,
@@ -16,7 +17,9 @@ class UsersResponse {
         this.name,
         this.surname,
         this.displayName,
-        this.referralCode});
+        this.referralCode,
+        this.totalCashback
+      });
 
   UsersResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -27,18 +30,20 @@ class UsersResponse {
     surname = json['surname'];
     displayName = json['display_name'];
     referralCode = json['referral_code'];
+    totalCashback = json['total_cashback'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['photo_url'] = this.photoUrl;
-    data['name'] = this.name;
-    data['surname'] = this.surname;
-    data['display_name'] = this.displayName;
-    data['referral_code'] = this.referralCode;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['photo_url'] = photoUrl;
+    data['name'] = name;
+    data['surname'] = surname;
+    data['display_name'] = displayName;
+    data['referral_code'] = referralCode;
+    data['total_cashback'] = totalCashback;
     return data;
   }
 }

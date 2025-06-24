@@ -26,7 +26,7 @@ sealed class SvgIcons {
   static const String icFillDocumentList = "assets/images/svg/fill_document_list.svg";
   static const String icSearch = "assets/images/svg/ic_search.svg";
   static const String icUnHeart = "assets/images/svg/un_heart.svg";
-  static const String icLogout = "assets/images/svg/logout.svg";
+  static const String icLogout = "assets/images/svg/logout_in.svg";
   static const String icDeleteUser = "assets/images/svg/delete_user.svg";
   static const String icCamera = "assets/images/svg/camera.svg";
 

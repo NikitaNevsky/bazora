@@ -1,4 +1,6 @@
+import 'package:bazora/features/api/auth/supabase_auth/auth_util.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LogoutConfirmationSheet extends StatelessWidget {
   const LogoutConfirmationSheet({super.key});
@@ -51,7 +53,10 @@ class LogoutConfirmationSheet extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () => Navigator.of(context).pop(true),
+                  onPressed: () async {
+                    await authManager.signOut();
+                    Navigator.of(context).pop(true);
+                  },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     backgroundColor: const Color(0xFF1D293A),

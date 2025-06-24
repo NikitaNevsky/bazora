@@ -45,14 +45,25 @@ sealed class AppKeys {
   static const String languageImage = "language";
   static const String language = "languages";
   static const String cityID = "cityID";
+  static const String user = "user";
+  static const String myUserId = "myUserId";
+  static const String referralCode = "referralCode";
+  static const String myReferralCode = "myReferralCode";
+  static const String myPhone = "myPhone";
+  static const String myImageURL = "myImageURL";
+  static const String myCashBack = "myCashBack";
+  static const String birhtDay = "birhtDay";
+
+
+
+
+
 }
 
 sealed class Urls {
   Urls._();
 
-  static const String login = "/api/account/merchant/login/";
-  static const String eventsActivateQR = "/api/events/activate-qr-code/";
-  static const String eventsScannedHistory = "/api/events/scanned-tickets-history/";
+  // static const String login = "/api/account/merchant/login/";
 
 
 }

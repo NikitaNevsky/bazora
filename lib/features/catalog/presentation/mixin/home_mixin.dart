@@ -88,7 +88,7 @@ mixin HomeMixin on State<CatalogPage> {
           .eqOrNull('product_is_archive', false)
           .eqOrNull('product_is_delete', false)
           .eqOrNull('point_city', localSource.cityID),
-      limit: 20,
+      limit: 100,
     );
   }
 
@@ -98,5 +98,49 @@ mixin HomeMixin on State<CatalogPage> {
       futureProducts = fetchProducts();
     });
   }
+
+  Future updateFavoritesList(
+      String userID,
+      String productID,
+      bool isFavorite,
+      ) async {
+    // Add your function code here!
+    // Получаем экземпляр клиента Supabase
+    final SupabaseClient _supabaseClient = SupaFlow.client;
+
+    try {
+      // Проверяем, существует ли запись с указанным userID и productID
+      final response = await _supabaseClient
+          .from('favorite_products')
+          .select('id')
+          .eq('user_id', userID)
+          .eq('product_id', productID)
+          .maybeSingle(); // Возвращает null, если запись не найдена
+      print(response);
+      if (response != null) {
+        // Если запись существует, обновляем поле is_favorite
+        final updateResponse = await _supabaseClient
+            .from('favorite_products')
+            .update({'is_favorite': isFavorite}).eq('id', response['id']);
+
+        print('Статус избранного успешно обновлён.');
+      } else {
+        // Если запись не существует, добавляем новую
+        final Map<String, dynamic> record = {
+          'product_id': productID,
+          'user_id': userID,
+          'is_favorite': isFavorite,
+        };
+
+        final insertResponse = await _supabaseClient.from('favorite_products').insert(record);
+
+        print('Товар успешно добавлен в избранное.');
+      }
+    } catch (e) {
+      // Логируем исключение при ошибке выполнения запроса
+      print('Произошла ошибка при обновлении списка избранного:  $e ');
+    }
+  }
+
 
 }

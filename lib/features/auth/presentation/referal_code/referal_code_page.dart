@@ -1,16 +1,33 @@
 library bazora.otp_screen;
 import 'dart:async';
+import 'package:bazora/core/extension/custom_snackbar/custom_snack_bar.dart';
+import 'package:bazora/core/extension/custom_snackbar/top_snack_bar.dart';
 import 'package:bazora/core/utils/app_colors.dart';
 import 'package:bazora/core/widgets/buttons/custom_button.dart';
 import 'package:bazora/core/widgets/inputs/custom_text_field.dart';
-import 'package:bazora/features/auth/presentation/widgets/sms_service.dart';
+import 'package:bazora/features/api/supabase/supabase.dart';
 import 'package:bazora/features/profile/model/users_response.dart';
 import 'package:bazora/main.dart';
 import 'package:bazora/router/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pin_input_text_field/pin_input_text_field.dart';
-import '../../../../namedetails.dart';
+
+Future addReferralBonus(
+    String referID,
+    String referralID,
+    String referralCode,
+    int currencyID,
+    ) async {
+  // Add your function code here!
+
+  final response = await SupaFlow.client.rpc('add_referral_bonus', params: {
+    'refer_id': referID,
+    'referral_id': referralID,
+    'referral_code': referralCode,
+    'currency_id': currencyID,
+  });
+}
 
 class ReferalCodePage extends StatefulWidget {
   const ReferalCodePage({super.key});
@@ -22,6 +39,7 @@ class _PageState extends State<ReferalCodePage> {
 
   late final TextEditingController controller = TextEditingController();
   late List<UsersResponse> users = [];
+  late bool referalCodeDone = false;
 
   @override
   void initState() {
@@ -62,7 +80,7 @@ class _PageState extends State<ReferalCodePage> {
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: TextButton(
-                onPressed: () {},
+                onPressed: () => context.pushNamed(Routes.createProfilePage),
                 child: const Text(
                   'Пропустить',
                   style: TextStyle(
@@ -114,9 +132,19 @@ class _PageState extends State<ReferalCodePage> {
               height: 50,
               child: CustomTextField(
                 hintText: "Введите 8-значный код",
+                controller: controller,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly, // Faqat raqamlarni ruxsat qilish
+                  LengthLimitingTextInputFormatter(10), // Maksimal uzunlik 10 ta belgidan
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    referalCodeDone = value.length == 10;
+                  });
+                },
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(18),
-                  borderSide: const BorderSide(color: Color(0xFF1D293A)),
+                  borderSide: const BorderSide(color: Color(0xFFA4ACB6)),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(18),
@@ -137,11 +165,26 @@ class _PageState extends State<ReferalCodePage> {
               width: 200,
               shadowEnabled: false,
               onPressed: () {
-                List<UsersResponse> filteredList = users.where((element) => element.referralCode == int.parse(controller.text)).toList();
-
+                List<UsersResponse> filteredList = users.where((element) => element.referralCode == controller.text).toList();
+                if (filteredList.isNotEmpty) {
+                  print("Referal kod bor $filteredList");
+                  localSource.setReferralCode(controller.text);
+                  context.pushNamed(Routes.createProfilePage);
+                } else {
+                  showTopSnackBar(
+                    Overlay.of(context),
+                    const CustomSnackBar.error(
+                      leftIcon: true,
+                      backgroundColor: AppColors.white,
+                      message: "Неправильный код. Исправьте и повторите ввод.",
+                    ),
+                  );
+                }
               },
               borderRadius: BorderRadius.circular(18),
-              backgroundColor: const Color(0xFF101828).withOpacity(0.2),
+              backgroundColor: referalCodeDone
+                  ? const Color(0xFF1D293A)
+                  : const Color(0xFF101828).withOpacity(0.2),
               label: const Text(
                 'Подтвердить',
                 style: TextStyle(

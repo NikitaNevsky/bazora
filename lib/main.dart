@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:bazora/referal_code_page.dart';
+// import 'package:bazora/create_profile_page.dart';
 // import 'package:bazora/selectnearestdelivery.dart';
 // import 'my_profile_page.dart';
 // import 'catalogpage.dart';
@@ -41,7 +41,7 @@
 // import 'namedetails.dart';
 // import 'new_image_pages/review_modal2.dart';
 // import 'new_image_pages/notifications_list_right.dart';
-// import 'referal_code_page.dart';
+// import 'create_profile_page.dart';
 // import 'Productdetails.dart';
 // import 'filters.dart';
 // import 'chatpage.dart';
@@ -118,10 +118,11 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Supabase.initialize(
-    url: _kSupabaseUrl,
-    anonKey: _kSupabaseAnonKey,
-  );
+  // await Supabase.initialize(
+  //   url: _kSupabaseUrl,
+  //   anonKey: _kSupabaseAnonKey,
+  // );
+  await SupaFlow.initialize();
 
   /// global CERTIFICATE_VERIFY_FAILEd_KEY
   HttpOverrides.global = _HttpOverrides();

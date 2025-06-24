@@ -3,9 +3,9 @@ import 'package:bazora/core/utils/utils.dart';
 import 'package:bazora/core/widgets/buttons/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'namedetails.dart'; // Import the NameDetailsScreen
-import 'thirdcomponent.dart'; // Import the ThirdComponent screen
-import 'fourthcomponent.dart'; // Import the FourthComponent screen
+import '../../../../namedetails.dart'; // Import the NameDetailsScreen
+import '../../../others/dialogs/thirdcomponent.dart'; // Import the ThirdComponent screen
+import '../../../../fourthcomponent.dart'; // Import the FourthComponent screen
 // Import the hasShopProvider
 
 class SwitchValueScreen2 extends ConsumerStatefulWidget {
@@ -50,7 +50,7 @@ class _SwitchValueScreenState2 extends ConsumerState<SwitchValueScreen2> {
     double height = MediaQuery.of(context).size.height;
 
     // Use the passed hasShop value
-    print('SwitchValueScreen - hasShop value: ${widget.hasShop}');
+    print('SwitchValueScreen - hasShop value:');
 
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),

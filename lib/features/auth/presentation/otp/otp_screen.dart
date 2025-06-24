@@ -1,7 +1,13 @@
 library bazora.otp_screen;
 import 'dart:async';
 import 'package:bazora/core/widgets/buttons/custom_button.dart';
+import 'package:bazora/features/api/auth/supabase_auth/auth_util.dart';
+import 'package:bazora/features/api/supabase/database/database.dart';
+import 'package:bazora/features/api/supabase/database/tables/users.dart';
+import 'package:bazora/features/auth/presentation/create_profile/create_profile_page.dart';
 import 'package:bazora/features/auth/presentation/widgets/sms_service.dart';
+import 'package:bazora/features/profile/model/users_response.dart';
+import 'package:bazora/main.dart';
 import 'package:bazora/router/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -30,6 +36,9 @@ class _OtpScreenState extends State<OtpScreen> {
   late Color lineColor = Colors.grey;
   late String errorMessage = "";
   late int otpCode = 0;
+  late List<UsersResponse> filteredList = [];
+  List<UsersRow>? users;
+  UsersRow? newUser;
 
   void startTimer() {
     Timer.periodic(const Duration(seconds: 1), (Timer timer) {
@@ -52,6 +61,33 @@ class _OtpScreenState extends State<OtpScreen> {
     super.initState();
     otpCode = widget.dataModel.code;
     startTimer();
+    getUsers();
+  }
+
+
+  // Method 1: Basic fetch all Users
+  Future<void> getUsers() async {
+    try {
+      final response = await supabase.from('users').select();
+      setState(() {
+        final user = (response as List).map((json) => UsersResponse.fromJson(json)).toList();
+        print("Method user _ ${user.length}");
+        List<UsersResponse> filtered = user.where((element) => element.phone == widget.dataModel.phoneNumber.replaceFirst("+", '').replaceAll(" ", '')).toList();
+        filteredList = filtered;
+        if (filteredList.isNotEmpty) {
+          localSource.setMyUserId(filteredList[0].id ?? "");
+          localSource.setMyImageURL(filteredList[0].photoUrl ?? "");
+          localSource.setFirstName(filteredList[0].name ?? "");
+          localSource.setLastName(filteredList[0].surname ?? "");
+          localSource.setMyCashBack(filteredList[0].totalCashback ?? 0);
+          localSource.setMyReferralCode(filteredList[0].referralCode ?? '');
+        };
+        print("Method user _ ${filtered[0].phone}");
+        print("localSource.user?.name ${localSource.myUserId} ${filteredList[0].name}");
+      });
+    } catch (error) {
+      print("Error: $error");
+    }
   }
 
   // SMS Aero service instance
@@ -239,18 +275,66 @@ class _OtpScreenState extends State<OtpScreen> {
                 child: CustomButton(
                   width: 200,
                   shadowEnabled: false,
-                  onPressed: _isButtonEnabled ? () {
+                  onPressed: _isButtonEnabled ? () async {
                     // Navigator.pushReplacement(
                     //   context,
                     //   MaterialPageRoute(
                     //     builder: (context) => const NameDetailsScreen(),
                     //   ),
                     // );
+                    users = await UsersTable().queryRows(
+                      queryFn: (q) => q.eqOrNull(
+                        'phone',
+                        widget.dataModel.phoneNumber.replaceAll(" ", "").replaceFirst("+", ""),
+                      ),
+                    );
+                    print("EEEE ${users?.length}");
+                    var email = '${widget.dataModel.phoneNumber.replaceAll(" ", "").replaceFirst("+", "")}@optovikstore.ru';
+                    print(email);
+
+                    if (users?.isEmpty ?? false) {
+                      final user = await authManager.createAccountWithEmail(
+                        context,
+                        email,
+                        '123456',
+                      );
+                      if (user == null) {
+                        return;
+                      }
+                      newUser = await UsersTable().insert({
+                        'id': currentUserUid,
+                        'phone': widget.dataModel.phoneNumber.replaceAll(" ", "").replaceFirst("+", ""),
+                        'country_id': localSource.cityID,
+                        'main_rolle': 'user',
+                        'total_cashback': 0.0,
+                        'total_orders_amount_ru': 0.0,
+                        'total_orders_amount_hy': 0.0,
+                        'referral_code': DateTime.now()
+                            .secondsSinceEpoch
+                            .toString(),
+                        'cash_back_currency_id': localSource.cityID == 1 ? 1 : 2,
+                        'main_currency': localSource.cityID == 1 ? 1 : 2,
+                        'cash_back': 0.0,
+                      });
+                    } else {
+                      final user = await authManager.signInWithEmail(
+                        context,
+                        '${widget.dataModel.phoneNumber.replaceAll(" ", "").replaceFirst("+", "")}@optovikstore.ru',
+                        '123456',
+                      );
+                      if (user == null) {
+                        return;
+                      }
+                    }
+
                     if (int.parse(controller.text) == otpCode) {
                       lineColor = Colors.green;
                       localSource.setAccessToken("Test token");
-                      // context.goNamed(Routes.explore);
-                      context.pushNamed(Routes.referalCodePage);
+                      if (filteredList.isNotEmpty) {
+                        context.goNamed(Routes.explore);
+                      } else {
+                        context.pushNamed(Routes.referalCodePage);
+                      }
                     } else {
                       lineColor = Colors.red;
                       errorMessage = "Неверный код";

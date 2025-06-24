@@ -1,14 +1,24 @@
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:bazora/constants/image_constants.dart';
+import 'package:bazora/core/extension/custom_snackbar/custom_snack_bar.dart';
+import 'package:bazora/core/extension/custom_snackbar/top_snack_bar.dart';
 import 'package:bazora/core/utils/app_colors.dart';
 import 'package:bazora/core/utils/utils.dart';
+import 'package:bazora/core/widgets/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:bazora/core/widgets/buttons/custom_button.dart';
+import 'package:bazora/core/widgets/inputs/custom_text_field.dart';
+import 'package:bazora/features/api/auth/supabase_auth/auth_util.dart';
+import 'package:bazora/features/api/supabase/database/database.dart';
+import 'package:bazora/features/api/supabase/database/row.dart';
+import 'package:bazora/features/api/supabase/database/tables/users.dart';
+import 'package:bazora/features/auth/presentation/widgets/select_photo_bottom_sheet.dart';
+import 'package:bazora/features/profile/presentation/widgets/profile_image_widget.dart';
 import 'package:bazora/router/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import '../../../../logout_confirmation_page.dart';
 import '../../../../logout_confirmation2.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,6 +33,45 @@ class ProfilePage extends StatefulWidget {
 
 class _PageState extends State<ProfilePage> {
 
+  late TextEditingController controllerName = TextEditingController();
+  late TextEditingController controllerSurname = TextEditingController();
+  late TextEditingController controllerDate = TextEditingController();
+  DateTime? _selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    controllerName.text = localSource.getFirstName();
+    controllerSurname.text = localSource.getLastName();
+    controllerDate.text = localSource.getBirhtDay ?? "";
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateFormat formatter = DateFormat('dd.MM.yyyy');
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      // locale: const Locale('ru', 'RU'),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+        controllerDate.text = formatter.format(
+          DateTime(picked.year, picked.month, picked.day, 0, 0, 0),
+        );
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controllerName.dispose();
+    controllerSurname.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -31,7 +80,7 @@ class _PageState extends State<ProfilePage> {
     final verticalPadding = isTablet ? 32.0 : 24.0;
     final inputFontSize = isTablet ? 20.0 : 15.0;
     late ImagePicker picker = ImagePicker();
-    late File? image = File("");
+    File? image;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7F7),
@@ -67,15 +116,33 @@ class _PageState extends State<ProfilePage> {
                     SizedBox(height: verticalPadding),
                     // Profile Image
                     GestureDetector(
-                      onTap: () {
-                        picker.pickImage(source: ImageSource.gallery).then((value) {
-                          if (value != null) {
-                            setState(() {
-                              image = File(value.path);
-                              print(image?.path);
-                            });
-                          }
-                        });
+                      onTap: () async {
+                        await customModalBottomSheet<void>(
+                            context: context,
+                            backgroundColor: Colors.transparent,
+                            isScrollControlled: true,
+                            enableDrag: false,
+                            builder: (BuildContext ctx, _) => SelectPhotoBottomSheet(
+                              onTapDelete: () {
+                                setState(() {
+                                  image = null;
+                                  context.pop();
+                                  print('Delete');
+                                });
+                              },
+                              onTapSelect: () {
+                                context.pop();
+                                picker.pickImage(source: ImageSource.gallery).then((value) {
+                                  if (value != null) {
+                                    setState(() {
+                                      image = File(value.path);
+                                      print(image?.path);
+                                    });
+                                  }
+                                });
+                              },
+                            )
+                        );
                       },
                       child: SizedBox(
                         height: 60,
@@ -83,10 +150,11 @@ class _PageState extends State<ProfilePage> {
                         child: Stack(
                           alignment: Alignment.bottomCenter,
                           children: [
-                            // image != null ? Image.file(image!, height: 72, width: 72, fit: BoxFit.cover) : SizedBox(),
-                            const CircleAvatar(
-                              radius: 100,
-                              backgroundImage: AssetImage('assets/imagess/profile picture.png'),
+                            ProfileImageWidget(
+                              width: 72,
+                              height: 72,
+                              photoUrl: image == null ? localSource.getMyImageURL ?? "" : "",
+                              image: image,
                             ),
                             // Overlay button (Camera)
                             Positioned(
@@ -120,31 +188,50 @@ class _PageState extends State<ProfilePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 32),
                       child: TextFormField(
-                        initialValue: 'Артем',
+                        controller: controllerName,
                         style: TextStyle(fontSize: inputFontSize),
                         decoration: _inputDecoration(inputFontSize),
+                        cursorColor: AppColors.baseColor,
                       ),
                     ),
                     SizedBox(height: isTablet ? 24 : 16),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 32),
                       child: TextFormField(
-                        initialValue: 'Филатов',
+                        controller: controllerSurname,
                         style: TextStyle(fontSize: inputFontSize),
                         decoration: _inputDecoration(inputFontSize),
+                        cursorColor: AppColors.baseColor,
                       ),
                     ),
                     SizedBox(height: isTablet ? 24 : 16),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 32),
-                      child: TextFormField(
-                          initialValue: '11.12.2001',
-                          style: TextStyle(fontSize: inputFontSize),
-                          decoration: _inputDecoration(inputFontSize),
+                      child: SizedBox(
+                        height: 50,
+                        child: CustomTextField(
+                          onTap: () => _selectDate(context),
+                          hintText: "Дата рождения",
+                          controller: controllerDate,
+                          onChanged: (value) { },
+                          fillColor:  Colors.white,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(18),
+                            borderSide: const BorderSide(color: Colors.transparent),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(18),
+                            borderSide: const BorderSide(color: Colors.transparent),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 15 * 0.8,
+                          ),
+                          cursorColor: AppColors.opacity,
                         ),
+                      ),
                     ),
                     SizedBox(height: isTablet ? 32 : 24),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25),
                       child: CustomButton(borderRadius: AppUtils.kBorderRadius18,
@@ -234,11 +321,37 @@ class _PageState extends State<ProfilePage> {
       ),
       bottomNavigationBar: Container(
         color: AppColors.white,
-        child: const Padding(
+        child: Padding(
           padding: EdgeInsets.only(left: 100, right: 100, bottom: 50),
           child: CustomButton(
+            onPressed: () async {
+              await UsersTable().update(
+                data: {
+                  'surname': controllerSurname.text,
+                  'birthday': supaSerialize<DateTime>(DateTime.now()),
+                  'name': controllerName.text,
+                },
+                matchingRows: (rows) => rows.eqOrNull(
+                  'id',
+                  currentUserUid,
+                ),
+              );
+              localSource.setFirstName(controllerName.text);
+              localSource.setLastName(controllerSurname.text);
+              localSource.setBirhtDay(controllerDate.text);
+              showTopSnackBar(
+                Overlay.of(context),
+                const CustomSnackBar.info(
+                  leftIcon: true,
+                  title: "",
+                  backgroundColor: AppColors.white,
+                  message: "Ваши данные сохранены",
+                ),
+              );
+              context.pop();
+            },
             borderRadius: AppUtils.kBorderRadius18,
-            label: Text(
+            label: const Text(
               'Сохранить',
               style: TextStyle(
                 fontSize: 16,
