@@ -226,9 +226,9 @@ class _AuthPageState extends State<AuthPage> {
                   width: 200,
                   shadowEnabled: false,
                   onPressed: () async {
-                    if (_isValid) _sendVerificationCode();
+                    // if (_isValid) _sendVerificationCode();
                     localSource.setMyPhoneNumber("7${_phoneController.text.replaceAll(" ", "")}");
-                    // context.goNamed(Routes.otp, extra: OtpModel(int.parse('000000'), "+7 ${_phoneController.text.trim()}"));
+                    context.goNamed(Routes.otp, extra: OtpModel(int.parse('000000'), "+7 ${_phoneController.text.trim()}"));
                   },
                   borderRadius: BorderRadius.circular(18),
                   backgroundColor: _isValid

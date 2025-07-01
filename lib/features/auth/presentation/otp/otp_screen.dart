@@ -285,7 +285,8 @@ class _OtpScreenState extends State<OtpScreen> {
                     users = await UsersTable().queryRows(
                       queryFn: (q) => q.eqOrNull(
                         'phone',
-                        widget.dataModel.phoneNumber.replaceAll(" ", "").replaceFirst("+", ""),
+                        // widget.dataModel.phoneNumber.replaceAll(" ", "").replaceFirst("+", ""),
+                        '79999999999'
                       ),
                     );
                     print("EEEE ${users?.length}");
