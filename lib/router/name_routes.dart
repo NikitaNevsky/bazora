@@ -24,6 +24,9 @@ sealed class Routes { Routes._();
   static const String storeDetailsScreen = "/storeDetailsScreen";
   static const String chooseCountryScreen = "/chooseCountryScreen";
   static const String selectNearestDelivery = "/selectNearestDelivery";
+  static const String deliveryPickupRight = "/deliveryPickupRight";
+  static const String paymentMethodRight = "/PaymentMethodRight";
+
 
 
 

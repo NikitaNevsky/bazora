@@ -1,3 +1,4 @@
+import 'package:bazora/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart' show IconlyOutline, IconlyLight;
@@ -162,7 +163,6 @@ class ChatPage3 extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: Container(
                       width: 319,
-                      height: 154,
                       decoration: BoxDecoration(
                         color: const Color(0xFFDFE5ED),
                         borderRadius: BorderRadius.only(
@@ -535,124 +535,124 @@ class ChatPage3 extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(bottom: 20, left: 0, right: 0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: isTablet ? 88 : 90,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFDFE5ED),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(isTablet ? 24 : 12, 0, isTablet ? 24 : 12, 15),
-                          child: Container(
-                            width: 297,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(isTablet ? 15 : 10, 0, isTablet ? 15 : 10, 0),
-                                  child: Container(
-                                    width: isTablet ? 40 : 30,
-                                    height: isTablet ? 40 : 30,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF1D293A),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.attach_file,
-                                        size: isTablet ? 20 : 15,
-                                        color: Colors.white,
-                                      ),
-                                      onPressed: () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          backgroundColor: Colors.transparent,
-                                          builder: (BuildContext context) {
-                                            return const ComponentCamera();
-                                          },
-                                        );
-                                      },
-                                      padding: EdgeInsets.zero,
-                                    ),
-                                  ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: isTablet ? 88 : 90,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFDFE5ED),
+                ),
+                padding: EdgeInsets.only(left: 24, right: 24, bottom: 23),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(isTablet ? 15 : 10, 0, isTablet ? 15 : 0, 0),
+                              child: Container(
+                                width: isTablet ? 40 : 30,
+                                height: isTablet ? 40 : 30,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
                                 ),
-                                Expanded(
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: 'Напишите сообщение...',
-                                      hintStyle: GoogleFonts.inter(
-                                        color: const Color(0xFFA4ACB6),
-                                        fontSize: isTablet ? 18 : 14,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                      border: InputBorder.none,
-                                      contentPadding: EdgeInsets.symmetric(
-                                        horizontal: isTablet ? 24 : 12,
-                                        vertical: isTablet ? 16 : 8,
-                                      ),
-                                    ),
-                                    style: GoogleFonts.inter(
-                                      color: const Color(0xFF1D293A),
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.attach_file,
+                                    size: isTablet ? 20 : 20,
+                                    color: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      builder: (BuildContext context) {
+                                        return const ComponentCamera();
+                                      },
+                                    );
+                                  },
+                                  padding: EdgeInsets.zero,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: SizedBox(
+                                height: 20,
+                                child: TextFormField(
+                                  cursorColor: AppColors.black,
+                                  cursorHeight: 16,
+                                  decoration: InputDecoration(
+                                    hintText: 'Напишите сообщение...',
+                                    hintStyle: GoogleFonts.inter(
+                                      color: const Color(0xFFA4ACB6),
                                       fontSize: isTablet ? 18 : 14,
                                       fontWeight: FontWeight.normal,
                                     ),
+                                    disabledBorder: InputBorder.none,
+                                    enabledBorder: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: isTablet ? 24 : 12,
+                                      vertical: isTablet ? 16 : 8,
+                                    ),
+                                  ),
+                                  style: GoogleFonts.inter(
+                                    color: const Color(0xFF1D293A),
+                                    fontSize: isTablet ? 18 : 14,
+                                    fontWeight: FontWeight.normal,
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(isTablet ? 10 : 0, 0, isTablet ? 20 : 10, 15),
-                        child: Container(
-                          width: isTablet ? 56 : 40,
-                          height: isTablet ? 56 : 40,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 1,
-                                blurRadius: 3,
-                                offset: Offset(0, 2),
                               ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Icon(
-                              IconlyLight.voice,
-                              size: isTablet ? 32 : 24,
-                              color: const Color(0xFFA4ACB6),
                             ),
-                          ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      width: isTablet ? 56 : 40,
+                      height: isTablet ? 56 : 40,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            spreadRadius: 1,
+                            blurRadius: 3,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Icon(
+                          IconlyLight.voice,
+                          size: isTablet ? 32 : 24,
+                          color: const Color(0xFFA4ACB6),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

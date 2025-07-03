@@ -1,4 +1,6 @@
+import 'package:bazora/router/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart'; // Add this import
 import 'package:google_fonts/google_fonts.dart';
 import '../../catalog/presentation/catalogpage.dart';
@@ -448,8 +450,7 @@ class _WholesalePageRightState extends State<WholesalePageRight> {
                     inactiveThumbColor: Colors.white,
                     inactiveTrackColor: const Color(0xFFEFF2F6),
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    trackOutlineColor:
-                        MaterialStateProperty.all(Colors.transparent),
+                    trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
                   ),
                 ),
               ],
@@ -473,7 +474,7 @@ class _WholesalePageRightState extends State<WholesalePageRight> {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => context.pushNamed(Routes.deliveryPickupRight),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF232A36),
                     shape: RoundedRectangleBorder(

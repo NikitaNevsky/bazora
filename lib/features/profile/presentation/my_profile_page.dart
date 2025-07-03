@@ -357,10 +357,12 @@ class _PageState extends State<MyProfilePage> with ProfileMixin {
                         FutureBuilder<List<FavoriteProductsViewCatalogRow>>(
                             future: futureFavorite,
                             builder: (context, snapshot) {
+                              List<FavoriteProductsViewCatalogRow> data = [];
+                              data = snapshot.data ?? [];
                               return ProfileItemWidget(
                                 title: "Избранные ${(snapshot.data?.isNotEmpty ?? false) ? "(${snapshot.data?.length})" : ""}",
                                 iconData: IconlyLight.heart,
-                                onTap: () => context.pushNamed(Routes.favoritePage, extra: snapshot.data),
+                                onTap: () => context.pushNamed(Routes.favoritePage, extra: data),
                               );
                             }
                         ),
@@ -405,7 +407,6 @@ class _PageState extends State<MyProfilePage> with ProfileMixin {
                 ],
               ),
             ),
-            SizedBox(height: 400,)
           ],
         ),
       ),

@@ -1,4 +1,9 @@
+import 'package:bazora/core/utils/app_colors.dart';
+import 'package:bazora/core/widgets/buttons/custom_button.dart';
+import 'package:bazora/core/widgets/inputs/custom_text_field.dart';
+import 'package:bazora/router/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class DeliveryPickupRight extends StatefulWidget {
   const DeliveryPickupRight({Key? key}) : super(key: key);
@@ -22,7 +27,7 @@ class _DeliveryPickupRightState extends State<DeliveryPickupRight> {
         preferredSize: const Size.fromHeight(110),
         child: Container(
           decoration: const BoxDecoration(
-            color: Color(0xFF232A36),
+            color: Color(0xFF1D293A),
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(23),
               bottomRight: Radius.circular(23),
@@ -30,10 +35,7 @@ class _DeliveryPickupRightState extends State<DeliveryPickupRight> {
           ),
           child: AppBar(
             backgroundColor: Colors.transparent,
-            leading: IconButton(
-              icon: const Icon(Icons.chevron_left, color: Colors.white, size: 26),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
+            leading: const BackButton(color: AppColors.white),
             centerTitle: true,
             toolbarHeight: 100,
             title: const Text(
@@ -41,7 +43,7 @@ class _DeliveryPickupRightState extends State<DeliveryPickupRight> {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
@@ -71,7 +73,7 @@ class _DeliveryPickupRightState extends State<DeliveryPickupRight> {
               ),
             ),
             const SizedBox(height: 10),
-            _warehouseTile('Склад № 3', 'Москва, Лесная 12', '09:00-20:00'),
+            _isWarehousePickup ? _warehouseTile('Склад № 3', 'Москва, Лесная 12', '09:00-20:00') : SizedBox(),
             const SizedBox(height: 10),
             Center(
               child: Container(
@@ -89,6 +91,37 @@ class _DeliveryPickupRightState extends State<DeliveryPickupRight> {
                 }),
               ),
             ),
+            _isCourierDelivery ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 16),
+                Text('Введите адрес доставки', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF232A36))),
+                const SizedBox(height: 8),
+                SizedBox(
+                  height: 50,
+                  child: CustomTextField(
+                    hintText: 'Адрес',
+                    fillColor: AppColors.white,
+                    cursorColor: AppColors.black,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(18),
+                      borderSide: const BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(18),
+                      borderSide: const BorderSide(color: Colors.black),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text('ИЛИ', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Color(0xFF232A36))),
+                const SizedBox(height: 16),
+                Text('Выбеите адрес магазина', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF232A36))),
+                const SizedBox(height: 8),
+                _warehouseTile('Магазин №1', 'Оптовик, Москва, Лесная 45', '')
+
+              ],
+            ) : SizedBox(),
             const Spacer(),
             _confirmButton(true),
             const SizedBox(height: 24),
@@ -111,16 +144,18 @@ class _DeliveryPickupRightState extends State<DeliveryPickupRight> {
             color: const Color(0xFF1D293A),
           ),
         ),
-        Transform.scale(
-          scale: isLargeScreen ? 1.0 : 0.8,
+        SizedBox(
+          width: 44,
+          height: 21.6,
           child: Switch(
             value: value,
             onChanged: onChanged,
             activeColor: Colors.white,
             activeTrackColor: const Color(0xFF1D293A),
             inactiveThumbColor: Colors.white,
-            inactiveTrackColor: const Color(0xFFEFF2F6),
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            inactiveTrackColor: const Color(0xFFA4ACB6),
+            materialTapTargetSize: MaterialTapTargetSize.padded,
+            trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
           ),
         ),
       ],
@@ -134,21 +169,21 @@ class _DeliveryPickupRightState extends State<DeliveryPickupRight> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF232A36))),
+                Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF232A36))),
                 const SizedBox(height: 4),
-                Text(address, style: const TextStyle(color: Color(0xFF232A36))),
+                Text(address, style: const TextStyle(color: Color(0xFF232A36), fontSize: 16, fontWeight: FontWeight.w400)),
               ],
             ),
           ),
-          Text(time, style: const TextStyle(color: Color(0xFFA4ACB6))),
+          Text(time, style: const TextStyle(color: Color(0xFFA4ACB6), fontSize: 14, fontWeight: FontWeight.w400)),
         ],
       ),
     );
@@ -161,12 +196,14 @@ class _DeliveryPickupRightState extends State<DeliveryPickupRight> {
         child: SizedBox(
           width: 196,
           child: ElevatedButton(
-            onPressed: enabled ? () {} : null,
+            onPressed: enabled ? () {
+              context.pushNamed(Routes.paymentMethodRight);
+            } : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor: enabled ? const Color(0xFF232A36) : const Color(0xFFA4ACB6),
+              backgroundColor: enabled ? AppColors.baseColor : const Color(0xFFA4ACB6),
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-              padding: const EdgeInsets.symmetric(vertical: 18),
+              padding: const EdgeInsets.symmetric(vertical: 10),
             ),
             child: const Text('Подтвердить', style: TextStyle(fontSize: 18)),
           ),

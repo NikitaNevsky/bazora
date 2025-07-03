@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'order_success_right.dart';
+import '../features/cart/presentation/widgets/order_success_right.dart';
 
 class PaymentMethodDisabledRight extends StatefulWidget {
   const PaymentMethodDisabledRight({super.key});

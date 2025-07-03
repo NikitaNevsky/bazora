@@ -5,6 +5,8 @@ import "package:bazora/features/auth/presentation/referal_code/referal_code_page
 import "package:bazora/features/auth/presentation/select_nearest_delivery/selectnearestdelivery.dart";
 import "package:bazora/features/auth/presentation/store_create/storedetails.dart";
 import "package:bazora/features/auth/presentation/switch%20value%20screen/switchvalue.dart";
+import "package:bazora/features/cart/presentation/delivery_pickup_page/delivery_pickup_right.dart";
+import "package:bazora/features/cart/presentation/payment_method/payment_method_right.dart";
 import "package:bazora/features/catalog/presentation/product_detail/Productdetails.dart";
 import "package:bazora/chatpage3.dart";
 import "package:bazora/features/auth/presentation/auth_page.dart";
@@ -135,6 +137,20 @@ final GoRouter router = GoRouter(
       name: Routes.supportPage,
       parentNavigatorKey: rootNavigatorKey,
       builder: (_, __) => const SupportPage(),
+    ),
+
+    GoRoute(
+      path: Routes.deliveryPickupRight,
+      name: Routes.deliveryPickupRight,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const DeliveryPickupRight(),
+    ),
+
+    GoRoute(
+      path: Routes.paymentMethodRight,
+      name: Routes.paymentMethodRight,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, __) => const PaymentMethodRight(),
     ),
 
     GoRoute(

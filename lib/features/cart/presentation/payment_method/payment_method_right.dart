@@ -1,5 +1,6 @@
+import 'package:bazora/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'order_success_right.dart';
+import '../widgets/order_success_right.dart';
 
 class PaymentMethodRight extends StatefulWidget {
   const PaymentMethodRight({Key? key}) : super(key: key);
@@ -41,11 +42,7 @@ class _PaymentMethodRightState extends State<PaymentMethodRight> {
             bottomRight: Radius.circular(23),
           ),
         ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios,
-              size: isLargeScreen ? 24 : 20, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
+        leading: const BackButton(color: AppColors.white),
         title: Text(
           'Способ оплаты',
           style: TextStyle(
@@ -56,31 +53,27 @@ class _PaymentMethodRightState extends State<PaymentMethodRight> {
           ),
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(top: screenHeight * 0.04),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _switchTile(
-                        'Наличными при получении', 'cash', cashOnDelivery),
-                    SizedBox(height: screenHeight * 0.02),
-                    _switchTile('Картой при получении', 'card', cardOnDelivery),
-                    SizedBox(height: screenHeight * 0.02),
-                    _switchTile('Картой онлайн', 'online', cardOnline),
-                  ],
-                ),
+      body: Padding(
+        padding: EdgeInsets.only(top: 34),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _switchTile('Наличными при получении', 'cash', cashOnDelivery),
+                  SizedBox(height: 12),
+                  _switchTile('Картой при получении', 'card', cardOnDelivery),
+                  SizedBox(height: 12),
+                  _switchTile('Картой онлайн', 'online', cardOnline),
+                ],
               ),
-              const Spacer(),
-              _orderSummary(),
-              SizedBox(height: screenHeight * 0.02),
-            ],
-          ),
+            ),
+            const Spacer(),
+            _orderSummary(),
+          ],
         ),
       ),
     );
@@ -103,8 +96,9 @@ class _PaymentMethodRightState extends State<PaymentMethodRight> {
           Text(
             title,
             style: TextStyle(
-              fontSize: isLargeScreen ? 16 : 14,
+              fontSize: isLargeScreen ? 16 : 16,
               color: const Color(0xFF1D293A),
+              fontWeight: FontWeight.w400,
             ),
           ),
           Transform.scale(
@@ -115,8 +109,9 @@ class _PaymentMethodRightState extends State<PaymentMethodRight> {
               activeColor: Colors.white,
               activeTrackColor: const Color(0xFF1D293A),
               inactiveThumbColor: Colors.white,
-              inactiveTrackColor: const Color(0xFFEFF2F6),
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              inactiveTrackColor: const Color(0xFFA4ACB6),
+              materialTapTargetSize: MaterialTapTargetSize.padded,
+              trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
             ),
           ),
         ],
@@ -200,7 +195,14 @@ class _PaymentMethodRightState extends State<PaymentMethodRight> {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const OrderSuccessRight();
+                      },
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF232A36),
                     shape: RoundedRectangleBorder(
@@ -217,6 +219,7 @@ class _PaymentMethodRightState extends State<PaymentMethodRight> {
                 ),
               ],
             ),
+            SizedBox(height: 30)
           ],
         ),
       ),

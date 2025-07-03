@@ -276,57 +276,52 @@ class _OtpScreenState extends State<OtpScreen> {
                   width: 200,
                   shadowEnabled: false,
                   onPressed: _isButtonEnabled ? () async {
-                    // Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => const NameDetailsScreen(),
+
+                    // users = await UsersTable().queryRows(
+                    //   queryFn: (q) => q.eqOrNull(
+                    //     'phone',
+                    //     // widget.dataModel.phoneNumber.replaceAll(" ", "").replaceFirst("+", ""),
+                    //     '79999999999'
                     //   ),
                     // );
-                    users = await UsersTable().queryRows(
-                      queryFn: (q) => q.eqOrNull(
-                        'phone',
-                        // widget.dataModel.phoneNumber.replaceAll(" ", "").replaceFirst("+", ""),
-                        '79999999999'
-                      ),
-                    );
-                    print("EEEE ${users?.length}");
-                    var email = '${widget.dataModel.phoneNumber.replaceAll(" ", "").replaceFirst("+", "")}@optovikstore.ru';
-                    print(email);
-
-                    if (users?.isEmpty ?? false) {
-                      final user = await authManager.createAccountWithEmail(
-                        context,
-                        email,
-                        '123456',
-                      );
-                      if (user == null) {
-                        return;
-                      }
-                      newUser = await UsersTable().insert({
-                        'id': currentUserUid,
-                        'phone': widget.dataModel.phoneNumber.replaceAll(" ", "").replaceFirst("+", ""),
-                        'country_id': localSource.cityID,
-                        'main_rolle': 'user',
-                        'total_cashback': 0.0,
-                        'total_orders_amount_ru': 0.0,
-                        'total_orders_amount_hy': 0.0,
-                        'referral_code': DateTime.now()
-                            .secondsSinceEpoch
-                            .toString(),
-                        'cash_back_currency_id': localSource.cityID == 1 ? 1 : 2,
-                        'main_currency': localSource.cityID == 1 ? 1 : 2,
-                        'cash_back': 0.0,
-                      });
-                    } else {
-                      final user = await authManager.signInWithEmail(
-                        context,
-                        '${widget.dataModel.phoneNumber.replaceAll(" ", "").replaceFirst("+", "")}@optovikstore.ru',
-                        '123456',
-                      );
-                      if (user == null) {
-                        return;
-                      }
-                    }
+                    // print("EEEE ${users?.length}");
+                    // var email = '${widget.dataModel.phoneNumber.replaceAll(" ", "").replaceFirst("+", "")}@optovikstore.ru';
+                    // print(email);
+                    //
+                    // if (users?.isEmpty ?? false) {
+                    //   final user = await authManager.createAccountWithEmail(
+                    //     context,
+                    //     email,
+                    //     '123456',
+                    //   );
+                    //   if (user == null) {
+                    //     return;
+                    //   }
+                    //   newUser = await UsersTable().insert({
+                    //     'id': currentUserUid,
+                    //     'phone': widget.dataModel.phoneNumber.replaceAll(" ", "").replaceFirst("+", ""),
+                    //     'country_id': localSource.cityID,
+                    //     'main_rolle': 'user',
+                    //     'total_cashback': 0.0,
+                    //     'total_orders_amount_ru': 0.0,
+                    //     'total_orders_amount_hy': 0.0,
+                    //     'referral_code': DateTime.now()
+                    //         .secondsSinceEpoch
+                    //         .toString(),
+                    //     'cash_back_currency_id': localSource.cityID == 1 ? 1 : 2,
+                    //     'main_currency': localSource.cityID == 1 ? 1 : 2,
+                    //     'cash_back': 0.0,
+                    //   });
+                    // } else {
+                    //   final user = await authManager.signInWithEmail(
+                    //     context,
+                    //     '${widget.dataModel.phoneNumber.replaceAll(" ", "").replaceFirst("+", "")}@optovikstore.ru',
+                    //     '123456',
+                    //   );
+                    //   if (user == null) {
+                    //     return;
+                    //   }
+                    // }
 
                     if (int.parse(controller.text) == otpCode) {
                       lineColor = Colors.green;
@@ -334,7 +329,8 @@ class _OtpScreenState extends State<OtpScreen> {
                       if (filteredList.isNotEmpty) {
                         context.goNamed(Routes.explore);
                       } else {
-                        context.pushNamed(Routes.referalCodePage);
+                        // context.pushNamed(Routes.referalCodePage);
+                        context.goNamed(Routes.explore);
                       }
                     } else {
                       lineColor = Colors.red;

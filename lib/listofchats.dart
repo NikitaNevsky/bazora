@@ -170,13 +170,14 @@ class _ChatListItem extends StatelessWidget {
         }
       },
       child: Container(
-        height: 148, // Set to 101px
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
         ),
         padding: const EdgeInsets.all(12),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
@@ -327,18 +328,18 @@ class _ChatListItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Align(
-                    alignment: const AlignmentDirectional(1, 1),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.only(
-                          top: isLargeScreen ? 12 : 8,
-                          start: isLargeScreen ? 120 : 80),
-                      child: SizedBox(
-                        width: isLargeScreen ? 210 : 178,
-                        height: isLargeScreen ? 32 : 25,
-                      ),
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: const AlignmentDirectional(1, 1),
+                  //   child: Padding(
+                  //     padding: EdgeInsetsDirectional.only(
+                  //         top: isLargeScreen ? 12 : 8,
+                  //         start: isLargeScreen ? 120 : 80),
+                  //     child: SizedBox(
+                  //       width: isLargeScreen ? 210 : 178,
+                  //       height: isLargeScreen ? 32 : 25,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
